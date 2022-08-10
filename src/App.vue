@@ -1,31 +1,26 @@
-<script setup>
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
   <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+      <form @submit.prevent="handleSubmit">
+        <div>
+          <input type="email" placeholder="Ingrese su correo electrónico" v-model.trim="email">
+        </div>
+        <div>
+          <input type="password" placeholder="Ingrse su contraseña" v-model.trim="password">
+        </div>
+        <button type="submit">Login</button>
+      </form>
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
+<script setup>
+import {ref} from 'vue'
+import {useUserStore} from './store/user'
+const userStore=useUserStore();
+const email=ref('')
+const password = ref('')
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
+const handleSubmit = async () =>{
+  await userStore.loginUser(email.value,password.value)
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
+
+
+</script>
