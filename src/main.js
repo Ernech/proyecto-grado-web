@@ -2,5 +2,5 @@ import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
 import {createPinia} from 'pinia'
-
-createApp(App).use(createPinia()).mount('#app')
+import router from './routes/recruiter-router'
+createApp(App).use(router).use(createPinia()).mount('#app')

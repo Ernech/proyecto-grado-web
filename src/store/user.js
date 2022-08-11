@@ -1,5 +1,5 @@
 import {defineStore} from 'pinia';
-
+import router from '../routes/recruiter-router'
 export const useUserStore=defineStore('user',{
     state: () =>({
         loginData:null
@@ -15,7 +15,7 @@ export const useUserStore=defineStore('user',{
                 })
                 const {token} =await resp.json()
                 localStorage.setItem('token',JSON.stringify(token))
-                console.log(token);
+               router.push('/')
             } catch (error) {
                 console.log(error);
             }finally{
