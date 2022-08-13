@@ -17,7 +17,9 @@ const requireAuth= (to,from,next)=>{
 
 const routes = [
     {path:'/login',component:Login},
-    {path:'/',component:Home,beforeEnter:requireAuth}
+    {path:'/',component:Home,
+  //  beforeEnter:requireAuth
+}
 ]
 
 const history = createWebHistory()
