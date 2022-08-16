@@ -1,6 +1,7 @@
 import { createWebHistory, createRouter } from 'vue-router'
 import Login from '../views/Recruiter/Login.vue'
 import Home from '../views/Recruiter/Home.vue'
+
 import OpenJobCall from '../views/Recruiter/OpenJobCall.vue'
 import PendingJobCall from '../views/Recruiter/PendingJobCall.vue'
 import ClosedJobCall from '../views/Recruiter/ClosedJobCall.vue'
@@ -24,21 +25,22 @@ const routes = [
     { path: '/login', component: Login },
     {
         path: '/', component: Home,
+        children:[{
+            path: '/open-job-call', component: OpenJobCall
+        },
+        {
+            path:'/pending-job-call',component: PendingJobCall
+        },
+        {
+            path:'/closed-job-call',component: ClosedJobCall
+        },{
+            path:'/saved-job-call',component: SavedJobCall
+        },{
+            path:'/new-job-call',component:NewJobCall
+        }
+    ]
         //  beforeEnter:requireAuth
-    }, {
-        path: '/open-job-call', component: OpenJobCall
-    },
-    {
-        path:'/pending-job-call',component: PendingJobCall
-    },
-    {
-        path:'/closed-job-call',component: ClosedJobCall
-    },{
-        path:'/saved-job-call',component: SavedJobCall
-    },{
-        path:'/new-job-call',component:NewJobCall
-    }
-
+    }, 
 ]
 
 const history = createWebHistory()

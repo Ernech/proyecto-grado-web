@@ -40,7 +40,7 @@ export default {
    
     
 }
-.link.Selected{
+.link.selected{
    background-color: #0a0265; 
 }
 

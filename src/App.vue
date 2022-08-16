@@ -1,9 +1,7 @@
 <template>
-        <router-link to="/"></router-link> 
-        <router-link to="/login"></router-link>  
-<router-view></router-view>  
+  <div id="app">
 
+    <router-view/>
+  </div>
 </template>
-<script setup>
 
-</script>
