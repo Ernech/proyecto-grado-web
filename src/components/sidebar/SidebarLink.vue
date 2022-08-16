@@ -1,42 +1,52 @@
-<template lang="">
-  <router-link :to="to" class="link" :class="{active:isActive}">
-    <i class="sidebar-icon" :class="icon"></i>
-    <b>name</b>
-  </router-link>
+<template>
+
+    <router-link :to="to" class="link" :class="{selected:isSelected}">
+    <fa :icon="icon"/>         
+        {{ router }}
+    </router-link>
 </template>
 <script>
+import router from '../../routes/recruiter-router'
+import {computed} from 'vue';
 export default {
-    props:{
-        name:{type:String,required:true},
-        to:{type:String,required:true},
-        icon:{type:String,required:true}
+    props: {
+        router: { type: String, required: true },
+        to: { type: String, required: true },
+        icon: { type: String, required: true }
+    },
+    setup(props) {
+      const isSelected= computed(()=>router.to===props.to)
+      return {isSelected}
     }
 }
 </script>
 <style scoped>
-    .link{
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        position: relative;
-        font-weight: 400;
-        user-select: none;
+.link {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 15px;
+    gap: 10px;
+    padding: 5px;
+    
+}
 
-        margin: 0.1em 0;
-        padding: 0.4em;
-       height: 1.5em;
-       
-       color: #ffffff;
-       text-decoration: none;
+.link:hover {
+     background-color: #0d018b; 
+   
+    
+}
+.link.Selected{
+   background-color: #0a0265; 
+}
 
-    }
-    .link.active{
-        background-color: #ffffff;
-        opacity: 0.2;
-    }
-    .sidebar-icon{
-        flex-shrink: 0;
-        width: 25px;
-        margin-right: 10px;
-    }
+.sidebar-icon {
+    flex-shrink: 0;
+    width: 25px;
+    height: 25px;
+}
 </style>
