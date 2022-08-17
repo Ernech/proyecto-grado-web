@@ -18,11 +18,14 @@
                 <SidebarLink icon="fa-solid fa-lock" to="/closed-job-call" router="Convocatorias cerradas">
                 </SidebarLink>
                 <SidebarLink icon="fa-solid fa-circle-plus" to="/new-job-call" router="Crear convocatoria">
-                </SidebarLink>     
+                </SidebarLink>
             </div>
-            <div class="link" @click="userStore.logoutUser">
-                <fa icon="fa-solid fa-arrow-right-from-bracket"/>
-                <p>Cerrar sesión</p>
+            <div class="sidebar__router-links">
+                <div class="link" @click="userStore.logoutUser">
+                    <fa icon="fa-solid fa-arrow-right-from-bracket" />
+                    <p>Cerrar sesión</p>
+                </div>
+
             </div>
 
         </div>
@@ -30,7 +33,7 @@
 </template>
 <script setup>
 import SidebarLink from '../sidebar/SidebarLink.vue';
-import {useUserStore} from '../../store/user'
+import { useUserStore } from '../../store/user'
 const userStore = useUserStore()  
 </script>
 <style>
@@ -45,6 +48,13 @@ const userStore = useUserStore()
     font-size: 15px;
     gap: 10px;
     padding: 5px;
+     font-family: 'Inter', sans-serif;
+}
+
+.link:hover {
+    background-color: #0d018b;
+
+
 }
 </style>
 <style scoped>
@@ -66,22 +76,23 @@ const userStore = useUserStore()
     justify-content: space-between;
     padding-top: 20px;
     padding-bottom: 30px;
-    width: 365px;
+    width: 360px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
 
 }
 
-.slidebar__user-info {
+.sidebar__user-info {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
 }
 
-.slidebar__user-info p {
+.sidebar__user-info p {
     margin: 0px;
     font-size: 15px;
+    font-family: 'Inter', sans-serif;
 }
 
 .user-into__first-letter {
@@ -97,7 +108,8 @@ const userStore = useUserStore()
 .user-into__first-letter span {
     color: #0B0273;
     font-size: 70px;
-
+    font-family: 'Inter', sans-serif;
+    font-weight: bold;
 }
 
 .sidebar__router-links {

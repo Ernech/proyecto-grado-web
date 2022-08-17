@@ -13,7 +13,7 @@
                 <div class="form">
                     <form @submit.prevent="handleSubmit">
                         <div class="form-input-container">
-                            <label for="email" class="form-label">Correo electrónico</label>
+                            <label for="email" class="form-label">Correo institucional</label>
                             <input class="form-input" type="email" placeholder="Ingrese su correo electrónico"
                                 id="email" v-model.trim="email">
                         </div>
@@ -23,7 +23,7 @@
                                 v-model.trim="password">
                         </div>
                         <div class="form-input-container">
-                            <button type="submit" class="login-button">Iniciar Sesion</button>
+                            <button type="submit" class="login-button" :class="{disabled:isDisabled}" :disabled="isDisabled">Iniciar Sesion</button>
                         </div>
 
                     </form>
@@ -36,7 +36,7 @@
 
 </template>
 <script setup>
-import { ref } from 'vue'
+import { ref,computed } from 'vue'
 import { useUserStore } from '../../store/user'
 const userStore = useUserStore();
 const email = ref('')
@@ -45,6 +45,14 @@ const password = ref('')
 const handleSubmit = async () => {
     await userStore.loginUser(email.value, password.value)
 }
+
+const isDisabled = computed(()=>{
+    const pattern=  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    if(pattern.test(email.value) && password.value.length >= 8){
+        return false
+    }
+    return true
+})
 
 </script>
 <style lang="css" scoped>
@@ -96,18 +104,17 @@ const handleSubmit = async () => {
 .card-container {
     display: flex;
     flex-direction: column;
-    width: 481px;
-    height: 389px;
+    width: 485px;
+    height: 390px;
     background: #FFFFFF;
     box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
     align-items: center;
     justify-content: center;
-
 }
 
 .card-container__text {
-    font-family: 'Oswald';
+    font-family: 'Oswald', sans-serif;
     font-style: normal;
     font-size: 40px;
     color: #064D90;
@@ -116,24 +123,31 @@ const handleSubmit = async () => {
 }
 
 .form {
-    width: 90%;
+    width: 85%;
     height: 60%;
-
+   
 
 }
 
 .form-input-container {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 5px;
     padding: 10px;
     width: 100%;
 
 }
 
+.form-input-container label {
+    font-family: 'Inter', sans-serif;
+    align-self: flex-start;
+    font-size: 15px;
+
+}
+
 .form-input {
-    width: 80%;
+    width: 95%;
     height: 25px;
     border-radius: 10px;
     padding-left: 10px;
@@ -147,12 +161,20 @@ const handleSubmit = async () => {
     color: #FFFFFF;
     padding: 10px;
     border-color: #0094FF;
-    width: 83%;
+    width: 90%;
+    font-family: 'Nunito', sans-serif;
+    align-self: center;
+    
+}
+.login-button.disabled {
+    background-color: #b7b8b9;
+    border-color: #b7b8b9;
 }
 
 .grid-item-1__text {
     color: #FFFFFF;
     font-size: 30px;
     order: 10;
+    font-family: 'Oswald', sans-serif;
 }
 </style>

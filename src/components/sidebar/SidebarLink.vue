@@ -1,13 +1,13 @@
 <template>
 
-    <router-link :to="to" class="link" :class="{selected:isSelected}">
-    <fa :icon="icon"/>         
+    <router-link :to="to" class="link" :class="{ selected: isSelected }">
+        <fa :icon="icon" />
         {{ router }}
     </router-link>
 </template>
 <script>
-import router from '../../routes/recruiter-router'
-import {computed} from 'vue';
+import { useRoute } from 'vue-router'
+import { computed } from 'vue';
 export default {
     props: {
         router: { type: String, required: true },
@@ -15,8 +15,9 @@ export default {
         icon: { type: String, required: true }
     },
     setup(props) {
-      const isSelected= computed(()=>router.to===props.to)
-      return {isSelected}
+        const route = useRoute()
+        const isSelected = computed(() => route.path === props.to)
+        return { isSelected }
     }
 }
 </script>
@@ -31,17 +32,19 @@ export default {
     text-decoration: none;
     font-size: 15px;
     gap: 10px;
-    padding: 5px;
-    
+    padding: 10px;
+    font-family: 'Inter', sans-serif;
+
 }
 
 .link:hover {
-     background-color: #0d018b; 
-   
-    
+    background-color: #0d018b;
+
+
 }
-.link.selected{
-   background-color: #0a0265; 
+
+.link.selected {
+    background-color: #080153;
 }
 
 .sidebar-icon {
