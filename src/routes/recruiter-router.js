@@ -39,7 +39,7 @@ const routes = [
             path:'/new-job-call',component:NewJobCall
         }
     ],
-        beforeEnter:requireAuth
+      //  beforeEnter:requireAuth
     }, 
 ]
 
