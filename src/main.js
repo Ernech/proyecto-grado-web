@@ -8,6 +8,7 @@ import router from './routes/recruiter-router'
 import {fas} from '@fortawesome/free-solid-svg-icons'
 import {fab} from '@fortawesome/free-brands-svg-icons'
 
+
 library.add(fas,fab)
 
 createApp(App).use(router).use(createPinia()).component('fa', FontAwesomeIcon).mount('#app')

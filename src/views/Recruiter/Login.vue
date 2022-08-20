@@ -19,11 +19,11 @@
                         </div>
                         <div class="form-input-container">
                             <label for="password" class="form-label">Contraseña</label>
-                            <input class="form-input" type="password" placeholder="Ingrse su contraseña" id="password"
+                            <input class="form-input" type="password" placeholder="Ingrese su contraseña" id="password"
                                 v-model.trim="password">
                         </div>
                         <div class="form-input-container">
-                            <button type="submit" class="login-button" :class="{disabled:isDisabled}" :disabled="isDisabled">Iniciar Sesion</button>
+                            <button type="submit" class="login-button" :class="{disabled:isDisabled}" :disabled="isDisabled || userStore.isLoading">Iniciar Sesion</button>
                         </div>
 
                     </form>
