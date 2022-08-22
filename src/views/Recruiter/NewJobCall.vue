@@ -16,6 +16,9 @@
             </div>
            <FunctionsSection/>
            <AcademicTrainingSection/>
+           <JobExperienceSection/>
+           <RequiredKnowledge/>
+           <AptitudeSection/>
             
         </div>
     </div>
@@ -23,11 +26,16 @@
 <script>
 import FunctionsSection from '../../components/job-call-form-sections/FunctionsSection.vue';
 import AcademicTrainingSection from '../../components/job-call-form-sections/AcademicTrainingSection.vue';
+import JobExperienceSection from '../../components/job-call-form-sections/JobExperienceSection.vue';
+import RequiredKnowledge from '../../components/job-call-form-sections/RequiredKnowledge.vue';
+import AptitudeSection from '../../components/job-call-form-sections/AptitudeSection.vue';
 export default {
     components: {
     FunctionsSection,
     AcademicTrainingSection,
-    
+    JobExperienceSection,
+    RequiredKnowledge,
+    AptitudeSection
 }
 }
 </script>
