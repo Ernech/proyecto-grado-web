@@ -8,14 +8,14 @@
         <div class="grid-input-section">
             <div class="form-input-container">
                 <label class="form-label">Requisito</label>
-                <select class="form-input" v-model="selected">
+                <select class="form-input">
                     <option>Indispensable</option>
                     <option>Deseable</option>
                 </select>
             </div>
             <div class="form-input-container">
                 <label class="form-label">Nivel requerido</label>
-                <select class="form-input" v-model="selected">
+                <select class="form-input">
                     <option>Básico</option>
                     <option>Intermedio</option>
                     <option>Avanzado</option>

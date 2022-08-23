@@ -12,14 +12,14 @@
             </div>
             <div class="form-input-container">
                 <label class="form-label">Requisito</label>
-                <select class="form-input" v-model="selected">
+                <select class="form-input">
                     <option>Indispensable</option>
                     <option>Deseable</option>
                 </select>
             </div>
             <div class="form-input-container">
                 <label class="form-label">Tipo</label>
-                <select class="form-input" v-model="selected">
+                <select class="form-input">
                     <option>General</option>
                     <option>Específica</option>
                 </select>

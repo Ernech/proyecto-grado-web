@@ -8,7 +8,7 @@
         <div class="grid-input-section">
             <div class="form-input-container">
                 <label class="form-label">Tipo de competencia</label>
-                <select class="form-input" v-model="selected">
+                <select class="form-input">
                     <option>Gestión</option>
                     <option>Interpersonales</option>
                     <option>Personales</option>
@@ -16,7 +16,7 @@
             </div>
             <div class="form-input-container">
                 <label class="form-label">Grado requerido</label>
-                <select class="form-input" v-model="selected">
+                <select class="form-input">
                     <option>Experto</option>
                     <option>Muy Hábil</option>
                     <option>Hábil</option>

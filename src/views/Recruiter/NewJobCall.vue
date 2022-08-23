@@ -2,24 +2,13 @@
     <div class="main">
         <h3 class="title">Nueva convocatoria</h3>
         <div class="job-call-form">
-            <div class="form-input-container">
-                <label for="manual" class="form-label">Manual de puesto</label>
-                <input class="form-input" type="text" id="manual">
-            </div>
-            <div class="form-input-container">
-                <label for="number-job-call" class="form-label">Número de convocatoria</label>
-                <input class="form-input" type="text" id="number-job-call">
-            </div>
-            <div class="form-input-container">
-                <label for="objective" class="form-label">Objetivo del cargo</label>
-                <textarea class="form-input" type="text" id="objective"></textarea>
-            </div>
+           <GeneralInformationSection/>
            <FunctionsSection/>
            <AcademicTrainingSection/>
            <JobExperienceSection/>
            <RequiredKnowledge/>
-           <AptitudeSection/>
-            
+           <AptitudeSection/>    
+           <button type="submit">Crear convocatoria</button>
         </div>
     </div>
 </template>
@@ -29,13 +18,15 @@ import AcademicTrainingSection from '../../components/job-call-form-sections/Aca
 import JobExperienceSection from '../../components/job-call-form-sections/JobExperienceSection.vue';
 import RequiredKnowledge from '../../components/job-call-form-sections/RequiredKnowledge.vue';
 import AptitudeSection from '../../components/job-call-form-sections/AptitudeSection.vue';
+import GeneralInformationSection from '../../components/job-call-form-sections/GeneralInformationSection.vue';
 export default {
     components: {
     FunctionsSection,
     AcademicTrainingSection,
     JobExperienceSection,
     RequiredKnowledge,
-    AptitudeSection
+    AptitudeSection,
+    GeneralInformationSection
 }
 }
 </script>
@@ -59,40 +50,6 @@ export default {
     align-items: center;
 }
 
-.form-input-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 5px;
-    padding: 10px;
-    width: 100%;
 
-}
-
-.form-input-container textarea {
-    width: 100%;
-    height: 50px;
-    border-radius: 10px;
-    padding: 10px 15px;
-    font-size: 15px;
-
-}
-
-.form-input-container label {
-    font-family: 'Inter', sans-serif;
-    align-self: flex-start;
-    font-size: 15px;
-
-}
-
-
-.form-input {
-    width: 100%;
-    height: 25px;
-    border-radius: 10px;
-    padding-left: 10px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-}
 
 </style>
