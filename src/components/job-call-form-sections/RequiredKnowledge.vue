@@ -2,28 +2,28 @@
     <div class="required-kwowledge-section">
         <p>Conocimientos requeridos</p>
         <div class="form-input-container">
-            <label for="function" class="form-label">Descripción</label>
-            <input class="form-input" type="text" id="function">
+            <label for="description" class="form-label">Descripción</label>
+            <input class="form-input" type="text" id="description" v-model="description">
         </div>
         <div class="grid-input-section">
             <div class="form-input-container">
                 <label class="form-label">Requisito</label>
-                <select class="form-input">
+                <select class="form-input" v-model="required">
                     <option>Indispensable</option>
                     <option>Deseable</option>
                 </select>
             </div>
             <div class="form-input-container">
                 <label class="form-label">Nivel requerido</label>
-                <select class="form-input">
+                <select class="form-input" v-model="requiredLevel">
                     <option>Básico</option>
                     <option>Intermedio</option>
                     <option>Avanzado</option>
                 </select>
             </div>
         </div>
-         <button class="job-call-form__add_button">Agregar conocimiento requerido</button>
-         <table>
+        <button class="job-call-form__add_button" @click="addRequiredKnowledge">Agregar conocimiento requerido</button>
+        <table>
             <thead>
                 <tr>
                     <th>Descripción</th>
@@ -34,34 +34,37 @@
 
             </thead>
             <tbody>
-                <tr>
-                    <td>Idioma Ingles</td>
-                     <td>Intermedio</td>
-                     <td>Deseable</td>
+                <tr v-for="item in jobCallStore.requiredKnowledgeArray" :key="item.description">
+                    <td>{{item.description}}</td>
+                    <td>{{item.requiredLevel}}</td>
+                    <td>{{item.required}}</td>
                     <td>
                         <fa icon="fa-solid fa-pen" />
                         <fa icon="fa-solid fa-trash" />
                     </td>
                 </tr>
-                  <tr>
-                    <td>Ofimática: manejo de Word, Excel, Power Point, Outlook,Correo electrónico y otras aplicaciones para el soporte administrativo de la oficina</td>
-                     <td>Intermedio</td>
-                     <td>Indispensable</td>
-                    <td>
-                        <fa icon="fa-solid fa-pen" />
-                        <fa icon="fa-solid fa-trash" />
-                    </td>
-                </tr>
-                
+             
 
             </tbody>
         </table>
     </div>
 </template>
-<script>
-export default {
+<script setup>
+import { ref } from 'vue'
+import { useJobCallStore } from '../../store/job-call'
+const description = ref('');
+const required = ref('');
+const requiredLevel = ref('');
+const jobCallStore = useJobCallStore()
+const addRequiredKnowledge = () => {
 
-}
+    jobCallStore.requiredKnowledge = { description: description.value, requiredLevel: requiredLevel.value, required: required.value }
+    jobCallStore.requiredKnowledgeArray.push(jobCallStore.requiredKnowledge);
+    description.value = '';
+    required.value = '';
+    requiredLevel.value = '';
+    jobCallStore.requiredKnowledge = { description: '', requiredLevel: '', required: '' }
+} 
 </script>
 <style scoped>
 .required-kwowledge-section {
@@ -113,14 +116,16 @@ export default {
     width: 100%;
 
 }
+
 .form-input-container label {
     font-family: 'Inter', sans-serif;
     align-self: flex-start;
     font-size: 15px;
 
 }
-.job-call-form__add_button{
-     background-color: #0094FF;
+
+.job-call-form__add_button {
+    background-color: #0094FF;
     border-radius: 8px;
     color: #FFFFFF;
     padding: 5px;

@@ -3,9 +3,9 @@
          <p>Funciones Generales</p>
             <div class="form-input-container">
                 <label for="function" class="form-label">Función</label>
-                <input class="form-input" type="text" id="function">
+                <input class="form-input" type="text" id="function" v-model="jobFunction">
             </div>
-            <button class="job-call-form__add_button">Agregar función</button>
+            <button class="job-call-form__add_button" @click="addJobFunction">Agregar función</button>
 
         <table>
             <thead>
@@ -16,27 +16,14 @@
 
             </thead>
             <tbody>
-                <tr>
-                    <td>Coordinar actividades orientadas a la gestión de reclutamiento de estudiantes nuevos.</td>
+                <tr v-for="item in jobCallStore.jobFunctions" :key="item.jobFunction">
+                    <td>{{item.jobFunction}}</td>
                     <td>
                         <fa icon="fa-solid fa-pen" />
                         <fa icon="fa-solid fa-trash" />
                     </td>
                 </tr>
-                <tr>
-                    <td>Apoyar en el seguimiento de estudiantes interesados en la Universidad.</td>
-                    <td>
-                        <fa icon="fa-solid fa-pen" />
-                        <fa icon="fa-solid fa-trash" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>Mantener la base de datos e información actualizada.</td>
-                    <td>
-                        <fa icon="fa-solid fa-pen" />
-                        <fa icon="fa-solid fa-trash" />
-                    </td>
-                </tr>
+               
 
             </tbody>
         </table>
@@ -45,8 +32,16 @@
 </template>
 <script setup>
 import {ref} from 'vue'
+import {useJobCallStore} from '../../store/job-call'
+const jobCallStore = useJobCallStore()
+const jobFunction = ref('')
 
-
+const addJobFunction = ()=>{
+    jobCallStore.jobFunction={jobFunction: jobFunction.value}
+    jobCallStore.jobFunctions.push(jobCallStore.jobFunction)
+    jobFunction.value='';
+    jobCallStore.jobFunction={jobFunction:''};
+} 
 
 </script>
 <style scoped>

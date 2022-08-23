@@ -11,15 +11,20 @@ export const useJobCallStore = defineStore('job-call',{
         experiences:[],
         jobFunctions:[],
         academicTrainings:[],
-        requiredKnowledge:[],
+        requiredKnowledgeArray:[],
         aptitudes:[],
         experience:{
-            yearsOfExperience:3,
+            description:'',
+            yearsOfExperience:0,
             requirement:'',
             type:''
         },
-        jobFunction:'',
-        training:'',
+        jobFunction:{
+            jobFunction:''
+        },
+        training:{
+            training:''
+        },
         requiredKnowledge:{
             description:'',
             requiredLevel:'',
@@ -34,7 +39,7 @@ export const useJobCallStore = defineStore('job-call',{
 
     }),actions:{
         async createJobCall(){
-            
+
         }
     }
 })

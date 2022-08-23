@@ -2,10 +2,10 @@
     <div class="academic-training-section">
          <p>Formación Académica</p>
             <div class="form-input-container">
-                <label for="function" class="form-label">Formación</label>
-                <input class="form-input" type="text" id="function">
+                <label for="academic-training" class="form-label">Formación</label>
+                <input class="form-input" type="text" id="academic-training" v-model="academicTraining">
             </div>
-            <button class="job-call-form__add_button">Agregar formación requerida</button>
+            <button class="job-call-form__add_button" @click="addAcademicTraining">Agregar formación requerida</button>
 
         <table>
             <thead>
@@ -16,8 +16,8 @@
 
             </thead>
             <tbody>
-                <tr>
-                    <td>Egreso o Licenciatura en Administración de Empresas, Marketing, Ingeniería Comercial, Comunicación Social o ramas afines</td>
+                <tr v-for="item in jobCallStore.academicTrainings" :key="item.jobCallStore">
+                    <td>{{item.training}}</td>
                     <td>
                         <fa icon="fa-solid fa-pen" />
                         <fa icon="fa-solid fa-trash" />
@@ -30,10 +30,19 @@
     </div>
 
 </template>
-<script>
-export default {
+<script setup>
+import {ref} from 'vue'
+import {useJobCallStore} from '../../store/job-call'
+const academicTraining = ref('');
+const jobCallStore = useJobCallStore();
 
-}
+const addAcademicTraining = ()=>{
+    jobCallStore.training={training:academicTraining.value}
+    jobCallStore.academicTrainings.push(jobCallStore.training)
+    jobCallStore.training={training:''}
+    academicTraining.value='';
+} 
+
 </script>
 <style scoped>
 .academic-training-section{

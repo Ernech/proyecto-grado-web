@@ -3,12 +3,12 @@
         <p>Competencias requeridas</p>
         <div class="form-input-container">
             <label for="function" class="form-label">Descripción</label>
-            <input class="form-input" type="text" id="function">
+            <input class="form-input" type="text" id="function" v-model="description">
         </div>
         <div class="grid-input-section">
             <div class="form-input-container">
                 <label class="form-label">Tipo de competencia</label>
-                <select class="form-input">
+                <select class="form-input" v-model="aptitudeType">
                     <option>Gestión</option>
                     <option>Interpersonales</option>
                     <option>Personales</option>
@@ -16,7 +16,7 @@
             </div>
             <div class="form-input-container">
                 <label class="form-label">Grado requerido</label>
-                <select class="form-input">
+                <select class="form-input" v-model="desiredLevel">
                     <option>Experto</option>
                     <option>Muy Hábil</option>
                     <option>Hábil</option>
@@ -24,7 +24,7 @@
                 </select>
             </div>
         </div>
-         <button class="job-call-form__add_button">Agregar Competencia</button>
+         <button class="job-call-form__add_button" @click="addAptitude">Agregar Competencia</button>
          <table>
             <thead>
                 <tr>
@@ -36,34 +36,40 @@
 
             </thead>
             <tbody>
-                <tr>
-                    <td>Idioma Ingles</td>
-                     <td>Intermedio</td>
-                     <td>Deseable</td>
+                <tr v-for="item in jobCallStore.aptitudes" :key = "item.aptitude">
+                    <td>{{item.aptitude}}</td>
+                     <td>{{item.aptitudeType}}</td>
+                     <td>{{item.desiredLevel}}</td>
                     <td>
                         <fa icon="fa-solid fa-pen" />
                         <fa icon="fa-solid fa-trash" />
                     </td>
                 </tr>
-                  <tr>
-                    <td>Ofimática: manejo de Word, Excel, Power Point, Outlook,Correo electrónico y otras aplicaciones para el soporte administrativo de la oficina</td>
-                     <td>Intermedio</td>
-                     <td>Indispensable</td>
-                    <td>
-                        <fa icon="fa-solid fa-pen" />
-                        <fa icon="fa-solid fa-trash" />
-                    </td>
-                </tr>
-                
+                  
 
             </tbody>
         </table>
     </div>
 </template>
-<script>
-export default {
+<script setup>
+import {ref} from 'vue'
+import {useJobCallStore} from '../../store/job-call'
+const description =  ref('');
+const desiredLevel = ref('');
+const aptitudeType = ref('');
+const jobCallStore = useJobCallStore();
 
+const addAptitude = ()=>{
+    jobCallStore.aptitude = {aptitude:description.value,aptitudeType:aptitudeType.value,desiredLevel:desiredLevel.value}
+    jobCallStore.aptitudes.push(jobCallStore.aptitude)
+    description.value = ''
+    desiredLevel.value = ''
+    aptitudeType.value = ''
+    jobCallStore.aptitude={aptitude:'',aptitudeType:'',desiredLevel:''}
 }
+
+
+
 </script>
 <style scoped>
 .required-kwowledge-section {
