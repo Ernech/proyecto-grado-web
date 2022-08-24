@@ -5,7 +5,7 @@
                 <label for="function" class="form-label">Función</label>
                 <input class="form-input" type="text" id="function" v-model="jobFunction">
             </div>
-            <button class="job-call-form__add_button" @click="addJobFunction">Agregar función</button>
+            <button class="job-call-form__add_button" @click="addJobFunction" :disabled="isDisabled" :class="{disabled:isDisabled}">Agregar función</button>
 
         <table>
             <thead>
@@ -31,7 +31,7 @@
 
 </template>
 <script setup>
-import {ref} from 'vue'
+import {ref,computed} from 'vue'
 import {useJobCallStore} from '../../store/job-call'
 const jobCallStore = useJobCallStore()
 const jobFunction = ref('')
@@ -42,6 +42,14 @@ const addJobFunction = ()=>{
     jobFunction.value='';
     jobCallStore.jobFunction={jobFunction:''};
 } 
+
+const isDisabled = computed(()=>{
+    if( jobFunction.value===null || jobFunction.value ===''){
+        return true
+    }
+    return false;
+})
+
 
 </script>
 <style scoped>
@@ -81,6 +89,10 @@ const addJobFunction = ()=>{
     border-color: #0094FF;
     width: 15%;
     font-family: 'Nunito', sans-serif;
+}
+.job-call-form__add_button.disabled {
+    background-color: #b7b8b9;
+    border-color: #b7b8b9;
 }
 .functions-section p{
       font-family: 'Inter', sans-serif;

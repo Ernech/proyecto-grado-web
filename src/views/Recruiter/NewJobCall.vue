@@ -2,13 +2,13 @@
     <div class="main">
         <h3 class="title">Nueva convocatoria</h3>
         <div class="job-call-form">
-           <GeneralInformationSection/>
-           <FunctionsSection/>
-           <AcademicTrainingSection/>
-           <JobExperienceSection/>
-           <RequiredKnowledge/>
-           <AptitudeSection/>    
-           <button type="submit">Crear convocatoria</button>
+            <GeneralInformationSection />
+            <FunctionsSection />
+            <AcademicTrainingSection />
+            <JobExperienceSection />
+            <RequiredKnowledge />
+            <AptitudeSection />
+            <button type="submit" class="job-call-form__create_button " @click="createJobCall">Crear convocatoria</button>
         </div>
     </div>
 </template>
@@ -19,15 +19,24 @@ import JobExperienceSection from '../../components/job-call-form-sections/JobExp
 import RequiredKnowledge from '../../components/job-call-form-sections/RequiredKnowledge.vue';
 import AptitudeSection from '../../components/job-call-form-sections/AptitudeSection.vue';
 import GeneralInformationSection from '../../components/job-call-form-sections/GeneralInformationSection.vue';
+import { useJobCallStore } from '../../store/job-call'
 export default {
     components: {
-    FunctionsSection,
-    AcademicTrainingSection,
-    JobExperienceSection,
-    RequiredKnowledge,
-    AptitudeSection,
-    GeneralInformationSection
-}
+        FunctionsSection,
+        AcademicTrainingSection,
+        JobExperienceSection,
+        RequiredKnowledge,
+        AptitudeSection,
+        GeneralInformationSection
+    },
+    setup() {
+        const jobCallStore = useJobCallStore()
+        const createJobCall = async () => {
+            await jobCallStore.createJobCall()
+
+        }
+        return { createJobCall }
+    }
 }
 </script>
 <style scoped>
@@ -49,7 +58,15 @@ export default {
     justify-content: center;
     align-items: center;
 }
-
-
-
+.job-call-form__create_button {
+    background-color: #0094FF;
+    border-radius: 8px;
+    color: #FFFFFF;
+    padding: 5px;
+    border-color: #0094FF;
+    width: 25%;
+    font-family: 'Nunito', sans-serif;
+    align-self: flex-end;
+    margin: 20px 15px;
+}
 </style>

@@ -8,11 +8,12 @@
         <div class="grid-input-section">
             <div class="form-input-container">
                 <label for="function" class="form-label">Cantidad (Años)</label>
-                <input class="form-input" type="number" id="function" v-model="years">
+                <input class="form-input" type="number" min="1" id="function" v-model="years">
             </div>
             <div class="form-input-container">
                 <label class="form-label">Requisito</label>
                 <select class="form-input" v-model="requirement">
+                <option disabled>Escoja una opción...</option>
                     <option>Indispensable</option>
                     <option>Deseable</option>
                 </select>
@@ -20,12 +21,13 @@
             <div class="form-input-container">
                 <label class="form-label">Tipo</label>
                 <select class="form-input" v-model="type">
+                <option disabled>Escoja una opción...</option>
                     <option>General</option>
                     <option>Específica</option>
                 </select>
             </div>
         </div>
-        <button class="job-call-form__add_button" @click="addJobExperience">Agregar experiencia laboral</button>
+        <button class="job-call-form__add_button" @click="addJobExperience" :disabled="isDisabled" :class="{disabled:isDisabled}">Agregar experiencia laboral</button>
         <table>
             <thead>
                 <tr>
@@ -56,12 +58,12 @@
     </div>
 </template>
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useJobCallStore } from '../../store/job-call'
 const description = ref('');
-const years = ref(0);
-const requirement = ref('Seleccione requisito')
-const type = ref('Seleccione el tipo')
+const years = ref(1);
+const requirement = ref('Escoja una opción...')
+const type = ref('Escoja una opción...')
 const jobCallStore = useJobCallStore()
 const addJobExperience = () => {
     jobCallStore.experience = { description:description.value,yearsOfExperience: years.value, requirement: requirement.value, type: type.value }
@@ -71,6 +73,12 @@ const addJobExperience = () => {
     jobCallStore.experience = { description:'', yearsOfExperience: 0, requirement: '', type: '' }
 }
 
+const isDisabled = computed(()=>{
+    if((description.value==='' || description.value === null) || years.value < 1 || requirement.value==='Escoja una opción...' || type.value==='Escoja una opción...'){
+        return true
+    }
+    return false;
+})
 
 
 </script>
@@ -140,5 +148,9 @@ const addJobExperience = () => {
     border-color: #0094FF;
     width: 25%;
     font-family: 'Nunito', sans-serif;
+}
+.job-call-form__add_button.disabled {
+    background-color: #b7b8b9;
+    border-color: #b7b8b9;
 }
 </style>

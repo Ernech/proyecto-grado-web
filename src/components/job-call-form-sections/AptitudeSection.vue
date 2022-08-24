@@ -9,6 +9,7 @@
             <div class="form-input-container">
                 <label class="form-label">Tipo de competencia</label>
                 <select class="form-input" v-model="aptitudeType">
+                    <option disabled>Elija una opción...</option>
                     <option>Gestión</option>
                     <option>Interpersonales</option>
                     <option>Personales</option>
@@ -17,6 +18,7 @@
             <div class="form-input-container">
                 <label class="form-label">Grado requerido</label>
                 <select class="form-input" v-model="desiredLevel">
+                    <option disabled>Elija una opción...</option>
                     <option>Experto</option>
                     <option>Muy Hábil</option>
                     <option>Hábil</option>
@@ -24,8 +26,8 @@
                 </select>
             </div>
         </div>
-         <button class="job-call-form__add_button" @click="addAptitude">Agregar Competencia</button>
-         <table>
+        <button class="job-call-form__add_button" @click="addAptitude" :disabled="isDisabled" :class="{disabled:isDisabled}">Agregar Competencia</button>
+        <table>
             <thead>
                 <tr>
                     <th>Descripción</th>
@@ -36,40 +38,44 @@
 
             </thead>
             <tbody>
-                <tr v-for="item in jobCallStore.aptitudes" :key = "item.aptitude">
-                    <td>{{item.aptitude}}</td>
-                     <td>{{item.aptitudeType}}</td>
-                     <td>{{item.desiredLevel}}</td>
+                <tr v-for="item in jobCallStore.aptitudes" :key="item.aptitude">
+                    <td>{{ item.aptitude }}</td>
+                    <td>{{ item.aptitudeType }}</td>
+                    <td>{{ item.desiredLevel }}</td>
                     <td>
                         <fa icon="fa-solid fa-pen" />
                         <fa icon="fa-solid fa-trash" />
                     </td>
                 </tr>
-                  
+
 
             </tbody>
         </table>
     </div>
 </template>
 <script setup>
-import {ref} from 'vue'
-import {useJobCallStore} from '../../store/job-call'
-const description =  ref('');
-const desiredLevel = ref('');
-const aptitudeType = ref('');
+import { ref, computed } from 'vue'
+import { useJobCallStore } from '../../store/job-call'
+const description = ref('');
+const desiredLevel = ref('Elija una opción...');
+const aptitudeType = ref('Elija una opción...');
 const jobCallStore = useJobCallStore();
 
-const addAptitude = ()=>{
-    jobCallStore.aptitude = {aptitude:description.value,aptitudeType:aptitudeType.value,desiredLevel:desiredLevel.value}
+const addAptitude = () => {
+    jobCallStore.aptitude = { aptitude: description.value, aptitudeType: aptitudeType.value, desiredLevel: desiredLevel.value }
     jobCallStore.aptitudes.push(jobCallStore.aptitude)
     description.value = ''
     desiredLevel.value = ''
     aptitudeType.value = ''
-    jobCallStore.aptitude={aptitude:'',aptitudeType:'',desiredLevel:''}
+    jobCallStore.aptitude = { aptitude: '', aptitudeType: '', desiredLevel: '' }
 }
 
-
-
+const isDisabled = computed(() => {
+    if (description.value === null || description.value === '' || desiredLevel.value === 'Elija una opción...' || aptitudeType.value === 'Elija una opción...') {
+        return true
+    }
+    return false
+})
 </script>
 <style scoped>
 .required-kwowledge-section {
@@ -121,19 +127,26 @@ const addAptitude = ()=>{
     width: 100%;
 
 }
+
 .form-input-container label {
     font-family: 'Inter', sans-serif;
     align-self: flex-start;
     font-size: 15px;
 
 }
-.job-call-form__add_button{
-     background-color: #0094FF;
+
+.job-call-form__add_button {
+    background-color: #0094FF;
     border-radius: 8px;
     color: #FFFFFF;
     padding: 5px;
     border-color: #0094FF;
     width: 25%;
     font-family: 'Nunito', sans-serif;
+}
+
+.job-call-form__add_button.disabled {
+    background-color: #b7b8b9;
+    border-color: #b7b8b9;
 }
 </style>

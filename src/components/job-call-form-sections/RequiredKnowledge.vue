@@ -9,6 +9,7 @@
             <div class="form-input-container">
                 <label class="form-label">Requisito</label>
                 <select class="form-input" v-model="required">
+                    <option disabled>Elija una opción...</option>
                     <option>Indispensable</option>
                     <option>Deseable</option>
                 </select>
@@ -16,13 +17,15 @@
             <div class="form-input-container">
                 <label class="form-label">Nivel requerido</label>
                 <select class="form-input" v-model="requiredLevel">
+                    <option disabled>Elija una opción...</option>
                     <option>Básico</option>
                     <option>Intermedio</option>
                     <option>Avanzado</option>
                 </select>
             </div>
         </div>
-        <button class="job-call-form__add_button" @click="addRequiredKnowledge">Agregar conocimiento requerido</button>
+        <button class="job-call-form__add_button" @click="addRequiredKnowledge" :disabled="isDisabled"
+            :class="{ disabled: isDisabled }">Agregar conocimiento requerido</button>
         <table>
             <thead>
                 <tr>
@@ -35,22 +38,22 @@
             </thead>
             <tbody>
                 <tr v-for="item in jobCallStore.requiredKnowledgeArray" :key="item.description">
-                    <td>{{item.description}}</td>
-                    <td>{{item.requiredLevel}}</td>
-                    <td>{{item.required}}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.requiredLevel }}</td>
+                    <td>{{ item.required }}</td>
                     <td>
                         <fa icon="fa-solid fa-pen" />
                         <fa icon="fa-solid fa-trash" />
                     </td>
                 </tr>
-             
+
 
             </tbody>
         </table>
     </div>
 </template>
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useJobCallStore } from '../../store/job-call'
 const description = ref('');
 const required = ref('');
@@ -64,7 +67,14 @@ const addRequiredKnowledge = () => {
     required.value = '';
     requiredLevel.value = '';
     jobCallStore.requiredKnowledge = { description: '', requiredLevel: '', required: '' }
-} 
+}
+
+const isDisabled = computed(() => {
+    if (description.value === '' || description.value === null || required.value === 'Elija una opción...' || requiredLevel.value === 'Elija una opción...') {
+        return true
+    }
+    return false
+})
 </script>
 <style scoped>
 .required-kwowledge-section {
@@ -132,5 +142,10 @@ const addRequiredKnowledge = () => {
     border-color: #0094FF;
     width: 25%;
     font-family: 'Nunito', sans-serif;
+}
+
+.job-call-form__add_button.disabled {
+    background-color: #b7b8b9;
+    border-color: #b7b8b9;
 }
 </style>

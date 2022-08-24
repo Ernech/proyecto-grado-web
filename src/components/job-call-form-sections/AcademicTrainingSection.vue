@@ -1,11 +1,12 @@
 <template>
     <div class="academic-training-section">
-         <p>Formación Académica</p>
-            <div class="form-input-container">
-                <label for="academic-training" class="form-label">Formación</label>
-                <input class="form-input" type="text" id="academic-training" v-model="academicTraining">
-            </div>
-            <button class="job-call-form__add_button" @click="addAcademicTraining">Agregar formación requerida</button>
+        <p>Formación Académica</p>
+        <div class="form-input-container">
+            <label for="academic-training" class="form-label">Formación</label>
+            <input class="form-input" type="text" id="academic-training" v-model="academicTraining">
+        </div>
+        <button class="job-call-form__add_button" @click="addAcademicTraining" :disabled="isDisabled"
+            :class="{ disabled: isDisabled }">Agregar formación requerida</button>
 
         <table>
             <thead>
@@ -17,13 +18,13 @@
             </thead>
             <tbody>
                 <tr v-for="item in jobCallStore.academicTrainings" :key="item.jobCallStore">
-                    <td>{{item.training}}</td>
+                    <td>{{ item.training }}</td>
                     <td>
                         <fa icon="fa-solid fa-pen" />
                         <fa icon="fa-solid fa-trash" />
                     </td>
                 </tr>
-                
+
 
             </tbody>
         </table>
@@ -31,27 +32,33 @@
 
 </template>
 <script setup>
-import {ref} from 'vue'
-import {useJobCallStore} from '../../store/job-call'
+import { ref, computed } from 'vue'
+import { useJobCallStore } from '../../store/job-call'
 const academicTraining = ref('');
 const jobCallStore = useJobCallStore();
 
-const addAcademicTraining = ()=>{
-    jobCallStore.training={training:academicTraining.value}
+const addAcademicTraining = () => {
+    jobCallStore.training = { training: academicTraining.value }
     jobCallStore.academicTrainings.push(jobCallStore.training)
-    jobCallStore.training={training:''}
-    academicTraining.value='';
-} 
-
+    jobCallStore.training = { training: '' }
+    academicTraining.value = '';
+}
+const isDisabled = computed(() => {
+    if (academicTraining.value === null || academicTraining.value === '') {
+        return true
+    }
+    return false;
+})
 </script>
 <style scoped>
-.academic-training-section{
+.academic-training-section {
     display: flex;
     flex-direction: column;
     width: 100%;
     padding: 0px;
     gap: 20px;
 }
+
 .form-input-container {
     display: flex;
     flex-direction: column;
@@ -60,11 +67,13 @@ const addAcademicTraining = ()=>{
     width: 100%;
 
 }
+
 .form-input-container label {
     font-family: 'Inter', sans-serif;
     align-self: flex-start;
     font-size: 15px;
 }
+
 .form-input {
     width: 100%;
     height: 25px;
@@ -73,8 +82,9 @@ const addAcademicTraining = ()=>{
     padding-top: 3px;
     padding-bottom: 3px;
 }
-.job-call-form__add_button{
-     background-color: #0094FF;
+
+.job-call-form__add_button {
+    background-color: #0094FF;
     border-radius: 8px;
     color: #FFFFFF;
     padding: 5px;
@@ -82,8 +92,14 @@ const addAcademicTraining = ()=>{
     width: 25%;
     font-family: 'Nunito', sans-serif;
 }
-.academic-training-section p{
-      font-family: 'Inter', sans-serif;
+.job-call-form__add_button.disabled {
+    background-color: #b7b8b9;
+    border-color: #b7b8b9;
+}
+
+
+.academic-training-section p {
+    font-family: 'Inter', sans-serif;
     align-self: flex-start;
     font-size: 15px;
     margin-top: 15px;

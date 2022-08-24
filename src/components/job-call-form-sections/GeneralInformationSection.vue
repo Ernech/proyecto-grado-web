@@ -1,33 +1,45 @@
 <template>
     <div class="general-info-section">
+        <div class="form-input-container">
+                <label for="name" class="form-label">Nombre del puesto</label>
+                <input class="form-input" type="text" id="name" v-model="jobCallStore.jobCallName">
+            </div>
         <div class="grid-container">
             <div class="form-input-container">
                 <label for="manual" class="form-label">Manual de puesto</label>
-                <input class="form-input" type="text" id="manual">
+                <input class="form-input" type="text" id="manual" v-model="jobCallStore.jobManualFile">
             </div>
             <div class="form-input-container">
                 <label for="number-job-call" class="form-label">Número de convocatoria</label>
-                <input class="form-input" type="text" id="number-job-call">
+                <input class="form-input" type="text" id="number-job-call" v-model="jobCallStore.jobCallNumber">
             </div>
             <div class="form-input-container">
                 <label for="opening-date" class="form-label">Fecha de apertura</label>
-                <input class="form-input" type="datetime-local" id="opening-date">
+                <input class="form-input" type="datetime-local" id="opening-date" v-model="jobCallStore.openingDate">
             </div>
             <div class="form-input-container">
                 <label for="closing-date" class="form-label">Fecha de cierre</label>
-                <input class="form-input" type="datetime-local" id="closing-date">
+                <input class="form-input" type="datetime-local" id="closing-date" v-model="jobCallStore.closingDate">
             </div>
         </div>
         <div class="form-input-container">
             <label for="objective" class="form-label">Objetivo del cargo</label>
-            <textarea class="form-input" type="text" id="objective"></textarea>
+            <textarea class="form-input" type="text" id="objective" v-model="jobCallStore.jobCallObj"></textarea>
         </div>
     </div>
 </template>
-<script>
-export default {
+<script setup>
+import {ref} from 'vue'
+import {useJobCallStore} from '../../store/job-call'
+// const jobCallName= ref('')
+// const manual = ref('')
+// const jobCallNumber = ref('')
+// const openingDate = ref(Date.now())
+// const closingDate = ref(Date.now())
+// const jobCallObjective =  ref('')
 
-}
+const jobCallStore = useJobCallStore();
+
 </script>
 <style scoped>
 .general-info-section {
