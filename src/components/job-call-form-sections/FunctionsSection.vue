@@ -1,29 +1,33 @@
 <template>
     <div class="functions-section">
-         <p>Funciones Generales</p>
-            <div class="form-input-container">
-                <label for="function" class="form-label">Función</label>
-                <input class="form-input" type="text" id="function" v-model="jobFunction">
-            </div>
-            <button class="job-call-form__add_button" @click="addJobFunction" :disabled="isDisabled" :class="{disabled:isDisabled}">Agregar función</button>
+        <p>Funciones Generales</p>
+        <div class="form-input-container">
+            <label for="function" class="form-label">Función</label>
+            <input class="form-input" type="text" id="function" v-model="jobFunction">
+        </div>
+        <button v-if="!editFunction" class="job-call-form__add_button" @click="addJobFunction" :disabled="isDisabled"
+            :class="{ disabled: isDisabled }">Agregar función</button>
+        <button v-else class="job-call-form__add_button" @click="editJobFunction" :disabled="isDisabled"
+            :class="{ disabled: isDisabled }">Modificar función</button>
 
         <table>
             <thead>
                 <tr>
                     <th>Funcion</th>
-                    <th>Acciones</th>
+                    <th class="actions-column">Acciones</th>
                 </tr>
 
             </thead>
             <tbody>
-                <tr v-for="item in jobCallStore.jobFunctions" :key="item.jobFunction">
-                    <td>{{item.jobFunction}}</td>
+                <tr v-for="item in jobCallStore.jobFunctions">
+
+                    <td>{{ item.jobFunction }}</td>
                     <td>
-                        <fa icon="fa-solid fa-pen" />
-                        <fa icon="fa-solid fa-trash" />
+                        <fa class="edit-icon" icon="fa-solid fa-pen" @click="getJobFunction(item.jobFunction)" />
+                        <fa class="delete-icon" icon="fa-solid fa-trash" />
                     </td>
                 </tr>
-               
+
 
             </tbody>
         </table>
@@ -31,35 +35,46 @@
 
 </template>
 <script setup>
-import {ref,computed} from 'vue'
-import {useJobCallStore} from '../../store/job-call'
+import { ref, computed } from 'vue'
+import { useJobCallStore } from '../../store/job-call'
 const jobCallStore = useJobCallStore()
 const jobFunction = ref('')
-
-const addJobFunction = ()=>{
-    jobCallStore.jobFunction={jobFunction: jobFunction.value}
+const editFunction = ref(false)
+const oldJobFunction = ref('')
+const addJobFunction = () => {
+    jobCallStore.jobFunction = { jobFunction: jobFunction.value }
     jobCallStore.jobFunctions.push(jobCallStore.jobFunction)
-    jobFunction.value='';
-    jobCallStore.jobFunction={jobFunction:''};
-} 
+    jobFunction.value = '';
+    jobCallStore.jobFunction = { jobFunction: '' };
+}
 
-const isDisabled = computed(()=>{
-    if( jobFunction.value===null || jobFunction.value ===''){
+const isDisabled = computed(() => {
+    if (jobFunction.value === null || jobFunction.value === '') {
         return true
     }
     return false;
 })
+const getJobFunction = (jobFunctionEdit) => {
+    editFunction.value = true
+    jobFunction.value = jobFunctionEdit
+    oldJobFunction.value = jobFunction
+
+}
+const editJobFunction = () => {
+
+}
 
 
 </script>
 <style scoped>
-.functions-section{
+.functions-section {
     display: flex;
     flex-direction: column;
     width: 100%;
     padding: 0px;
     gap: 20px;
 }
+
 .form-input-container {
     display: flex;
     flex-direction: column;
@@ -68,11 +83,13 @@ const isDisabled = computed(()=>{
     width: 100%;
 
 }
+
 .form-input-container label {
     font-family: 'Inter', sans-serif;
     align-self: flex-start;
     font-size: 15px;
 }
+
 .form-input {
     width: 100%;
     height: 25px;
@@ -81,8 +98,9 @@ const isDisabled = computed(()=>{
     padding-top: 3px;
     padding-bottom: 3px;
 }
-.job-call-form__add_button{
-     background-color: #0094FF;
+
+.job-call-form__add_button {
+    background-color: #0094FF;
     border-radius: 8px;
     color: #FFFFFF;
     padding: 5px;
@@ -90,15 +108,58 @@ const isDisabled = computed(()=>{
     width: 15%;
     font-family: 'Nunito', sans-serif;
 }
+
 .job-call-form__add_button.disabled {
     background-color: #b7b8b9;
     border-color: #b7b8b9;
 }
-.functions-section p{
-      font-family: 'Inter', sans-serif;
+
+.functions-section p {
+    font-family: 'Inter', sans-serif;
     align-self: flex-start;
     font-size: 15px;
     margin-top: 15px;
     margin-bottom: 0px;
+}
+
+.edit-icon {
+    color: #5686E1;
+    margin: 2px;
+    width: 14px;
+    height: 20px;
+
+}
+
+.delete-icon {
+    color: #EB3223;
+    margin: 2px;
+    width: 14px;
+    height: 20px;
+
+}
+
+table {
+    width: 100%;
+}
+
+table,
+th,
+td {
+    border: 1px solid #B9B9B9;
+    border-collapse: collapse;
+    font-family: 'Inter';
+    font-size: 13px;
+    padding: 5px 3px;
+}
+
+thead {
+
+    background-color: #0B0273;
+    color: #FFFFFF;
+}
+
+.actions-column {
+    margin: auto;
+    width: 10%;
 }
 </style>

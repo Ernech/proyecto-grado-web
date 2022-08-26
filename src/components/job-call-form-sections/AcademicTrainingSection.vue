@@ -12,7 +12,7 @@
             <thead>
                 <tr>
                     <th>Formación</th>
-                    <th>Acciones</th>
+                    <th class="actions-column">Acciones</th>
                 </tr>
 
             </thead>
@@ -20,8 +20,8 @@
                 <tr v-for="item in jobCallStore.academicTrainings" :key="item.jobCallStore">
                     <td>{{ item.training }}</td>
                     <td>
-                        <fa icon="fa-solid fa-pen" />
-                        <fa icon="fa-solid fa-trash" />
+                        <fa class="edit-icon" icon="fa-solid fa-pen" />
+                        <fa class="delete-icon" icon="fa-solid fa-trash" />
                     </td>
                 </tr>
 
@@ -92,6 +92,7 @@ const isDisabled = computed(() => {
     width: 25%;
     font-family: 'Nunito', sans-serif;
 }
+
 .job-call-form__add_button.disabled {
     background-color: #b7b8b9;
     border-color: #b7b8b9;
@@ -104,5 +105,40 @@ const isDisabled = computed(() => {
     font-size: 15px;
     margin-top: 15px;
     margin-bottom: 0px;
+}
+
+.edit-icon {
+    color: #5686E1;
+    width: 14px;
+    height: 20px;
+
+}
+
+.delete-icon {
+    color: #EB3223;
+    width: 14px;
+    height: 20px;
+
+}
+
+table,
+th,
+td {
+    border: 1px solid #B9B9B9;
+    border-collapse: collapse;
+    font-family: 'Inter';
+    font-size: 13px;
+    padding: 5px 3px;
+}
+
+thead {
+
+    background-color: #0B0273;
+    color: #FFFFFF;
+}
+
+.actions-column {
+    margin: auto;
+    width: 10%;
 }
 </style>

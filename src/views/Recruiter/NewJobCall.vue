@@ -8,7 +8,9 @@
             <JobExperienceSection />
             <RequiredKnowledge />
             <AptitudeSection />
-            <button type="submit" class="job-call-form__create_button " @click="createJobCall">Crear convocatoria</button>
+            <button type="submit" class="job-call-form__create_button " @click="createJobCall" :disabled="isDisabled"
+                :class="{ disabled: isDisabled }">Crear
+                convocatoria</button>
         </div>
     </div>
 </template>
@@ -20,7 +22,9 @@ import RequiredKnowledge from '../../components/job-call-form-sections/RequiredK
 import AptitudeSection from '../../components/job-call-form-sections/AptitudeSection.vue';
 import GeneralInformationSection from '../../components/job-call-form-sections/GeneralInformationSection.vue';
 import { useJobCallStore } from '../../store/job-call'
+import { computed } from 'vue';
 export default {
+
     components: {
         FunctionsSection,
         AcademicTrainingSection,
@@ -35,7 +39,26 @@ export default {
             await jobCallStore.createJobCall()
 
         }
-        return { createJobCall }
+        const isDisabled = computed(() => {
+            if (jobCallStore.jobCallName !== null && jobCallStore.jobCallName !== ''
+                && jobCallStore.jobCallNumber !== null && jobCallStore.jobCallNumber !== ''
+                && jobCallStore.jobManualFile !== null && jobCallStore.jobManualFile !== ''
+                && jobCallStore.jobCallObj !== null && jobCallStore.jobCallObj !== '') {
+
+                if (jobCallStore.closingDate>jobCallStore.openingDate) {
+                    if (jobCallStore.jobFunctions.length >= 1
+                        && jobCallStore.academicTrainings.length >= 1
+                        && jobCallStore.experiences.length >= 1
+                        && jobCallStore.aptitudes.length >= 1
+                        && jobCallStore.requiredKnowledgeArray.length >= 1) {
+                        return false;
+                    }
+                }
+
+            }
+            return true
+        })
+        return { createJobCall, isDisabled }
     }
 }
 </script>
@@ -58,6 +81,7 @@ export default {
     justify-content: center;
     align-items: center;
 }
+
 .job-call-form__create_button {
     background-color: #0094FF;
     border-radius: 8px;
@@ -68,5 +92,10 @@ export default {
     font-family: 'Nunito', sans-serif;
     align-self: flex-end;
     margin: 20px 15px;
+}
+
+.job-call-form__create_button.disabled {
+    background-color: #b7b8b9;
+    border-color: #b7b8b9;
 }
 </style>
