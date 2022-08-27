@@ -56,7 +56,7 @@ export const useJobCallStore = defineStore('job-call',{
            const resp = await fetch('http://localhost:3000/job-call',{
             method:'POST',
             headers: { "Content-Type": "application/json",
-            'Authorization':'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiUkVDUlVJVEVSIiwiaWQiOiIyMTEzZDAxMy0zYmFjLTRkNDEtOGMxMC05MDg2YzMyMzg4MzQiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNjYxNDAyNjg3LCJleHAiOjE2NjE0MDk4ODd9.ddhEh0xaLNtCxDUSjClhyNhlA23UPbUfPQP2-sqfrOg'},
+            'Authorization':localStorage.getItem('token')},
             body: JSON.stringify(newJobCallBody)
            })
            console.log(JSON.stringify(newJobCallBody));

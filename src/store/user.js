@@ -18,7 +18,7 @@ export const useUserStore=defineStore('user',{
                 })
                 const {token} =await resp.json()
                 this.accessToken=token;
-                localStorage.setItem('token',JSON.stringify(token))  
+                localStorage.setItem('token',`bearer ${token}`)  
                router.push('/')
             } catch (error) {
                console.log(error);

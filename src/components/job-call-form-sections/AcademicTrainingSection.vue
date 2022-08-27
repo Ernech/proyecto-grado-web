@@ -1,6 +1,6 @@
 <template>
     <div class="academic-training-section">
-        <p>Formación Académica</p>
+         <SectionTitle title="Formación académica"/>
         <div class="form-input-container">
             <label for="academic-training" class="form-label">Formación</label>
             <input class="form-input" type="text" id="academic-training" v-model="academicTraining">
@@ -34,6 +34,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useJobCallStore } from '../../store/job-call'
+import SectionTitle from './SectionTitle.vue';
 const academicTraining = ref('');
 const jobCallStore = useJobCallStore();
 
@@ -58,6 +59,7 @@ const isDisabled = computed(() => {
     padding: 0px;
     gap: 20px;
 }
+
 
 .form-input-container {
     display: flex;
@@ -99,13 +101,6 @@ const isDisabled = computed(() => {
 }
 
 
-.academic-training-section p {
-    font-family: 'Inter', sans-serif;
-    align-self: flex-start;
-    font-size: 15px;
-    margin-top: 15px;
-    margin-bottom: 0px;
-}
 
 .edit-icon {
     color: #5686E1;

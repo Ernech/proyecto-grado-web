@@ -1,6 +1,6 @@
 <template>
     <div class="required-kwowledge-section">
-        <p>Conocimientos requeridos</p>
+        <SectionTitle title="Conocimientos requeridos"/>    
         <div class="form-input-container">
             <label for="description" class="form-label">Descripción</label>
             <input class="form-input" type="text" id="description" v-model="description">
@@ -55,6 +55,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useJobCallStore } from '../../store/job-call'
+import SectionTitle from './SectionTitle.vue';
 const description = ref('');
 const required = ref('Elija una opción...');
 const requiredLevel = ref('Elija una opción...');
@@ -85,13 +86,6 @@ const isDisabled = computed(() => {
     gap: 20px;
 }
 
-.required-kwowledge-section p {
-    font-family: 'Inter', sans-serif;
-    align-self: flex-start;
-    font-size: 15px;
-    margin-top: 15px;
-    margin-bottom: 0px;
-}
 
 .form-input-container {
     display: flex;

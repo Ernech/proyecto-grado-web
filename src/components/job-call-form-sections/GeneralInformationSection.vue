@@ -29,14 +29,7 @@
     </div>
 </template>
 <script setup>
-import {ref} from 'vue'
 import {useJobCallStore} from '../../store/job-call'
-// const jobCallName= ref('')
-// const manual = ref('')
-// const jobCallNumber = ref('')
-// const openingDate = ref(Date.now())
-// const closingDate = ref(Date.now())
-// const jobCallObjective =  ref('')
 
 const jobCallStore = useJobCallStore();
 
@@ -47,7 +40,8 @@ const jobCallStore = useJobCallStore();
     flex-direction: column;
     width: 100%;
     padding: 0px;
-    gap: 20px;
+    gap: 15px;
+    margin-top: 25px;
 }
 
 .form-input-container {
@@ -78,19 +72,20 @@ const jobCallStore = useJobCallStore();
     display: grid;
     grid-template-columns: repeat(2, 50%);
     grid-template-rows: repeat(2, 1fr);
-    gap: 1.5%;
+    gap: 1%;
+    row-gap: 15px;
 }
 .grid-container .form-input-container {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 5px;
-    width: 100%;
+    width: 98%;
 
 }
 
 .form-input-container textarea {
-    width: 100%;
+    width: 98.5%;
     height: 50px;
     border-radius: 10px;
     padding: 10px 15px;

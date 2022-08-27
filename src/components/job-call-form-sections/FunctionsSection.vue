@@ -1,6 +1,6 @@
 <template>
     <div class="functions-section">
-        <p>Funciones Generales</p>
+       <SectionTitle title="Funciones generales"/>
         <div class="form-input-container">
             <label for="function" class="form-label">Función</label>
             <input class="form-input" type="text" id="function" v-model="jobFunction">
@@ -37,6 +37,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useJobCallStore } from '../../store/job-call'
+import SectionTitle from './SectionTitle.vue';
 const jobCallStore = useJobCallStore()
 const jobFunction = ref('')
 const editFunction = ref(false)
@@ -72,8 +73,9 @@ const editJobFunction = () => {
     flex-direction: column;
     width: 100%;
     padding: 0px;
-    gap: 20px;
+    gap: 15px;
 }
+
 
 .form-input-container {
     display: flex;
@@ -114,14 +116,31 @@ const editJobFunction = () => {
     border-color: #b7b8b9;
 }
 
+.section-title {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 0px;
+    margin-top: 40px;
+}
+
 .functions-section p {
     font-family: 'Inter', sans-serif;
     align-self: flex-start;
     font-size: 15px;
     margin-top: 15px;
     margin-bottom: 0px;
+    font-weight: bold;
 }
-
+hr {
+    border: 0;
+    clear: both;
+    width: 100%;
+    background-color: #000;
+    height: 1px;
+   
+    
+}
 .edit-icon {
     color: #5686E1;
     margin: 2px;

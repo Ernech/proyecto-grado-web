@@ -1,6 +1,7 @@
 <template>
     <div class="job-experience-section">
-        <p>Experiencia laboral</p>
+       <SectionTitle title="Experiencia laboral"/>
+
         <div class="form-input-container">
             <label for="function" class="form-label">Descripción</label>
             <input class="form-input" type="text" id="function" v-model.trim="description">
@@ -61,6 +62,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useJobCallStore } from '../../store/job-call'
+import SectionTitle from './SectionTitle.vue';
 const description = ref('');
 const years = ref(1);
 const requirement = ref('Escoja una opción...')
@@ -92,13 +94,6 @@ const isDisabled = computed(() => {
     gap: 20px;
 }
 
-.job-experience-section p {
-    font-family: 'Inter', sans-serif;
-    align-self: flex-start;
-    font-size: 15px;
-    margin-top: 15px;
-    margin-bottom: 0px;
-}
 
 .form-input-container {
     display: flex;
