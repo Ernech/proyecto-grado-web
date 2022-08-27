@@ -47,7 +47,7 @@
                     <td>Mayor igual a {{ item.yearsOfExperience }} años</td>
                     <td>{{ item.requirement }}</td>
                     <td>{{ item.type }}</td>
-                    <td>
+                    <td class="actions-cell">
                         <fa class="edit-icon" icon="fa-solid fa-pen" />
                         <fa class="delete-icon" icon="fa-solid fa-trash" />
                     </td>
@@ -117,7 +117,7 @@ const isDisabled = computed(() => {
     display: grid;
     grid-template-columns: repeat(3, 33%);
     grid-template-rows: 1fr;
-    gap: 2%;
+    gap: 16px;
 }
 
 .grid-input-section .form-input-container {
@@ -125,8 +125,15 @@ const isDisabled = computed(() => {
     flex-direction: column;
     align-items: flex-start;
     gap: 5px;
-    width: 90%;
+    width: 98%;
 
+}
+.form-input-container select{
+  height: 30px;
+}
+.form-input-container [type="number"]{
+  height: 20px;
+  width: 95%;
 }
 
 .form-input-container label {
@@ -188,5 +195,8 @@ thead {
 
 .description-column {
     width: 50%;
+}
+.actions-cell{
+    text-align: center;
 }
 </style>

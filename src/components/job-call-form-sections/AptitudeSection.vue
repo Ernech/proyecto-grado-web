@@ -43,7 +43,7 @@
                     <td>{{ item.aptitude }}</td>
                     <td>{{ item.aptitudeType }}</td>
                     <td>{{ item.desiredLevel }}</td>
-                    <td>
+                    <td class="actions-cell">
                         <fa class="edit-icon" icon="fa-solid fa-pen" />
                         <fa class="delete-icon" icon="fa-solid fa-trash" />
                     </td>
@@ -152,6 +152,9 @@ hr {
     font-size: 15px;
 
 }
+.form-input-container select{
+  height: 30px;
+}
 
 .job-call-form__add_button {
     background-color: #0094FF;
@@ -203,5 +206,8 @@ thead {
 
 .description-column {
     width: 60%;
+}
+.actions-cell{
+    text-align: center;
 }
 </style>

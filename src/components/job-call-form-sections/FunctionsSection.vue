@@ -22,7 +22,7 @@
                 <tr v-for="item in jobCallStore.jobFunctions">
 
                     <td>{{ item.jobFunction }}</td>
-                    <td>
+                    <td class="actions-cell">
                         <fa class="edit-icon" icon="fa-solid fa-pen" @click="getJobFunction(item.jobFunction)" />
                         <fa class="delete-icon" icon="fa-solid fa-trash" />
                     </td>
@@ -146,6 +146,7 @@ hr {
     margin: 2px;
     width: 14px;
     height: 20px;
+   
 
 }
 
@@ -154,6 +155,7 @@ hr {
     margin: 2px;
     width: 14px;
     height: 20px;
+  
 
 }
 
@@ -180,5 +182,8 @@ thead {
 .actions-column {
     margin: auto;
     width: 10%;
+}
+.actions-cell{
+    text-align: center;
 }
 </style>

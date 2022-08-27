@@ -41,7 +41,7 @@
                     <td>{{ item.description }}</td>
                     <td>{{ item.requiredLevel }}</td>
                     <td>{{ item.required }}</td>
-                    <td>
+                    <td class="actions-cell">
                         <fa class="edit-icon" icon="fa-solid fa-pen" />
                         <fa class="delete-icon" icon="fa-solid fa-trash" />
                     </td>
@@ -127,7 +127,9 @@ const isDisabled = computed(() => {
     font-size: 15px;
 
 }
-
+.form-input-container select{
+  height: 30px;
+}
 .job-call-form__add_button {
     background-color: #0094FF;
     border-radius: 8px;
@@ -178,5 +180,8 @@ thead {
 
 .description-column {
     width: 60%;
+}
+.actions-cell{
+    text-align: center;
 }
 </style>

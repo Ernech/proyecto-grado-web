@@ -19,7 +19,7 @@
             <tbody>
                 <tr v-for="item in jobCallStore.academicTrainings" :key="item.jobCallStore">
                     <td>{{ item.training }}</td>
-                    <td>
+                    <td class="actions-cell">
                         <fa class="edit-icon" icon="fa-solid fa-pen" />
                         <fa class="delete-icon" icon="fa-solid fa-trash" />
                     </td>
@@ -135,5 +135,8 @@ thead {
 .actions-column {
     margin: auto;
     width: 10%;
+}
+.actions-cell{
+    text-align: center;
 }
 </style>

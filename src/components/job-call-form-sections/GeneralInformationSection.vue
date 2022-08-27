@@ -72,7 +72,7 @@ const jobCallStore = useJobCallStore();
     display: grid;
     grid-template-columns: repeat(2, 50%);
     grid-template-rows: repeat(2, 1fr);
-    gap: 1%;
+    column-gap: 10px;
     row-gap: 15px;
 }
 .grid-container .form-input-container {
