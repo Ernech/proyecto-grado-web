@@ -1,14 +1,14 @@
 <template>
     <div class="aptitude-section">
-       <SectionTitle title="Competencias requeridas"/>
+        <SectionTitle title="Competencias requeridas" />
         <div class="form-input-container">
             <label for="function" class="form-label">Descripción</label>
-            <input class="form-input" type="text" id="function" v-model="description">
+            <input class="form-input" type="text" id="function" v-model.trim="description">
         </div>
         <div class="grid-input-section">
             <div class="form-input-container">
                 <label class="form-label">Tipo de competencia</label>
-                <select class="form-input" v-model="aptitudeType">
+                <select class="form-input" v-model.trim="aptitudeType">
                     <option disabled>Elija una opción...</option>
                     <option>Gestión</option>
                     <option>Interpersonales</option>
@@ -17,7 +17,7 @@
             </div>
             <div class="form-input-container">
                 <label class="form-label">Grado requerido</label>
-                <select class="form-input" v-model="desiredLevel">
+                <select class="form-input" v-model.trim="desiredLevel">
                     <option disabled>Elija una opción...</option>
                     <option>Experto</option>
                     <option>Muy Hábil</option>
@@ -26,8 +26,10 @@
                 </select>
             </div>
         </div>
-        <button class="job-call-form__add_button" @click="addAptitude" :disabled="isDisabled"
+        <button v-if="!editAptitude" class="job-call-form__add_button" @click="addAptitude" :disabled="isDisabled"
             :class="{ disabled: isDisabled }">Agregar Competencia</button>
+        <button v-else class="job-call-form__add_button" @click="editApt" :disabled="isDisabled"
+            :class="{ disabled: isDisabled }">Modifcar Competencia</button>
         <table>
             <thead>
                 <tr>
@@ -39,13 +41,13 @@
 
             </thead>
             <tbody>
-                <tr v-for="item in jobCallStore.aptitudes" :key="item.aptitude">
+                <tr v-for="(item, index) in jobCallStore.aptitudes">
                     <td>{{ item.aptitude }}</td>
                     <td>{{ item.aptitudeType }}</td>
                     <td>{{ item.desiredLevel }}</td>
                     <td class="actions-cell">
-                        <fa class="edit-icon" icon="fa-solid fa-pen" />
-                        <fa class="delete-icon" icon="fa-solid fa-trash" />
+                        <fa class="edit-icon" icon="fa-solid fa-pen" @click="getCurrentAptitude(item, index)" />
+                        <fa class="delete-icon" icon="fa-solid fa-trash" @click="deleteAptitude(index)"/>
                     </td>
                 </tr>
 
@@ -61,14 +63,16 @@ import SectionTitle from './SectionTitle.vue';
 const description = ref('');
 const desiredLevel = ref('Elija una opción...');
 const aptitudeType = ref('Elija una opción...');
+const editAptitude = ref(false)
+const editListIndex = ref(-1)
 const jobCallStore = useJobCallStore();
 
 const addAptitude = () => {
     jobCallStore.aptitude = { aptitude: description.value, aptitudeType: aptitudeType.value, desiredLevel: desiredLevel.value }
     jobCallStore.aptitudes.push(jobCallStore.aptitude)
     description.value = ''
-    desiredLevel.value = ''
-    aptitudeType.value = ''
+    desiredLevel.value = 'Elija una opción...'
+    aptitudeType.value = 'Elija una opción...'
     jobCallStore.aptitude = { aptitude: '', aptitudeType: '', desiredLevel: '' }
 }
 
@@ -78,6 +82,30 @@ const isDisabled = computed(() => {
     }
     return false
 })
+
+const getCurrentAptitude = (currentAptitude, index) => {
+    description.value = currentAptitude.aptitude
+    desiredLevel.value = currentAptitude.desiredLevel
+    aptitudeType.value = currentAptitude.aptitudeType
+    editListIndex.value = index
+    editAptitude.value = true
+}
+
+const editApt = () => {
+    if (editListIndex.value > -1) {
+        jobCallStore.aptitudes[editListIndex.value].aptitude = description.value
+        jobCallStore.aptitudes[editListIndex.value].desiredLevel = desiredLevel.value
+        jobCallStore.aptitudes[editListIndex.value].aptitudeType = aptitudeType.value
+        description.value = ''
+        desiredLevel.value = 'Elija una opción...'
+        aptitudeType.value = 'Elija una opción...'
+        editAptitude.value = false
+    }
+}
+
+const deleteAptitude = (index)=>{
+    jobCallStore.aptitudes.splice(index,1)
+}
 </script>
 <style scoped>
 .aptitude-section {
@@ -152,8 +180,9 @@ hr {
     font-size: 15px;
 
 }
-.form-input-container select{
-  height: 30px;
+
+.form-input-container select {
+    height: 30px;
 }
 
 .job-call-form__add_button {
@@ -207,7 +236,8 @@ thead {
 .description-column {
     width: 60%;
 }
-.actions-cell{
+
+.actions-cell {
     text-align: center;
 }
 </style>

@@ -1,9 +1,9 @@
 <template>
     <div class="functions-section">
-       <SectionTitle title="Funciones generales"/>
+        <SectionTitle title="Funciones generales" />
         <div class="form-input-container">
             <label for="function" class="form-label">Función</label>
-            <input class="form-input" type="text" id="function" v-model="jobFunction">
+            <input class="form-input" type="text" id="function" v-model.trim="jobFunction">
         </div>
         <button v-if="!editFunction" class="job-call-form__add_button" @click="addJobFunction" :disabled="isDisabled"
             :class="{ disabled: isDisabled }">Agregar función</button>
@@ -13,18 +13,19 @@
         <table>
             <thead>
                 <tr>
+
                     <th>Funcion</th>
                     <th class="actions-column">Acciones</th>
                 </tr>
 
             </thead>
             <tbody>
-                <tr v-for="item in jobCallStore.jobFunctions">
+                <tr v-for="(item, index) in jobCallStore.jobFunctions">
 
                     <td>{{ item.jobFunction }}</td>
                     <td class="actions-cell">
-                        <fa class="edit-icon" icon="fa-solid fa-pen" @click="getJobFunction(item.jobFunction)" />
-                        <fa class="delete-icon" icon="fa-solid fa-trash" />
+                        <fa class="edit-icon" icon="fa-solid fa-pen" @click="getJobFunction(item.jobFunction, index)" />
+                        <fa class="delete-icon" icon="fa-solid fa-trash" @click="deleteJobFunction(index)"/>
                     </td>
                 </tr>
 
@@ -41,7 +42,7 @@ import SectionTitle from './SectionTitle.vue';
 const jobCallStore = useJobCallStore()
 const jobFunction = ref('')
 const editFunction = ref(false)
-const oldJobFunction = ref('')
+const editListIndex = ref(-1)
 const addJobFunction = () => {
     jobCallStore.jobFunction = { jobFunction: jobFunction.value }
     jobCallStore.jobFunctions.push(jobCallStore.jobFunction)
@@ -55,16 +56,26 @@ const isDisabled = computed(() => {
     }
     return false;
 })
-const getJobFunction = (jobFunctionEdit) => {
+const getJobFunction = (jobFunctionEdit, index) => {
     editFunction.value = true
     jobFunction.value = jobFunctionEdit
-    oldJobFunction.value = jobFunction
-
+    editListIndex.value = index
 }
 const editJobFunction = () => {
+    if(editListIndex.value>-1){
+        jobCallStore.jobFunctions[editListIndex.value].jobFunction = jobFunction.value
+        editFunction.value=false
+        jobFunction.value=''
+        editListIndex.value=-1
 
+    }
 }
+const deleteJobFunction = (index) => {
+    if(index>-1){
+        jobCallStore.jobFunctions.splice(index,1)
 
+    }
+}
 
 </script>
 <style scoped>
@@ -132,21 +143,23 @@ const editJobFunction = () => {
     margin-bottom: 0px;
     font-weight: bold;
 }
+
 hr {
     border: 0;
     clear: both;
     width: 100%;
     background-color: #000;
     height: 1px;
-   
-    
+
+
 }
+
 .edit-icon {
     color: #5686E1;
     margin: 2px;
     width: 14px;
     height: 20px;
-   
+
 
 }
 
@@ -155,7 +168,7 @@ hr {
     margin: 2px;
     width: 14px;
     height: 20px;
-  
+
 
 }
 
@@ -183,7 +196,8 @@ thead {
     margin: auto;
     width: 10%;
 }
-.actions-cell{
+
+.actions-cell {
     text-align: center;
 }
 </style>

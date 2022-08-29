@@ -1,12 +1,15 @@
 <template>
     <div class="academic-training-section">
-         <SectionTitle title="Formación académica"/>
+        <SectionTitle title="Formación académica" />
         <div class="form-input-container">
             <label for="academic-training" class="form-label">Formación</label>
-            <input class="form-input" type="text" id="academic-training" v-model="academicTraining">
+            <input class="form-input" type="text" id="academic-training" v-model.trim="academicTraining">
         </div>
-        <button class="job-call-form__add_button" @click="addAcademicTraining" :disabled="isDisabled"
-            :class="{ disabled: isDisabled }">Agregar formación requerida</button>
+        <button v-if="!editAcademicTraining" class="job-call-form__add_button" @click="addAcademicTraining"
+            :disabled="isDisabled" :class="{ disabled: isDisabled }">Agregar formación requerida</button>
+        <button v-else class="job-call-form__add_button" @click="editTraining" :disabled="isDisabled"
+            :class="{ disabled: isDisabled }">Modificar formación requerida</button>
+
 
         <table>
             <thead>
@@ -17,11 +20,12 @@
 
             </thead>
             <tbody>
-                <tr v-for="item in jobCallStore.academicTrainings" :key="item.jobCallStore">
+                <tr v-for="(item, index) in jobCallStore.academicTrainings">
                     <td>{{ item.training }}</td>
                     <td class="actions-cell">
-                        <fa class="edit-icon" icon="fa-solid fa-pen" />
-                        <fa class="delete-icon" icon="fa-solid fa-trash" />
+                        <fa class="edit-icon" icon="fa-solid fa-pen"
+                            @click="getAcademicTraining(item.training, index)" />
+                        <fa class="delete-icon" icon="fa-solid fa-trash" @click="deleteAcademicTraining(index)"/>
                     </td>
                 </tr>
 
@@ -37,6 +41,8 @@ import { useJobCallStore } from '../../store/job-call'
 import SectionTitle from './SectionTitle.vue';
 const academicTraining = ref('');
 const jobCallStore = useJobCallStore();
+const editAcademicTraining = ref(false)
+const editIndexList = ref(-1)
 
 const addAcademicTraining = () => {
     jobCallStore.training = { training: academicTraining.value }
@@ -50,6 +56,27 @@ const isDisabled = computed(() => {
     }
     return false;
 })
+
+const getAcademicTraining = (academicTrainingEdit, index) => {
+    editAcademicTraining.value = true
+    academicTraining.value = academicTrainingEdit
+    editIndexList.value = index
+}
+
+const editTraining = () => {
+
+    if (editIndexList.value > -1) {
+        jobCallStore.academicTrainings[editIndexList.value].training = academicTraining.value
+        editAcademicTraining.value = false
+        academicTraining.value = ''
+        editIndexList.value = -1
+    }
+}
+const deleteAcademicTraining = (index)=>{
+    if(index>-1){
+        jobCallStore.academicTrainings.splice(index,1)
+    }
+}
 </script>
 <style scoped>
 .academic-training-section {
@@ -136,7 +163,8 @@ thead {
     margin: auto;
     width: 10%;
 }
-.actions-cell{
+
+.actions-cell {
     text-align: center;
 }
 </style>

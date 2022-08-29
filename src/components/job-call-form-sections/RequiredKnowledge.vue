@@ -1,14 +1,14 @@
 <template>
     <div class="required-kwowledge-section">
-        <SectionTitle title="Conocimientos requeridos"/>    
+        <SectionTitle title="Conocimientos requeridos" />
         <div class="form-input-container">
             <label for="description" class="form-label">Descripción</label>
-            <input class="form-input" type="text" id="description" v-model="description">
+            <input class="form-input" type="text" id="description" v-model.trim="description">
         </div>
         <div class="grid-input-section">
             <div class="form-input-container">
                 <label class="form-label">Requisito</label>
-                <select class="form-input" v-model="required">
+                <select class="form-input" v-model.trim="required">
                     <option disabled>Elija una opción...</option>
                     <option>Indispensable</option>
                     <option>Deseable</option>
@@ -16,7 +16,7 @@
             </div>
             <div class="form-input-container">
                 <label class="form-label">Nivel requerido</label>
-                <select class="form-input" v-model="requiredLevel">
+                <select class="form-input" v-model.trim="requiredLevel">
                     <option disabled>Elija una opción...</option>
                     <option>Básico</option>
                     <option>Intermedio</option>
@@ -24,8 +24,10 @@
                 </select>
             </div>
         </div>
-        <button class="job-call-form__add_button" @click="addRequiredKnowledge" :disabled="isDisabled"
-            :class="{ disabled: isDisabled }">Agregar conocimiento requerido</button>
+        <button v-if="!editRequiredKnowledge" class="job-call-form__add_button" @click="addRequiredKnowledge"
+            :disabled="isDisabled" :class="{ disabled: isDisabled }">Agregar conocimiento requerido</button>
+        <button v-else class="job-call-form__add_button" @click="editKnowledge" :disabled="isDisabled"
+            :class="{ disabled: isDisabled }">Modificar conocimiento requerido</button>
         <table>
             <thead>
                 <tr>
@@ -37,13 +39,13 @@
 
             </thead>
             <tbody>
-                <tr v-for="item in jobCallStore.requiredKnowledgeArray" :key="item.description">
+                <tr v-for="(item, index) in jobCallStore.requiredKnowledgeArray">
                     <td>{{ item.description }}</td>
                     <td>{{ item.requiredLevel }}</td>
                     <td>{{ item.required }}</td>
                     <td class="actions-cell">
-                        <fa class="edit-icon" icon="fa-solid fa-pen" />
-                        <fa class="delete-icon" icon="fa-solid fa-trash" />
+                        <fa class="edit-icon" icon="fa-solid fa-pen" @click="getRequiredKnowledge(item, index)" />
+                        <fa class="delete-icon" icon="fa-solid fa-trash" @click="deleteRequiredKnowledge(index)" />
                     </td>
                 </tr>
 
@@ -59,14 +61,16 @@ import SectionTitle from './SectionTitle.vue';
 const description = ref('');
 const required = ref('Elija una opción...');
 const requiredLevel = ref('Elija una opción...');
+const editRequiredKnowledge = ref(false)
+const editIndexList = ref(-1)
 const jobCallStore = useJobCallStore()
 const addRequiredKnowledge = () => {
 
     jobCallStore.requiredKnowledge = { description: description.value, requiredLevel: requiredLevel.value, required: required.value }
     jobCallStore.requiredKnowledgeArray.push(jobCallStore.requiredKnowledge);
     description.value = '';
-    required.value = '';
-    requiredLevel.value = '';
+    required.value = 'Elija una opción...';
+    requiredLevel.value = 'Elija una opción...';
     jobCallStore.requiredKnowledge = { description: '', requiredLevel: '', required: '' }
 }
 
@@ -76,6 +80,32 @@ const isDisabled = computed(() => {
     }
     return false
 })
+
+const getRequiredKnowledge = (currentRequiredExperience, index) => {
+    description.value = currentRequiredExperience.description
+    required.value = currentRequiredExperience.required
+    requiredLevel.value = currentRequiredExperience.requiredLevel
+    editIndexList.value = index
+    editRequiredKnowledge.value = true
+}
+
+
+const editKnowledge = () => {
+    if (editIndexList.value > -1) { 
+        jobCallStore.requiredKnowledgeArray[editIndexList.value].description = description.value
+        jobCallStore.requiredKnowledgeArray[editIndexList.value].required = required.value
+        jobCallStore.requiredKnowledgeArray[editIndexList.value].requiredLevel = requiredLevel.value
+        editIndexList.value = -1
+        description.value = '';
+        required.value = 'Elija una opción...';
+        requiredLevel.value = 'Elija una opción...';
+        editRequiredKnowledge.value = false
+    }
+}
+
+const deleteRequiredKnowledge = (index) => {
+    jobCallStore.requiredKnowledgeArray.splice(index, 1)
+}
 </script>
 <style scoped>
 .required-kwowledge-section {
@@ -127,9 +157,11 @@ const isDisabled = computed(() => {
     font-size: 15px;
 
 }
-.form-input-container select{
-  height: 30px;
+
+.form-input-container select {
+    height: 30px;
 }
+
 .job-call-form__add_button {
     background-color: #0094FF;
     border-radius: 8px;
@@ -181,7 +213,8 @@ thead {
 .description-column {
     width: 60%;
 }
-.actions-cell{
+
+.actions-cell {
     text-align: center;
 }
 </style>
