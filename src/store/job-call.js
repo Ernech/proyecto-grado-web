@@ -1,5 +1,5 @@
 import {defineStore} from 'pinia';
-
+import router from '../routes/recruiter-router'
 export const useJobCallStore = defineStore('job-call',{
     state:()=>({
         jobCallName:'',
@@ -7,8 +7,8 @@ export const useJobCallStore = defineStore('job-call',{
         jobCallObj:'',
         jobManualFile:null,
         jobInfoFile:'',
-        openingDate:Date(),
-        closingDate:Date(),
+        openingDate:Date("yyyy-MM-ddThh:mm"),
+        closingDate:Date("yyyy-MM-ddThh:mm"),
         experiences:[],
         jobFunctions:[],
         academicTrainings:[],
@@ -65,6 +65,7 @@ export const useJobCallStore = defineStore('job-call',{
             } catch (error) {
                 console.log(error);
             }finally{
+                router.push('/new-job-call')
             }
             
 
