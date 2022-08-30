@@ -3,7 +3,7 @@
         <SectionTitle title="Funciones generales" />
         <div class="form-input-container">
             <label for="function" class="form-label">Función</label>
-            <input class="form-input" type="text" id="function" v-model.trim="jobFunction">
+            <input class="form-input" type="text" id="function" v-model.trim="jobFunction" maxlength="300">
         </div>
         <button v-if="!editFunction" class="job-call-form__add_button" @click="addJobFunction" :disabled="isDisabled"
             :class="{ disabled: isDisabled }">Agregar función</button>
@@ -22,10 +22,10 @@
             <tbody>
                 <tr v-for="(item, index) in jobCallStore.jobFunctions">
 
-                    <td>{{ item.jobFunction }}</td>
+                    <td>{{  item.jobFunction  }}</td>
                     <td class="actions-cell">
                         <fa class="edit-icon" icon="fa-solid fa-pen" @click="getJobFunction(item.jobFunction, index)" />
-                        <fa class="delete-icon" icon="fa-solid fa-trash" @click="deleteJobFunction(index)"/>
+                        <fa class="delete-icon" icon="fa-solid fa-trash" @click="deleteJobFunction(index)" />
                     </td>
                 </tr>
 
@@ -62,21 +62,23 @@ const getJobFunction = (jobFunctionEdit, index) => {
     editListIndex.value = index
 }
 const editJobFunction = () => {
-    if(editListIndex.value>-1){
+    if (editListIndex.value > -1) {
         jobCallStore.jobFunctions[editListIndex.value].jobFunction = jobFunction.value
-        editFunction.value=false
-        jobFunction.value=''
-        editListIndex.value=-1
+        resetValues()
 
     }
 }
 const deleteJobFunction = (index) => {
-    if(index>-1){
-        jobCallStore.jobFunctions.splice(index,1)
-
+    if (index > -1) {
+        jobCallStore.jobFunctions.splice(index, 1)
+        resetValues()
     }
 }
-
+const resetValues = () => {
+    editFunction.value = false
+    jobFunction.value = ''
+    editListIndex.value = -1
+}
 </script>
 <style scoped>
 .functions-section {

@@ -3,7 +3,7 @@
         <SectionTitle title="Formación académica" />
         <div class="form-input-container">
             <label for="academic-training" class="form-label">Formación</label>
-            <input class="form-input" type="text" id="academic-training" v-model.trim="academicTraining">
+            <input class="form-input" type="text" id="academic-training" v-model.trim="academicTraining" maxlength="300">
         </div>
         <button v-if="!editAcademicTraining" class="job-call-form__add_button" @click="addAcademicTraining"
             :disabled="isDisabled" :class="{ disabled: isDisabled }">Agregar formación requerida</button>
@@ -67,15 +67,19 @@ const editTraining = () => {
 
     if (editIndexList.value > -1) {
         jobCallStore.academicTrainings[editIndexList.value].training = academicTraining.value
-        editAcademicTraining.value = false
-        academicTraining.value = ''
-        editIndexList.value = -1
+       resetValues()
     }
 }
 const deleteAcademicTraining = (index)=>{
     if(index>-1){
         jobCallStore.academicTrainings.splice(index,1)
+        resetValues()
     }
+}
+const resetValues=()=>{
+    editAcademicTraining.value = false
+        academicTraining.value = ''
+        editIndexList.value = -1
 }
 </script>
 <style scoped>
@@ -133,6 +137,7 @@ const deleteAcademicTraining = (index)=>{
     color: #5686E1;
     width: 14px;
     height: 20px;
+    margin: 2px;
 
 }
 
@@ -140,6 +145,7 @@ const deleteAcademicTraining = (index)=>{
     color: #EB3223;
     width: 14px;
     height: 20px;
+    margin: 2px;
 
 }
 

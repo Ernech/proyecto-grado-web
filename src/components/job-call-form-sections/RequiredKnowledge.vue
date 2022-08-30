@@ -3,7 +3,7 @@
         <SectionTitle title="Conocimientos requeridos" />
         <div class="form-input-container">
             <label for="description" class="form-label">Descripción</label>
-            <input class="form-input" type="text" id="description" v-model.trim="description">
+            <input class="form-input" type="text" id="description" v-model.trim="description" maxlength="300">
         </div>
         <div class="grid-input-section">
             <div class="form-input-container">
@@ -40,9 +40,9 @@
             </thead>
             <tbody>
                 <tr v-for="(item, index) in jobCallStore.requiredKnowledgeArray">
-                    <td>{{ item.description }}</td>
-                    <td>{{ item.requiredLevel }}</td>
-                    <td>{{ item.required }}</td>
+                    <td>{{  item.description  }}</td>
+                    <td>{{  item.requiredLevel  }}</td>
+                    <td>{{  item.required  }}</td>
                     <td class="actions-cell">
                         <fa class="edit-icon" icon="fa-solid fa-pen" @click="getRequiredKnowledge(item, index)" />
                         <fa class="delete-icon" icon="fa-solid fa-trash" @click="deleteRequiredKnowledge(index)" />
@@ -91,20 +91,25 @@ const getRequiredKnowledge = (currentRequiredExperience, index) => {
 
 
 const editKnowledge = () => {
-    if (editIndexList.value > -1) { 
+    if (editIndexList.value > -1) {
         jobCallStore.requiredKnowledgeArray[editIndexList.value].description = description.value
         jobCallStore.requiredKnowledgeArray[editIndexList.value].required = required.value
         jobCallStore.requiredKnowledgeArray[editIndexList.value].requiredLevel = requiredLevel.value
-        editIndexList.value = -1
-        description.value = '';
-        required.value = 'Elija una opción...';
-        requiredLevel.value = 'Elija una opción...';
-        editRequiredKnowledge.value = false
+        resetValues()
     }
 }
 
 const deleteRequiredKnowledge = (index) => {
     jobCallStore.requiredKnowledgeArray.splice(index, 1)
+    resetValues()
+}
+
+const resetValues = () => {
+    editIndexList.value = -1
+    description.value = '';
+    required.value = 'Elija una opción...';
+    requiredLevel.value = 'Elija una opción...';
+    editRequiredKnowledge.value = false
 }
 </script>
 <style scoped>

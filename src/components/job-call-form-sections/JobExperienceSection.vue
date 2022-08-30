@@ -4,11 +4,11 @@
 
         <div class="form-input-container">
             <label for="function" class="form-label">Descripción</label>
-            <input class="form-input" type="text" id="function" v-model.trim="description">
+            <input class="form-input" type="text" id="function" v-model.trim="description" maxlength="300">
         </div>
         <div class="grid-input-section">
             <div class="form-input-container">
-                <label for="function" class="form-label">Cantidad (Años)</label>
+                <label for="function" class="form-label">Cantidad mínima (Años)</label>
                 <input class="form-input" type="number" min="1" id="function" v-model="years">
             </div>
             <div class="form-input-container">
@@ -30,8 +30,8 @@
         </div>
         <button v-if="!editJobExperience" class="job-call-form__add_button" @click="addJobExperience"
             :disabled="isDisabled" :class="{ disabled: isDisabled }">Agregar experiencia laboral</button>
-        <button v-else class="job-call-form__add_button" @click="editExperience"
-            :disabled="isDisabled" :class="{ disabled: isDisabled }">Modificar experiencia laboral</button>
+        <button v-else class="job-call-form__add_button" @click="editExperience" :disabled="isDisabled"
+            :class="{ disabled: isDisabled }">Modificar experiencia laboral</button>
         <table>
             <thead>
                 <tr>
@@ -45,13 +45,13 @@
             </thead>
             <tbody>
                 <tr v-for="(item, index) in jobCallStore.experiences">
-                    <td>{{ item.description }}</td>
-                    <td>Mayor igual a {{ item.yearsOfExperience }} años</td>
-                    <td>{{ item.requirement }}</td>
-                    <td>{{ item.type }}</td>
+                    <td>{{  item.description  }}</td>
+                    <td>Mayor igual a {{  item.yearsOfExperience  }} años</td>
+                    <td>{{  item.requirement  }}</td>
+                    <td>{{  item.type  }}</td>
                     <td class="actions-cell">
                         <fa class="edit-icon" icon="fa-solid fa-pen" @click="getJobExperience(item, index)" />
-                        <fa class="delete-icon" icon="fa-solid fa-trash" @click="deleteJobExperience()"/>
+                        <fa class="delete-icon" icon="fa-solid fa-trash" @click="deleteJobExperience()" />
                     </td>
                 </tr>
 
@@ -77,8 +77,8 @@ const addJobExperience = () => {
     jobCallStore.experiences.push(jobCallStore.experience)
     description.value = ''
     years.value = 1
-    requirement.value='Escoja una opción...'
-    type.value='Escoja una opción...'
+    requirement.value = 'Escoja una opción...'
+    type.value = 'Escoja una opción...'
     jobCallStore.experience = { description: '', yearsOfExperience: 0, requirement: '', type: '' }
 }
 
@@ -96,7 +96,7 @@ const getJobExperience = (currentJobExperience, index) => {
     requirement.value = currentJobExperience.requirement
     type.value = currentJobExperience.type
     editListIndex.value = index
-    editJobExperience.value=true
+    editJobExperience.value = true
 
 }
 
@@ -107,22 +107,26 @@ const editExperience = () => {
         jobCallStore.experiences[editListIndex.value].yearsOfExperience = years.value
         jobCallStore.experiences[editListIndex.value].requirement = requirement.value
         jobCallStore.experiences[editListIndex.value].type = type.value
-        editJobExperience.value = false
-        description.value = ''
-        years.value = ''
-        requirement.value = 'Escoja una opción...'
-        type.value = 'Escoja una opción...'
-        editListIndex.value=-1
+        resetValues()
     }
 
 
 }
 
-const deleteJobExperience = (index)=>{
+const deleteJobExperience = (index) => {
 
-    jobCallStore.experiences.splice(index,1)
+    jobCallStore.experiences.splice(index, 1)
+    resetValues()
 
 
+}
+const resetValues = () => {
+    editJobExperience.value = false
+    description.value = ''
+    years.value = 1
+    requirement.value = 'Escoja una opción...'
+    type.value = 'Escoja una opción...'
+    editListIndex.value = -1
 }
 </script>
 <style scoped>
@@ -204,6 +208,7 @@ const deleteJobExperience = (index)=>{
     color: #5686E1;
     width: 14px;
     height: 20px;
+    margin: 2px;
 
 }
 
@@ -211,6 +216,7 @@ const deleteJobExperience = (index)=>{
     color: #EB3223;
     width: 14px;
     height: 20px;
+    margin: 2px;
 
 }
 

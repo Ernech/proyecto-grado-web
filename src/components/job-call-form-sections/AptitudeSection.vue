@@ -3,7 +3,7 @@
         <SectionTitle title="Competencias requeridas" />
         <div class="form-input-container">
             <label for="function" class="form-label">Descripción</label>
-            <input class="form-input" type="text" id="function" v-model.trim="description">
+            <input class="form-input" type="text" id="function" v-model.trim="description" maxlength="300">
         </div>
         <div class="grid-input-section">
             <div class="form-input-container">
@@ -42,12 +42,12 @@
             </thead>
             <tbody>
                 <tr v-for="(item, index) in jobCallStore.aptitudes">
-                    <td>{{ item.aptitude }}</td>
-                    <td>{{ item.aptitudeType }}</td>
-                    <td>{{ item.desiredLevel }}</td>
+                    <td>{{  item.aptitude  }}</td>
+                    <td>{{  item.aptitudeType  }}</td>
+                    <td>{{  item.desiredLevel  }}</td>
                     <td class="actions-cell">
                         <fa class="edit-icon" icon="fa-solid fa-pen" @click="getCurrentAptitude(item, index)" />
-                        <fa class="delete-icon" icon="fa-solid fa-trash" @click="deleteAptitude(index)"/>
+                        <fa class="delete-icon" icon="fa-solid fa-trash" @click="deleteAptitude(index)" />
                     </td>
                 </tr>
 
@@ -96,15 +96,21 @@ const editApt = () => {
         jobCallStore.aptitudes[editListIndex.value].aptitude = description.value
         jobCallStore.aptitudes[editListIndex.value].desiredLevel = desiredLevel.value
         jobCallStore.aptitudes[editListIndex.value].aptitudeType = aptitudeType.value
-        description.value = ''
-        desiredLevel.value = 'Elija una opción...'
-        aptitudeType.value = 'Elija una opción...'
-        editAptitude.value = false
+        resetValues()
     }
 }
 
-const deleteAptitude = (index)=>{
-    jobCallStore.aptitudes.splice(index,1)
+const deleteAptitude = (index) => {
+    jobCallStore.aptitudes.splice(index, 1)
+    resetValues()
+}
+
+const resetValues = () => {
+    description.value = ''
+    desiredLevel.value = 'Elija una opción...'
+    aptitudeType.value = 'Elija una opción...'
+    editAptitude.value = false
+    editListIndex.value = -1
 }
 </script>
 <style scoped>
@@ -204,12 +210,14 @@ hr {
     color: #5686E1;
     width: 14px;
     height: 20px;
+    margin: 2px;
 }
 
 .delete-icon {
     color: #EB3223;
     width: 14px;
     height: 20px;
+    margin: 2px;
 }
 
 table,
