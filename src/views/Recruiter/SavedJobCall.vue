@@ -1,15 +1,20 @@
 <template>
     <div class="main">
         <h3 class="title">Convocatorias guardadas</h3>
-        <JobCallCard jobCallName="ASISTENTE TÉCNICO DE MARKETING Y COMUNICACIÓN" jobCallNumber="06/2022" openingDate="24 de marzo de 2022"/>
-        <JobCallCard jobCallName="ASISTENTE DE LABORATORIO" jobCallNumber="07/2022" openingDate="24 de abril de 2022"/>
-        <JobCallCard jobCallName="AUXILIAR DE LABORATORIO" jobCallNumber="08/2022" openingDate="15 de mayo de 2022"/>
-        <JobCallCard jobCallName="SECRETARIO PARA BILIOTECA" jobCallNumber="10/2022" openingDate="24 de junio de 2022"/>
+        <div v-for="item in jobCallStore.savedJobCalls" :key="item.id">
+            <JobCallCard :jobCallName= "item.jobCallName" :jobCallNumber="item.jobCallNumber" :openingDate="item.openingDate"/>
+        </div>
+        
     </div>
 </template>
 <script setup>
 import JobCallCard from '../../components/job-call/JobCallCard.vue';
-
+import {useJobCallStore} from '../../store/job-call';
+import {onBeforeMount} from 'vue'
+const jobCallStore = useJobCallStore()
+onBeforeMount(async()=>{
+    await jobCallStore.getSavedJobCalls()
+})
 </script>
 <style>
 .main {

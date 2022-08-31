@@ -2,6 +2,7 @@ import {defineStore} from 'pinia';
 import router from '../routes/recruiter-router'
 export const useJobCallStore = defineStore('job-call',{
     state:()=>({
+        savedJobCalls:[],
         jobCallName:'',
         jobCallNumber:'',
         jobCallObj:'',
@@ -59,17 +60,27 @@ export const useJobCallStore = defineStore('job-call',{
             'Authorization':localStorage.getItem('token')},
             body: JSON.stringify(newJobCallBody)
            })
-           console.log(JSON.stringify(newJobCallBody));
            console.log(resp.status);
-           console.log(resp.json);
             } catch (error) {
                 console.log(error);
             }finally{
                 router.push('/new-job-call')
             }
-            
-
-        }
+        },
+        async getSavedJobCalls(){
+            try {
+                const resp = await fetch('http://localhost:3000/job-call/saved',{
+                    method:'GET',
+                   headers: { "Content-Type": "application/json",
+                   'Authorization':localStorage.getItem('token')},
+                })
+                const dataDb = await resp.json()
+                this.savedJobCalls = dataDb
+            } catch (error) {
+                console.log(error);
+            }
     }
+    },
+   
 })
 

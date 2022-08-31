@@ -67,6 +67,7 @@ const isDisabled = computed(()=>{
     height: 100vh;
     grid-template-columns: 40% 60%;
     grid-template-rows: 100%;
+    padding: 0;
 }
 
 .grid-item-1 {
