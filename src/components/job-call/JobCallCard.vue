@@ -19,7 +19,7 @@ export default {
 </script>
 <style scoped>
 .card-container {
-    width: 65%;
+    width: 88%;
     height: 100px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
     display: flex;
@@ -28,6 +28,7 @@ export default {
     align-items: flex-start;
     padding: 20px;
     gap: 15px;
+    background: #fff;
 }
 
 .card-container__job-call-name {
@@ -66,7 +67,7 @@ export default {
     font-size: 12px;
 }
 .card-container:hover{
-    width: 66%;
+    width: 90%;
     height: 102px;
     transition: 0.3s;
 }
