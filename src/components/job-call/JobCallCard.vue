@@ -4,7 +4,8 @@
         <span class="card-container__job-call-number">Convocatoria N°{{jobCallNumber}}</span>
         <div class="card-container__opening-date">
             <fa icon="fa-solid fa-calendar-days" class="opening-date__icon" />
-            <span class="opening-date__text">Fecha de apertura: {{openingDate}}</span>
+            <span class="opening-date__text">
+                Fecha de apertura: {{formatDate}} </span>
         </div>
     </div>
 </template>
@@ -13,7 +14,13 @@ export default {
     props:{
         jobCallName:{type:String,required:true},
         jobCallNumber:{type:String,required:true},
-        openingDate:{type:String,required:true}
+        openingDate:{type:Date,required:true}
+    },
+    setup(props){
+        const formatDate= `${props.openingDate.getDay()}/${props.openingDate.getMonth()+1}/${props.openingDate.getFullYear()} ${props.openingDate.getHours()}:${props.openingDate.getMinutes()}`
+          
+        
+        return{formatDate}
     }
 }
 </script>

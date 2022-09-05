@@ -5,28 +5,22 @@
         <div class="input-container">
             <div class="form-input-container">
                 <label for="job-call-name" class="form-label">Buscar convocatoria</label>
-                <input class="form-input" type="text" id="job-call-name" maxlength="100" @change="filterJobCalls"
-                    v-model.trim="searchJobCall">
+                <input class="form-input" type="text" id="job-call-name" maxlength="100" v-model.trim="searchJobCall" @input="filterJobCalls">
             </div>
-            <div class="form-input-container">
-                <label class="form-label">Ordenar por</label>
-                <select class="form-input">
-                    <option>Nombre</option>
-                    <option>Fecha de apertura</option>
-                </select>
-            </div>
+        
         </div>
 
         <div v-if="jobCallStore.savedJobCalls.length>0" class="job-call-list-container">
             <JobCallCard v-for="item in pagedData" :key="item.id" :jobCallName="item.jobCallName"
-                :jobCallNumber="item.jobCallNumber" :openingDate="item.openingDate" />
+                :jobCallNumber="item.jobCallNumber" :openingDate="new Date(item.openingDate)" />
         </div>
         <div v-else class="job-call-list-container">
-           <p>No existen convocatorias guardadas</p>
+            <p>No existen convocatorias guardadas</p>
         </div>
-        <vue-awesome-paginate v-if="jobCallStore.savedJobCalls.length>0" :total-items="jobCallStore.savedJobCalls.length" :items-per-page="4" :max-pages-shown="10" :current-page="1"
+        <vue-awesome-paginate v-if="jobCallStore.savedJobCalls.length>0"
+            :total-items="jobCallStore.savedJobCalls.length" :items-per-page="4" :max-pages-shown="10" :current-page="1"
             :on-click="onClickHandler" />
-   
+
     </div>
 </template>
 <script setup>
@@ -35,13 +29,21 @@ import { useJobCallStore } from '../../store/job-call';
 import { onBeforeMount, ref } from 'vue'
 const jobCallStore = useJobCallStore()
 const searchJobCall = ref('')
+const savedJobCalls = ref([])
 onBeforeMount(async () => {
     await jobCallStore.getSavedJobCalls();
+    savedJobCalls.value = jobCallStore.savedJobCalls;
     onClickHandler(1)
 })
-
 const filterJobCalls = () => {
-    console.log(jobCallStore.savedJobCalls[8]);
+    jobCallStore.savedJobCalls = savedJobCalls.value
+    if(searchJobCall.value!==null && searchJobCall.value!==''){       
+       jobCallStore.savedJobCalls = savedJobCalls.value.filter(obj=> obj.jobCallName.search(searchJobCall.value)>-1)
+       
+    }
+    onClickHandler(1)
+    
+
 }
 const pageItems = ref(4)
 const pagedData = ref([]);
@@ -76,9 +78,10 @@ const onClickHandler = (page) => {
     padding: 10px;
 
 }
+
 .job-call-list-container p {
-   font-size: 25px;
-   justify-content: center;
+    font-size: 25px;
+    justify-content: center;
     align-items: center;
     font-family: 'Inter', sans-serif;
     color: #000;

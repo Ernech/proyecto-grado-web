@@ -1,7 +1,6 @@
 <template>
     <vue-awesome-paginate :total-items="jobCalls.length" :items-per-page="4" :max-pages-shown="10" :current-page="1"
         :on-click="onClickHandler" />
-    <span>{{ pagedData }}</span>
 </template>
   
   <script>
