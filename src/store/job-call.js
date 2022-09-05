@@ -68,7 +68,7 @@ export const useJobCallStore = defineStore('job-call', {
             } catch (error) {
                 console.log(error);
             } finally {
-                router.push('/new-job-call')
+                router.push('/saved-job-call')
             }
         },
         async getSavedJobCalls() {
