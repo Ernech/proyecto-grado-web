@@ -10,15 +10,15 @@
         
         </div>
 
-        <div v-if="jobCallStore.savedJobCalls.length>0" class="job-call-list-container">
+        <div v-if="jobCallStore.jobCalls.length>0" class="job-call-list-container">
             <JobCallCard v-for="item in pagedData" :key="item.id" :jobCallName="item.jobCallName"
                 :jobCallNumber="item.jobCallNumber" :openingDate="new Date(item.openingDate)" />
         </div>
         <div v-else class="job-call-list-container">
             <p>No existen convocatorias guardadas</p>
         </div>
-        <vue-awesome-paginate v-if="jobCallStore.savedJobCalls.length>0"
-            :total-items="jobCallStore.savedJobCalls.length" :items-per-page="4" :max-pages-shown="10" :current-page="1"
+        <vue-awesome-paginate v-if="jobCallStore.jobCalls.length>0"
+            :total-items="jobCallStore.jobCalls.length" :items-per-page="4" :max-pages-shown="10" :current-page="1"
             :on-click="onClickHandler" />
 
     </div>
@@ -29,16 +29,16 @@ import { useJobCallStore } from '../../store/job-call';
 import { onBeforeMount, ref } from 'vue'
 const jobCallStore = useJobCallStore()
 const searchJobCall = ref('')
-const savedJobCalls = ref([])
+const jobCalls = ref([])
 onBeforeMount(async () => {
     await jobCallStore.getSavedJobCalls();
-    savedJobCalls.value = jobCallStore.savedJobCalls;
+    jobCalls.value = jobCallStore.jobCalls;
     onClickHandler(1)
 })
 const filterJobCalls = () => {
-    jobCallStore.savedJobCalls = savedJobCalls.value
+    jobCallStore.jobCalls = jobCalls.value
     if(searchJobCall.value!==null && searchJobCall.value!==''){       
-       jobCallStore.savedJobCalls = savedJobCalls.value.filter(obj=> obj.jobCallName.search(searchJobCall.value)>-1)
+       jobCallStore.jobCalls = jobCalls.value.filter(obj=> obj.jobCallName.search(searchJobCall.value)>-1)
        
     }
     onClickHandler(1)

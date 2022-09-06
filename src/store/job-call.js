@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import router from '../routes/recruiter-router'
 export const useJobCallStore = defineStore('job-call', {
     state: () => ({
-        savedJobCalls: [],
+        jobCalls: [],
         jobCallName: '',
         jobCallNumber: '',
         jobCallObj: '',
@@ -81,7 +81,22 @@ export const useJobCallStore = defineStore('job-call', {
                     },
                 })
                 const dataDb = await resp.json()
-                this.savedJobCalls = dataDb
+                this.jobCalls = dataDb
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async getPendingJobCalls() {
+            try {
+                const resp = await fetch('http://localhost:3000/job-call/pending', {
+                    method: 'GET',
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': localStorage.getItem('token')
+                    },
+                })
+                const dataDb = await resp.json()
+                this.jobCalls = dataDb
             } catch (error) {
                 console.log(error);
             }
@@ -91,15 +106,16 @@ export const useJobCallStore = defineStore('job-call', {
             let init = (page * pageItems) - pageItems
             let end = (page * pageItems)
             for (let i = init; i < end; i++) {
-                if (this.savedJobCalls[i]) {
-                    pageData.push(this.savedJobCalls[i])
+                if (this.jobCalls[i]) {
+                    pageData.push(this.jobCalls[i])
                 } else {
                     break
                 }
 
             }
             return pageData;
-        }
+        },
+       
     },
 
 })
