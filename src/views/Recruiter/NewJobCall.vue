@@ -37,6 +37,7 @@ export default {
         const jobCallStore = useJobCallStore()
         const createJobCall = async () => {
             await jobCallStore.createJobCall()
+            jobCallStore.resetValues()
 
         }
         const isDisabled = computed(() => {

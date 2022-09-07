@@ -7,6 +7,7 @@ import PendingJobCall from '../views/Recruiter/PendingJobCall.vue'
 import ClosedJobCall from '../views/Recruiter/ClosedJobCall.vue'
 import SavedJobCall from '../views/Recruiter/SavedJobCall.vue'
 import NewJobCall from '../views/Recruiter/NewJobCall.vue'
+import EditJobCall from '../views/Recruiter/EditJobCall.vue'
 import { useUserStore } from '../store/user'
 
 
@@ -25,22 +26,26 @@ const routes = [
     { path: '/login', component: Login },
     {
         path: '/', component: Home,
-        children:[{
+        children: [{
             path: '/open-job-call', component: OpenJobCall
         },
         {
-            path:'/pending-job-call',component: PendingJobCall
+            path: '/pending-job-call', component: PendingJobCall
         },
         {
-            path:'/closed-job-call',component: ClosedJobCall
-        },{
-            path:'/saved-job-call',component: SavedJobCall
-        },{
-            path:'/new-job-call',component:NewJobCall
+            path: '/closed-job-call', component: ClosedJobCall
+        }, {
+            path: '/saved-job-call', component: SavedJobCall, 
+        }, 
+        {
+            path: '/new-job-call', component: NewJobCall
+        },
+        { 
+            path: '/edit-job-call/:id', component: EditJobCall,name:'Edit-job-call'
         }
-    ],
-      //  beforeEnter:requireAuth
-    }, 
+        ],
+        //  beforeEnter:requireAuth
+    },
 ]
 
 const history = createWebHistory()
