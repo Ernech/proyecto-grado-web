@@ -9,6 +9,7 @@
             <RequiredKnowledge />
             <AptitudeSection />
             <div class="job-call-form__buttons-container">
+                <GetJobCallFileButton/>
                 <button type="submit" class="job-call-form__publish_button"
                     @click="publishJobCall($route.params.id)">Publicar convocatoria</button>
                 <button type="submit" class="job-call-form__create_button " @click="editJobCall($route.params.id)"
@@ -26,6 +27,7 @@ import JobExperienceSection from '../../components/job-call-form-sections/JobExp
 import RequiredKnowledge from '../../components/job-call-form-sections/RequiredKnowledge.vue';
 import AptitudeSection from '../../components/job-call-form-sections/AptitudeSection.vue';
 import GeneralInformationSection from '../../components/job-call-form-sections/GeneralInformationSection.vue';
+import GetJobCallFileButton from '../../components/job-call/GetJobCallFileButton.vue';
 import { useJobCallStore } from '../../store/job-call'
 import { computed } from 'vue';
 export default {
@@ -36,6 +38,7 @@ export default {
         JobExperienceSection,
         RequiredKnowledge,
         AptitudeSection,
+        GetJobCallFileButton
     },
     setup() {
 
