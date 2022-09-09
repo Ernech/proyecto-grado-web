@@ -8,9 +8,14 @@
             <JobExperienceSection />
             <RequiredKnowledge />
             <AptitudeSection />
-            <button type="submit" class="job-call-form__create_button " @click="editJobCall($route.params.id)" :disabled="isDisabled"
-                :class="{ disabled: isDisabled }">Modificar
-                convocatoria</button>
+            <div class="job-call-form__buttons-container">
+                <button type="submit" class="job-call-form__publish_button"
+                    @click="publishJobCall($route.params.id)">Publicar convocatoria</button>
+                <button type="submit" class="job-call-form__create_button " @click="editJobCall($route.params.id)"
+                    :disabled="isDisabled" :class="{ disabled: isDisabled }">Modificar
+                    convocatoria</button>
+            </div>
+
         </div>
     </div>
 </template>
@@ -22,7 +27,7 @@ import RequiredKnowledge from '../../components/job-call-form-sections/RequiredK
 import AptitudeSection from '../../components/job-call-form-sections/AptitudeSection.vue';
 import GeneralInformationSection from '../../components/job-call-form-sections/GeneralInformationSection.vue';
 import { useJobCallStore } from '../../store/job-call'
-import { computed,onBeforeMount } from 'vue';
+import { computed } from 'vue';
 export default {
     components: {
         GeneralInformationSection,
@@ -33,21 +38,24 @@ export default {
         AptitudeSection,
     },
     setup() {
-       
+
         const jobCallStore = useJobCallStore()
         const editJobCall = async (id) => {
-           await jobCallStore.editJobCall(id)
-           jobCallStore.resetValues()
+            await jobCallStore.editJobCall(id)
+            jobCallStore.resetValues()
         }
-        
-       
+
+        const publishJobCall = async (id) => {
+            await jobCallStore.publishJobCall(id)
+        }
+
         const isDisabled = computed(() => {
             if (jobCallStore.jobCallName !== null && jobCallStore.jobCallName !== ''
                 && jobCallStore.jobCallNumber !== null && jobCallStore.jobCallNumber !== ''
                 && jobCallStore.jobManualFile !== null && jobCallStore.jobManualFile !== ''
                 && jobCallStore.jobCallObj !== null && jobCallStore.jobCallObj !== '') {
 
-                if (jobCallStore.closingDate>jobCallStore.openingDate) {
+                if (jobCallStore.closingDate > jobCallStore.openingDate) {
                     if (jobCallStore.jobFunctions.length >= 1
                         && jobCallStore.academicTrainings.length >= 1
                         && jobCallStore.experiences.length >= 1
@@ -60,7 +68,7 @@ export default {
             }
             return true
         })
-        return { editJobCall, isDisabled }
+        return { editJobCall, publishJobCall, isDisabled }
     }
 }
 </script>
@@ -80,8 +88,19 @@ export default {
 .job-call-form {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
+    width: 100%;
+}
+
+.job-call-form__buttons-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 20px 15px;
+    width: 100%;
+    gap: 20px;
 }
 
 .job-call-form__create_button {
@@ -92,8 +111,19 @@ export default {
     border-color: #0094FF;
     width: 25%;
     font-family: 'Nunito', sans-serif;
-    align-self: flex-end;
-    margin: 20px 15px;
+   
+}
+
+.job-call-form__publish_button {
+    background-color: #00ff1e;
+    border-radius: 8px;
+    color: #FFFFFF;
+    padding: 5px;
+    border-color: #00ff1e;
+    width: 25%;
+    font-family: 'Nunito', sans-serif;
+
+   
 }
 
 .job-call-form__create_button.disabled {

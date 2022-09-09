@@ -136,6 +136,21 @@ export const useJobCallStore = defineStore('job-call', {
                 console.log(error);
             }
         },
+        async publishJobCall(id){
+            try {
+                const resp = await fetch(`http://localhost:3000/job-call/${id}`,{
+                    method:'PATCH',
+                    headers:{
+                        "Content-Type": "application/json",
+                        'Authorization': localStorage.getItem('token')
+                    }
+                })
+                console.log(resp);
+                console.log(resp.status);
+            } catch (error) {
+                console.log(error);
+            }
+        },
         getPagedList(page, pageItems) {
             const pageData = [];
             let init = (page * pageItems) - pageItems
