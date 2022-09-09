@@ -58,7 +58,7 @@ const onClickHandler = (page) => {
 const toEditJobCall = (item)=>{
     jobCallStore.jobCallEdit=item
     jobCallStore.setEditJobCall(item)
-    router.push({name:'Edit-job-call',params:{id:item.id}})
+    router.push({name:'Edit-job-call',params:{id:item.id,jobCall:item}})
     
 }
 

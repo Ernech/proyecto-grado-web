@@ -24,7 +24,6 @@ import GeneralInformationSection from '../../components/job-call-form-sections/G
 import { useJobCallStore } from '../../store/job-call'
 import { computed,onBeforeMount } from 'vue';
 export default {
-
     components: {
         GeneralInformationSection,
         FunctionsSection,
@@ -40,6 +39,7 @@ export default {
            await jobCallStore.editJobCall(id)
            jobCallStore.resetValues()
         }
+        
        
         const isDisabled = computed(() => {
             if (jobCallStore.jobCallName !== null && jobCallStore.jobCallName !== ''
