@@ -41,12 +41,13 @@ export default {
 
         }
         const isDisabled = computed(() => {
+            const today = new Date()
             if (jobCallStore.jobCallName !== null && jobCallStore.jobCallName !== ''
                 && jobCallStore.jobCallNumber !== null && jobCallStore.jobCallNumber !== ''
                 && jobCallStore.jobManualFile !== null && jobCallStore.jobManualFile !== ''
                 && jobCallStore.jobCallObj !== null && jobCallStore.jobCallObj !== '') {
 
-                if (jobCallStore.closingDate>jobCallStore.openingDate) {
+                if (jobCallStore.closingDate>jobCallStore.openingDate && jobCallStore.openingDate>today) {
                     if (jobCallStore.jobFunctions.length >= 1
                         && jobCallStore.academicTrainings.length >= 1
                         && jobCallStore.experiences.length >= 1

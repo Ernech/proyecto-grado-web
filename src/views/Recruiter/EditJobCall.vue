@@ -22,7 +22,7 @@ import RequiredKnowledge from '../../components/job-call-form-sections/RequiredK
 import AptitudeSection from '../../components/job-call-form-sections/AptitudeSection.vue';
 import GeneralInformationSection from '../../components/job-call-form-sections/GeneralInformationSection.vue';
 import { useJobCallStore } from '../../store/job-call'
-import { computed } from 'vue';
+import { computed,onBeforeMount } from 'vue';
 export default {
 
     components: {
@@ -34,11 +34,13 @@ export default {
         AptitudeSection,
     },
     setup() {
+       
         const jobCallStore = useJobCallStore()
         const editJobCall = async (id) => {
            await jobCallStore.editJobCall(id)
            jobCallStore.resetValues()
         }
+       
         const isDisabled = computed(() => {
             if (jobCallStore.jobCallName !== null && jobCallStore.jobCallName !== ''
                 && jobCallStore.jobCallNumber !== null && jobCallStore.jobCallNumber !== ''
