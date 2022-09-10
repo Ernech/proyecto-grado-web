@@ -32,7 +32,7 @@
                 },
                 {
                     "yearsOfExperience": 2,
-                    "description":"Ofimática: manejo de Word, Excel, Power Point, Outlook,Correo electrónico y otras aplicaciones para el soporte administrativo de la oficina",
+                    "description":"Técnico en marketing",
                     "requirement": "Deseable",
                     "type": "General"
                 }
@@ -83,7 +83,7 @@
         * template named "template1.docx" .
         * */
         // this.loadFile("https://docxtemplater.com/tag-example.docx",function(error: any,content : any){
-          this.loadFile(`./assets/template.docx`,function(error,content){
+          this.loadFile(`${import.meta.env.BASE_URL}Templates/template.docx`,function(error,content){
             if (error) { 
               throw error
             };
@@ -109,7 +109,7 @@
                 type:"blob",
                 mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                 })
-            saveAs(out,`Arte para página web convocatoria ${this.dataset.jobCallNumber}.docx`);    // You can pass this blob to a custom file saver component in the project.  
+            saveAs(out,`Arte para página web convocatoria ${dataset.jobCallNumber}.docx`);    // You can pass this blob to a custom file saver component in the project.  
         });
     }
   }
