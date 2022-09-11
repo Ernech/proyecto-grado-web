@@ -9,7 +9,7 @@
             <RequiredKnowledge />
             <AptitudeSection />
             <div class="job-call-form__buttons-container">
-                <GetJobCallFileButton/>
+                <GetJobCallFileButton :item = "jobCallStore.jobCallEdit"/>
                 <button type="submit" class="job-call-form__publish_button"
                     @click="publishJobCall($route.params.id)">Publicar convocatoria</button>
                 <button type="submit" class="job-call-form__create_button " @click="editJobCall($route.params.id)"
@@ -71,7 +71,7 @@ export default {
             }
             return true
         })
-        return { editJobCall, publishJobCall, isDisabled }
+        return { editJobCall, publishJobCall, isDisabled,jobCallStore }
     }
 }
 </script>
