@@ -22,7 +22,7 @@ import RequiredKnowledge from '../../components/job-call-form-sections/RequiredK
 import AptitudeSection from '../../components/job-call-form-sections/AptitudeSection.vue';
 import GeneralInformationSection from '../../components/job-call-form-sections/GeneralInformationSection.vue';
 import { useJobCallStore } from '../../store/job-call'
-import { computed } from 'vue';
+import { computed,onBeforeMount } from 'vue';
 export default {
 
     components: {
@@ -35,6 +35,9 @@ export default {
     },
     setup() {
         const jobCallStore = useJobCallStore()
+        onBeforeMount(()=>{
+            jobCallStore.resetValues()
+        })
         const createJobCall = async () => {
             await jobCallStore.createJobCall()
             jobCallStore.resetValues()

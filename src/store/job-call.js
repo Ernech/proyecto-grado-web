@@ -8,8 +8,8 @@ export const useJobCallStore = defineStore('job-call', {
         jobCallObj: '',
         jobManualFile: null,
         jobInfoFile: '',
-        openingDate: Date(),
-        closingDate: Date(),
+        openingDate: new Date(),
+        closingDate: '',
         experiences: [],
         jobFunctions: [],
         academicTrainings: [],
@@ -181,8 +181,8 @@ export const useJobCallStore = defineStore('job-call', {
             this.jobCallName= ''
             this.jobCallNumber=''
             this.jobCallObj = ''
-            this.openingDate = Date("yyyy-MM-ddThh:mm")
-            this.closingDate = Date("yyyy-MM-ddThh:mm")
+            this.openingDate = new Date()
+            this.closingDate = ''
             this.experiences = []
             this.jobFunctions = []
             this.academicTrainings = []
