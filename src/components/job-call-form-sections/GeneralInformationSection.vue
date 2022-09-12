@@ -78,6 +78,9 @@ const selectFile = () => {
     padding-bottom: 3px;
 }
 
+#name{
+    text-transform: uppercase;
+}
 .grid-container {
     display: grid;
     grid-template-columns: repeat(2, 50%);
