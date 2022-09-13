@@ -34,7 +34,8 @@ const routes = [
         },
         {
             path: '/closed-job-call', component: ClosedJobCall
-        }, {
+        }, 
+        {
             path: '/saved-job-call', component: SavedJobCall, 
         }, 
         {

@@ -29,7 +29,8 @@ import AptitudeSection from '../../components/job-call-form-sections/AptitudeSec
 import GeneralInformationSection from '../../components/job-call-form-sections/GeneralInformationSection.vue';
 import GetJobCallFileButton from '../../components/job-call/GetJobCallFileButton.vue';
 import { useJobCallStore } from '../../store/job-call'
-import { computed } from 'vue';
+import { computed,onBeforeMount } from 'vue';
+import  router  from '../../routes/recruiter-router'
 export default {
     components: {
         GeneralInformationSection,
@@ -43,6 +44,11 @@ export default {
     setup() {
 
         const jobCallStore = useJobCallStore()
+        onBeforeMount(() => {
+          if(!jobCallStore.editJobCall || JSON.stringify(jobCallStore.jobCallEdit)==='{}'){
+            router.push('/saved-job-call')
+          }  
+        })
         const editJobCall = async (id) => {
             await jobCallStore.editJobCall(id)
             jobCallStore.resetValues()
