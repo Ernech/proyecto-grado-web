@@ -41,7 +41,7 @@ onBeforeMount(async () => {
 const filterJobCalls = () => {
     jobCallStore.jobCalls = jobCalls.value
     if(searchJobCall.value!==null && searchJobCall.value!==''){       
-       jobCallStore.jobCalls = jobCalls.value.filter(obj=> obj.jobCallName.search(searchJobCall.value)>-1)
+       jobCallStore.jobCalls = jobCalls.value.filter(obj=> obj.jobCallName.search(searchJobCall.value.toLocaleUpperCase())>-1)
        
     }
     onClickHandler(1)
@@ -128,7 +128,9 @@ const toEditJobCall = (item)=>{
     padding-top: 3px;
     padding-bottom: 3px;
 }
-
+#job-call-name{
+    text-transform: uppercase;
+}
 .form-input-container select {
     height: 30px;
 }
