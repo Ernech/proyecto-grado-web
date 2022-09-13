@@ -43,7 +43,7 @@ export const useJobCallStore = defineStore('job-call', {
         async createJobCall() {
             try {
                 const newJobCallBody = {
-                    jobCallName: this.jobCallName,
+                    jobCallName: this.jobCallName.toUpperCase(),
                     jobCallNumber: this.jobCallNumber,
                     jobCallObj: this.jobCallObj,
                     jobManualFile: 'Maual.docx',
@@ -77,7 +77,7 @@ export const useJobCallStore = defineStore('job-call', {
             console.log(id);
             try {
                 const editJobCallBody = {
-                    jobCallName: this.jobCallName,
+                    jobCallName: this.jobCallName.toUpperCase(),
                     jobCallNumber: this.jobCallNumber,
                     jobCallObj: this.jobCallObj,
                     jobManualFile: 'Maual.docx',
