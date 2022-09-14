@@ -136,9 +136,24 @@ export const useJobCallStore = defineStore('job-call', {
                 console.log(error);
             }
         },
+        async getOpenedJobCalls() {
+            try {
+                const resp = await fetch('http://localhost:3000/job-call/opened', {
+                    method: 'GET',
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': localStorage.getItem('token')
+                    },
+                })
+                const dataDb = await resp.json()
+                this.jobCalls = dataDb
+            } catch (error) {
+                console.log(error);
+            }
+        },
         async publishJobCall(id){
             try {
-                const resp = await fetch(`http://localhost:3000/job-call/${id}`,{
+                const resp = await fetch(`http://localhost:3000/job-call/pending/${id}`,{
                     method:'PATCH',
                     headers:{
                         "Content-Type": "application/json",
