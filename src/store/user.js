@@ -3,7 +3,7 @@ import router from '../routes/recruiter-router'
 export const useUserStore=defineStore('user',{
     state: () =>({
         loginData:null,
-        accessToken:null,
+        accessToken: localStorage.removeItem('recruiter-token'),
         isLoading: false
     }),
     actions:{
@@ -18,7 +18,7 @@ export const useUserStore=defineStore('user',{
                 })
                 const {token} =await resp.json()
                 this.accessToken=token;
-                localStorage.setItem('token',`bearer ${token}`)  
+                localStorage.setItem('recruiter-token',`bearer ${token}`)  
                router.push('/open-job-call')
             } catch (error) {
                console.log(error);
@@ -29,7 +29,7 @@ export const useUserStore=defineStore('user',{
         },
         logoutUser(){
             try {
-                localStorage.removeItem('token')
+                localStorage.removeItem('recruiter-token')
                 this.accessToken=null;
                 router.push('/login')
             } catch (error) {

@@ -51,7 +51,7 @@
                     <td>{{  item.type  }}</td>
                     <td class="actions-cell">
                         <fa class="edit-icon" icon="fa-solid fa-pen" @click="getJobExperience(item, index)" />
-                        <fa class="delete-icon" icon="fa-solid fa-trash" @click="deleteJobExperience()" />
+                        <fa class="delete-icon" icon="fa-solid fa-trash" @click="deleteJobExperience(index)" />
                     </td>
                 </tr>
 

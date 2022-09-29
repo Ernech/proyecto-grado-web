@@ -60,7 +60,7 @@ export const useJobCallStore = defineStore('job-call', {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json",
-                        'Authorization': localStorage.getItem('token')
+                        'Authorization': localStorage.getItem('recruiter-token')
                     },
                     body: JSON.stringify(newJobCallBody)
                 })
@@ -94,7 +94,7 @@ export const useJobCallStore = defineStore('job-call', {
                     method: 'PUT',
                     headers: {
                         "Content-Type": "application/json",
-                        'Authorization': localStorage.getItem('token')
+                        'Authorization': localStorage.getItem('recruiter-token')
                     },
                     body: JSON.stringify(editJobCallBody)
                 })
@@ -112,7 +112,7 @@ export const useJobCallStore = defineStore('job-call', {
                     method: 'GET',
                     headers: {
                         "Content-Type": "application/json",
-                        'Authorization': localStorage.getItem('token')
+                        'Authorization': localStorage.getItem('recruiter-token')
                     },
                 })
                 const dataDb = await resp.json()
@@ -127,7 +127,7 @@ export const useJobCallStore = defineStore('job-call', {
                     method: 'GET',
                     headers: {
                         "Content-Type": "application/json",
-                        'Authorization': localStorage.getItem('token')
+                        'Authorization': localStorage.getItem('recruiter-token')
                     },
                 })
                 const dataDb = await resp.json()
@@ -142,7 +142,7 @@ export const useJobCallStore = defineStore('job-call', {
                     method: 'GET',
                     headers: {
                         "Content-Type": "application/json",
-                        'Authorization': localStorage.getItem('token')
+                        'Authorization': localStorage.getItem('recruiter-token')
                     },
                 })
                 const dataDb = await resp.json()
@@ -157,7 +157,7 @@ export const useJobCallStore = defineStore('job-call', {
                     method:'PATCH',
                     headers:{
                         "Content-Type": "application/json",
-                        'Authorization': localStorage.getItem('token')
+                        'Authorization': localStorage.getItem('recruiter-token')
                     }
                 })
                 console.log(resp);
