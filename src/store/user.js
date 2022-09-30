@@ -3,7 +3,7 @@ import router from '../routes/recruiter-router'
 export const useUserStore=defineStore('user',{
     state: () =>({
         loginData:null,
-        accessToken: localStorage.removeItem('recruiter-token'),
+        accessToken: localStorage.getItem('recruiter-token'),
         isLoading: false
     }),
     actions:{

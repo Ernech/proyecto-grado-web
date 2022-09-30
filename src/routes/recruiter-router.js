@@ -12,8 +12,8 @@ import { useUserStore } from '../store/user'
 
 
 const requireAuth = (to, from, next) => {
-
-    const authToken = localStorage.getItem('recruiter-token');
+const userStore = useUserStore()
+    const authToken = userStore.accessToken
     if (authToken) {
         next()
     } else {
@@ -45,7 +45,7 @@ const routes = [
             path: '/edit-job-call/:id', component: EditJobCall,name:'Edit-job-call'
         }
         ],
-        beforeEnter:requireAuth
+       beforeEnter:requireAuth
     },
 ]
 

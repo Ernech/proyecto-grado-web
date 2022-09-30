@@ -122,12 +122,6 @@ const resetValues = () => {
     gap: 20px;
 }
 
-.section-title {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    margin-top: 40px;
-}
 
 .aptitude-section p {
     font-family: 'Inter', sans-serif;
