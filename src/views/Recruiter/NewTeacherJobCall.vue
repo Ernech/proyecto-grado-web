@@ -3,6 +3,7 @@
         <GeneralInformationSectionTeacherVue/>
         <CareerClassesSectionSection/>
         <JobExperienceSection/>
+      
     </div>
 </template>
 <script>
@@ -14,7 +15,8 @@ export default {
     GeneralInformationSectionTeacherVue,
     CareerClassesSectionSection,
     JobExperienceSection
-}
+},
+
 }
 </script>
 <style>

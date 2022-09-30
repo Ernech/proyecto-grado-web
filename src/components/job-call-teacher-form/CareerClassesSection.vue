@@ -30,12 +30,20 @@
 
             </tbody>
         </table>
-        <button  class="classes-add_button">Agregar Materia</button>
+        <AddCareerClassModal v-show="showModal"  @close-modal="showModal = false"/>
+        <button  class="classes-add_button" @click="openModal">Agregar Materia</button>
     </div>
 </template>
 <script setup>
 import SectionTitle from '../job-call-form-sections/SectionTitle.vue';
+import AddCareerClassModal from '../../components/job-call-teacher-form/AddCareerClassModal.vue'
+import {ref} from 'vue'
 
+const showModal = ref(false)
+
+const openModal=()=>{
+    showModal.value=true
+}
 </script>
 
 <style scoped>
