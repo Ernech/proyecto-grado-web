@@ -3,19 +3,26 @@
         <div class="modal-overlay">
             <div class="modal">
                 <h3 class="title">Agregar materia</h3>
-                <CareerClassSection/>
-                <TeacherAcademicTrainingSection/>
-                <button @click="$emit('close-modal')">Cerrar</button>
+                <CareerClassSection />
+                <TeacherAcademicTrainingSection />
+                <ModalRequiredKnowledge />
+                <div class="button_container">
+                    <button class="back-button" @click="$emit('close-modal')">Cerrar</button>
+                    <button class="add_button">Agregar materia</button>
+                </div>
             </div>
 
         </div>
     </div>
 </template>
 <script setup>
-import CareerClassSection from './add-career-modal-sections/CareerClassSection.vue'
-import TeacherAcademicTrainingSection from './add-career-modal-sections/TeacherAcademicTrainingSection.vue'
+import CareerClassSection from './add-career-modal-sections/CareerClassSection.vue';
+import TeacherAcademicTrainingSection from './add-career-modal-sections/TeacherAcademicTrainingSection.vue';
+import ModalRequiredKnowledge from './add-career-modal-sections/ModalRequiredKnowledge.vue';
 </script>
-<style scoped>
+<style lang="scss" scoped>
+@import '../../styles/buttons.scss';
+
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -27,7 +34,7 @@ import TeacherAcademicTrainingSection from './add-career-modal-sections/TeacherA
     align-items: center;
     background-color: #000000da;
     margin-left: 360px;
-    overflow-y: scroll;
+
 }
 
 .modal {
@@ -35,14 +42,16 @@ import TeacherAcademicTrainingSection from './add-career-modal-sections/TeacherA
     display: flex;
     flex-direction: column;
     background-color: white;
-    height: 75%;
+    height: 85%;
     width: 85%;
     padding: 30px;
     border-radius: 20px;
     align-items: center;
     gap: 20px;
+    overflow-y: scroll;
 
 }
+
 .title {
     font-family: 'Oswald', sans-serif;
     font-style: normal;
@@ -50,6 +59,13 @@ import TeacherAcademicTrainingSection from './add-career-modal-sections/TeacherA
     color: #064D90;
     margin: 0px;
     align-self: flex-start;
-        
+
+}
+.button_container{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 5px;
+    width: 95%;
 }
 </style>

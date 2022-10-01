@@ -1,0 +1,21 @@
+.back-button {
+    border: 1px solid #BABABA;
+    border-radius: 10px;
+    color: #000;
+    padding: 10px 20px;
+    background-color: #fff;
+}
+.add_button {
+    background-color: #0094FF;
+    border-radius: 8px;
+    color: #FFFFFF;
+    padding: 5px;
+    border-color: #0094FF;
+    width: 25%;
+    font-family: 'Nunito', sans-serif;
+}
+
+.add_button.disabled {
+    background-color: #b7b8b9;
+    border-color: #b7b8b9;
+}

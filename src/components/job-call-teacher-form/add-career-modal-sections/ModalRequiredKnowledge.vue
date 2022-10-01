@@ -1,45 +1,30 @@
 <template>
-    <div class="academic-training-section">
-        <ModalSectionTitle title="Formación académica" />
+    <div class="required-knowledge-section">
+        <ModalSectionTitle title="Conocimientos requeridos" />
         <div class="inputs-container">
             <div class="form-input-container">
-                <label for="academic-training" class="form-label">Formación</label>
-                <input class="form-input" type="text" id="academic-training" v-model.trim="academicTraining"
+                <label for="required-knowledge" class="form-label">Conocimiento requerido</label>
+                <input class="form-input" type="text" id="required-knowledge" v-model.trim="description"
                     maxlength="300">
             </div>
-            <div class="form-input-container">
-                <label class="form-label">Requisito</label>
-                <select class="form-input" v-model="desiredLevel">
-                    <option disabled>Elija una opción...</option>
-                    <option>Indispensable</option>
-                    <option>Deseable</option>
-                    <option>Ninguno</option>
-                </select>
-            </div>
         </div>
-
-        <button v-if="!editAcademicTraining" class="job-call-form__add_button" @click="addAcademicTraining"
-            :disabled="isDisabled" :class="{ disabled: isDisabled }">Agregar formación requerida</button>
+        <button v-if="!editRequiredKnowledge" class="job-call-form__add_button" @click="addAcademicTraining"
+            :disabled="isDisabled" :class="{ disabled: isDisabled }">Agregar conocimeinto requerido</button>
         <button v-else class="job-call-form__add_button" @click="editTraining" :disabled="isDisabled"
-            :class="{ disabled: isDisabled }">Modificar formación requerida</button>
-
-
+            :class="{ disabled: isDisabled }">Modificar conocimeinto requerido</button>
         <table>
             <thead>
                 <tr>
                     <th class="description-column">Formación</th>
-                    <th>Requisito</th>
                     <th class="actions-column">Acciones</th>
                 </tr>
-
             </thead>
             <tbody>
-                <tr v-for="(item, index) in jobCallStore.academicTrainings">
-                    <td>{{ item.training }}</td>
-                    <td>{{ item.desiredLevel }}</td>
+                <tr v-for="(item, index) in jobCallStore.requiredKnowledgeArray">
+                    <td>{{ item.description }}</td>
                     <td class="actions-cell">
                         <fa class="edit-icon" icon="fa-solid fa-pen"
-                            @click="getAcademicTraining(item.training, index)" />
+                            @click="getAcademicTraining(item.description, index)" />
                         <fa class="delete-icon" icon="fa-solid fa-trash" @click="deleteAcademicTraining(index)" />
                     </td>
                 </tr>
@@ -54,64 +39,60 @@
 import { ref, computed } from 'vue'
 import { useTeacherJobCallStore } from '../../../store/teacher-job-call'
 import ModalSectionTitle from './ModalSectionTitle.vue';
-const dataType= ref('ACADEMIC_TRAINING')
-const academicTraining = ref('');
-const desiredLevel = ref('Elija una opción...');
+const requirementType=ref('REQUIRED_KNOWLEDGE')
+const description = ref('');
 const jobCallStore = useTeacherJobCallStore();
-const editAcademicTraining = ref(false)
+const editRequiredKnowledge = ref(false)
 const editIndexList = ref(-1)
 
 const addAcademicTraining = () => {
-    const newAcademicTraining = {dataType:dataType.value, description: academicTraining.value,desiredLevel }
-    jobCallStore.academicTrainings.push(newAcademicTraining)
+    const newRequirement = {requirementType:requirementType.value, description: description.value }
+    jobCallStore.requiredKnowledgeArray.push(newRequirement)
 
     resetValues()
 }
 const isDisabled = computed(() => {
-    if (academicTraining.value === null || academicTraining.value === '') {
+    if (description.value === null || description.value === '') {
         return true
     }
     return false;
 })
 
-const getAcademicTraining = (academicTrainingEdit, index) => {
-    editAcademicTraining.value = true
-    academicTraining.value = academicTrainingEdit
+const getAcademicTraining = (requiredKnowledgeEdit, index) => {
+    editRequiredKnowledge.value = true
+    description.value = requiredKnowledgeEdit
     editIndexList.value = index
 }
 
 const editTraining = () => {
 
     if (editIndexList.value > -1) {
-        jobCallStore.academicTrainings[editIndexList.value].training = academicTraining.value
+        jobCallStore.requiredKnowledgeArray[editIndexList.value].description = description.value
         resetValues()
     }
 }
 const deleteAcademicTraining = (index) => {
     if (index > -1) {
-        jobCallStore.academicTrainings.splice(index, 1)
+        jobCallStore.requiredKnowledgeArray.splice(index, 1)
         resetValues()
     }
 }
 const resetValues = () => {
-    editAcademicTraining.value = false
-    academicTraining.value = ''
-    desiredLevel.value='Elija una opción...'
+    editRequiredKnowledge.value = false
+    description.value = ''
     editIndexList.value = -1
 }
 </script>
 <style scoped>
 .inputs-container {
-    display: grid;
-    grid-template-columns: 75% 25%;
-    grid-template-rows: 1fr;
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    column-gap: 20px;
-    align-items: center;
-    justify-content: center;
+    padding: 0px;
+    gap: 15px;
 }
 
-.academic-training-section {
+.required-knowledge-section {
     display: flex;
     flex-direction: column;
     width: 95%;
@@ -161,8 +142,6 @@ const resetValues = () => {
     background-color: #b7b8b9;
     border-color: #b7b8b9;
 }
-
-
 
 .edit-icon {
     color: #5686E1;

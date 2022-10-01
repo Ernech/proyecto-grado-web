@@ -13,6 +13,7 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
         experiences: [],
         academicTrainings: [],
         requiredKnowledgeArray: [],
+        requirements:[],
         jobCallEdit: {}
 
     }), actions: {
