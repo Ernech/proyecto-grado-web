@@ -65,6 +65,7 @@
 import { ref, computed } from 'vue'
 import { useTeacherJobCallStore } from '../../store/teacher-job-call'
 import SectionTitle from '../../components/job-call-form-sections/SectionTitle.vue';
+const dataType=ref('PROFESSIONAL_EXPERIENCE')
 const description = ref('');
 const years = ref(1);
 const requirement = ref('Escoja una opción...')
@@ -73,7 +74,7 @@ const editJobExperience = ref(false)
 const editListIndex = ref(-1);
 const jobCallStore = useTeacherJobCallStore()
 const addJobExperience = () => {
-    const newExperience = { description: description.value, yearsOfExperience: years.value, requirement: requirement.value, type: type.value }
+    const newExperience = { dataType:dataType.value,description: description.value, yearsOfExperience: years.value, requirement: requirement.value, type: type.value }
     jobCallStore.experiences.push(newExperience)
     resetValues()
 

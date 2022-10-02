@@ -35,7 +35,7 @@
             </thead>
             <tbody>
                 <tr v-for="(item, index) in jobCallStore.academicTrainings">
-                    <td>{{ item.training }}</td>
+                    <td>{{ item.description }}</td>
                     <td>{{ item.desiredLevel }}</td>
                     <td class="actions-cell">
                         <fa class="edit-icon" icon="fa-solid fa-pen"
@@ -62,7 +62,7 @@ const editAcademicTraining = ref(false)
 const editIndexList = ref(-1)
 
 const addAcademicTraining = () => {
-    const newAcademicTraining = {dataType:dataType.value, description: academicTraining.value,desiredLevel }
+    const newAcademicTraining = {dataType:dataType.value, description: academicTraining.value,desiredLevel:desiredLevel.value }
     jobCallStore.academicTrainings.push(newAcademicTraining)
 
     resetValues()

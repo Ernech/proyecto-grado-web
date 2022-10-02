@@ -45,8 +45,6 @@ const filterJobCalls = () => {
        
     }
     onClickHandler(1)
-    
-
 }
 const pageItems = ref(4)
 const pagedData = ref([]);

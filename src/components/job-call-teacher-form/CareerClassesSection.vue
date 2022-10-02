@@ -1,10 +1,12 @@
 <template>
     <div class="career-classes-section">
         <SectionTitle title="Materias" />
+        <AddCareerClassModal v-show="showModal"  @close-modal="showModal = false"/>
+        <button  class="classes-add_button" @click="openModal">Agregar Materia</button>
         <table>
             <thead>
                 <tr>
-                    <th>Número</th>
+                    <th class="number-column">Número</th>
                     <th class="code-column">Sigla</th>
                     <th>Materia</th>
                     <th class="actions-column">Acciones</th>
@@ -12,15 +14,15 @@
 
             </thead>
             <tbody>
-                <tr>
+                <tr v-for="(item,index) in teacherJobCallsStore.collegeClasses" :key="index">
                     <td>
-                       14A
+                      {{item.jobCallCode}}
                     </td>
                     <td>
-                        Sis-3311
+                        {{item.code}}
                     </td>
                     <td>
-                        Sistemas de información 2
+                       {{item.name}}
                     </td>
                     <td class="actions-cell">
                         <fa class="edit-icon" icon="fa-solid fa-pen" />
@@ -30,16 +32,16 @@
 
             </tbody>
         </table>
-        <AddCareerClassModal v-show="showModal"  @close-modal="showModal = false"/>
-        <button  class="classes-add_button" @click="openModal">Agregar Materia</button>
+       
     </div>
 </template>
 <script setup>
 import SectionTitle from '../job-call-form-sections/SectionTitle.vue';
 import AddCareerClassModal from '../../components/job-call-teacher-form/AddCareerClassModal.vue'
 import {ref} from 'vue'
-
+import { useTeacherJobCallStore } from '../../store/teacher-job-call';
 const showModal = ref(false)
+const teacherJobCallsStore = useTeacherJobCallStore()
 
 const openModal=()=>{
     showModal.value=true
@@ -90,7 +92,9 @@ thead {
     margin: auto;
     width: 10%;
 }
-
+.number-column{
+    width: 10%;
+}
 .code-column {
     width: 15%;
 }

@@ -8,7 +8,7 @@
                 <ModalRequiredKnowledge />
                 <div class="button_container">
                     <button class="back-button" @click="$emit('close-modal')">Cerrar</button>
-                    <button class="add_button">Agregar materia</button>
+                    <button class="add_button" @click="addCollegeClass" :disabled="isDisabled" :class="{disabled:isDisabled}">Agregar materia</button>
                 </div>
             </div>
 
@@ -19,6 +19,43 @@
 import CareerClassSection from './add-career-modal-sections/CareerClassSection.vue';
 import TeacherAcademicTrainingSection from './add-career-modal-sections/TeacherAcademicTrainingSection.vue';
 import ModalRequiredKnowledge from './add-career-modal-sections/ModalRequiredKnowledge.vue';
+import { useTeacherJobCallStore, computed } from '../../store/teacher-job-call';
+const teacherJobCallStore = useTeacherJobCallStore()
+const isDisabled = computed(() => {
+    if (teacherJobCallStore.id !== null && teacherJobCallStore.id !== ''
+        && teacherJobCallStore.name !== null && teacherJobCallStore.name !== ''
+        && teacherJobCallStore.code !== null && teacherJobCallStore.requiredNumber > 0
+        && teacherJobCallStore.requiredKnowledgeArray.length > 0 && teacherJobCallStore.academicTrainings.length > 0) {
+        return false
+    }
+    return true
+})
+const addCollegeClass = () => {
+
+    const newCollegeClass = {
+        id: teacherJobCallStore.id,
+        code: teacherJobCallStore.code,
+        name: teacherJobCallStore.name,
+        requiredNumber: teacherJobCallStore.requiredNumber,
+        academicTraining: teacherJobCallStore.academicTrainings,
+        requiredKnowledge: teacherJobCallStore.requiredKnowledgeArray
+    }
+
+    const requirements = teacherJobCallStore.academicTrainings
+        .concat(teacherJobCallStore.requiredKnowledgeArray)
+        .concat(teacherJobCallStore.experiences)
+    const newCollegeClassToDB = {
+        id: teacherJobCallStore.id,
+        requiredNumber: teacherJobCallStore.requiredNumber,
+        jobCallCode: teacherJobCallStore.jobCallCode,
+        requirements
+    }
+    teacherJobCallStore.collegeClasses.push(newCollegeClass)
+    teacherJobCallStore.collegeClassesToDB.push(newCollegeClassToDB)
+    teacherJobCallStore.resetCollegueClassValues()
+}
+
+
 </script>
 <style lang="scss" scoped>
 @import '../../styles/buttons.scss';
@@ -61,7 +98,8 @@ import ModalRequiredKnowledge from './add-career-modal-sections/ModalRequiredKno
     align-self: flex-start;
 
 }
-.button_container{
+
+.button_container {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
