@@ -6,7 +6,7 @@
         <table>
             <thead>
                 <tr>
-                    <th class="number-column">Número</th>
+                    
                     <th class="code-column">Sigla</th>
                     <th>Materia</th>
                     <th class="actions-column">Acciones</th>
@@ -15,9 +15,7 @@
             </thead>
             <tbody>
                 <tr v-for="(item,index) in teacherJobCallsStore.collegeClasses" :key="index">
-                    <td>
-                      {{item.jobCallCode}}
-                    </td>
+                   
                     <td>
                         {{item.code}}
                     </td>
@@ -90,9 +88,6 @@ thead {
 
 .actions-column {
     margin: auto;
-    width: 10%;
-}
-.number-column{
     width: 10%;
 }
 .code-column {

@@ -6,15 +6,15 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
         collegeClasses: [],
         collegeClassesToDB: [],
         collegeClassesFromDB: [],
-        id:'',
-        name:'',
-        requiredNumber:0,
-        code:'',
-        jobCallCode:'14A',
-        jobCallName: '',
+        id: '',
+        name: '',
+        requiredNumber: 0,
+        code: '',
+        jobCallCode: '',
+        jobCallName: 'DOCENTE TIEMPO HORARIO',
         jobCallNumber: '',
-        jobManualFile: null,
-        jobInfoFile: '',
+        jobManualFile: 'Manual.docx',
+        jobInfoFile: 'Info.pdf',
         openingDate: '',
         closingDate: '',
         experiences: [],
@@ -24,50 +24,20 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
         jobCallEdit: {}
 
     }), actions: {
-        async createJobCall() {
-            try {
-                const newJobCallBody = {
-                    jobCallName: this.jobCallName.toUpperCase(),
-                    jobCallNumber: this.jobCallNumber,
-                    jobManualFile: 'Maual.docx',
-                    jobInfoFile: 'Info.pdf',
-                    openingDate: this.openingDate,
-                    closingDate: this.closingDate,
-                    experiences: this.experiences,
 
-                    academicTrainings: this.academicTrainings,
-                    requiredKnowledge: this.requiredKnowledgeArray,
-                }
-                const resp = await fetch('http://localhost:3000/job-call', {
-                    method: 'POST',
-                    headers: {
-                        "Content-Type": "application/json",
-                        'Authorization': localStorage.getItem('recruiter-token')
-                    },
-                    body: JSON.stringify(newJobCallBody)
-                })
-                console.log(resp.status);
-                console.log(resp);
-
-            } catch (error) {
-                console.log(error);
-            } finally {
-                router.push('/saved-job-call')
-            }
-        },
         async getCollegeClasses() {
             try {
-                const resp = await fetch('http://localhost:3000/college-class',{
-                    method:'GET',
+                const resp = await fetch('http://localhost:3000/college-class', {
+                    method: 'GET',
                     headers: {
                         "Content-Type": "application/json",
                         'Authorization': localStorage.getItem('recruiter-token')
                     }
                 })
                 const dataDb = await resp.json()
-                this.collegeClassesFromDB=dataDb
+                this.collegeClassesFromDB = dataDb
             } catch (error) {
-                
+
             }
         },
         async publishJobCall(id) {
@@ -85,30 +55,36 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
                 console.log(error);
             }
         },
-        async createTeacherJobCall(){
-            const newJobCallBody={
-                jobCallName: this.jobCallName ,
-                jobCallNumber: this.jobCallNumber,
-                jobManualFile:this.jobManualFile,
-                jobInfoFile: this.jobInfoFile ,
-                openingDate: this.openingDate,
-                closingDate: this.closingDate,
-                newCarrerClass:this.collegeClassesToDB
+        async createTeacherJobCall() {
+            const newJobCallBody = {
+                teacherJobCall: {
+                    jobCallName: this.jobCallName,
+                    jobCallNumber: this.jobCallNumber,
+                    jobManualFile: 'Manual.docx',
+                    jobInfoFile: 'Info.pdf',
+                    openingDate: this.openingDate,
+                    closingDate: this.closingDate
+                },
+                newCareerClass: this.collegeClassesToDB
             }
+            console.log(JSON.stringify(newJobCallBody));
             try {
-                const resp = await fetch('http://localhost:3000/job-call/teacher',{
-                    method:'POST',
-                    headers:{
+                const resp = await fetch('http://localhost:3000/job-call/teacher', {
+                    method: 'POST',
+                    headers: {
                         "Content-Type": "application/json",
                         'Authorization': localStorage.getItem('recruiter-token')
                     },
                     body: JSON.stringify(newJobCallBody)
-            })
-            console.log(resp);
+                })
+                console.log(resp);
                 console.log(resp.status);
-                router.push('/open-job-calls')
+               
             } catch (error) {
                 console.log(error);
+            }
+            finally{
+                router.push('/saved-job-call')
             }
         },
         getPagedList(page, pageItems) {
@@ -137,12 +113,12 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
             this.requiredKnowledgeArray = []
 
         },
-        resetCollegueClassValues(){
-            this.id=''
-            this.name=''
-            this.requiredNumber=0
-            this.code=''
-            this.jobCallCode='14A'
+        resetCollegueClassValues() {
+            this.id = ''
+            this.name = ''
+            this.requiredNumber = 0
+            this.code = ''
+            this.jobCallCode = '14A'
         }
     },
 

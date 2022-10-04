@@ -2,7 +2,7 @@
     <div class="general-info-section">
         <div class="form-input-container">
             <label for="name" class="form-label">Nombre del puesto</label>
-            <input class="form-input" type="text" id="name" v-model.trim="jobCallStore.jobCallName" maxlength="300">
+            <input class="form-input" type="text" id="name" v-model.trim="jobCallStore.jobCallName" maxlength="300" disabled>
         </div>
         <div class="grid-container">
             <div class="form-input-container">
@@ -32,9 +32,9 @@
 </template>
 <script setup>
 import { ref } from 'vue'
-import { useJobCallStore } from '../../store/job-call'
+import { useTeacherJobCallStore } from '../../store/teacher-job-call';
 const file = ref(null)
-const jobCallStore = useJobCallStore();
+const jobCallStore = useTeacherJobCallStore();
 const selectFile = () => {
     //   jobCallStore.jobManualFile= file.value.files[0];
     console.log(jobCallStore.jobManualFile = file.value.files[0]);

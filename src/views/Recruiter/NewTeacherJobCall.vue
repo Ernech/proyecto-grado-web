@@ -3,7 +3,10 @@
         <GeneralInformationSectionTeacherVue />
         <JobExperienceSection />
         <CareerClassesSectionSection />
-        <button class="add-button" @click="createNewJobCall" :class="{disabled:isDisabled}" :disabled="isDisabled">Crear convocatoria</button>
+        <div class="button-container">
+            <button class="add_button" @click="createNewTeacherJobCall" :disabled="isDisabled"
+                :class="{disabled:isDisabled}">Crear convocatoria</button>
+        </div>
     </div>
 </template>
 <script>
@@ -30,7 +33,7 @@ export default {
                 && teacherJobCallsStore.jobCallNumber !== null && teacherJobCallsStore.jobCallNumber !== ''
                 && teacherJobCallsStore.jobManualFile !== null && teacherJobCallsStore.jobManualFile !== '') {
 
-                if (teacherJobCallsStore.closingDate>teacherJobCallsStore.openingDate && teacherJobCallsStore.openingDate>today) {
+                if (teacherJobCallsStore.closingDate > teacherJobCallsStore.openingDate && teacherJobCallsStore.openingDate > today) {
                     if (teacherJobCallsStore.collegeClassesToDB.length >= 1) {
                         return false;
                     }
@@ -39,10 +42,10 @@ export default {
             }
             return true
         })
-        const createNewJobCall = async () => {
-            await teacherJobCallsStore.createJobCall()
+        const createNewTeacherJobCall = async () => {
+            await teacherJobCallsStore.createTeacherJobCall()
         }
-        return { createNewJobCall ,isDisabled}
+        return { createNewTeacherJobCall, isDisabled }
 
     }
 
@@ -56,5 +59,12 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.button-container {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    margin: 20px 15px;
 }
 </style>

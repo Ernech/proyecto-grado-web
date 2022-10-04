@@ -39,7 +39,7 @@
                     <td>{{ item.desiredLevel }}</td>
                     <td class="actions-cell">
                         <fa class="edit-icon" icon="fa-solid fa-pen"
-                            @click="getAcademicTraining(item.training, index)" />
+                            @click="getAcademicTraining(item, index)" />
                         <fa class="delete-icon" icon="fa-solid fa-trash" @click="deleteAcademicTraining(index)" />
                     </td>
                 </tr>
@@ -68,7 +68,7 @@ const addAcademicTraining = () => {
     resetValues()
 }
 const isDisabled = computed(() => {
-    if (academicTraining.value === null || academicTraining.value === '') {
+    if (academicTraining.value === null || academicTraining.value === '' || desiredLevel.value==='Elija una opción...') {
         return true
     }
     return false;
@@ -76,14 +76,16 @@ const isDisabled = computed(() => {
 
 const getAcademicTraining = (academicTrainingEdit, index) => {
     editAcademicTraining.value = true
-    academicTraining.value = academicTrainingEdit
+    academicTraining.value = academicTrainingEdit.description
+    desiredLevel.value=academicTrainingEdit.desiredLevel
     editIndexList.value = index
 }
 
 const editTraining = () => {
 
     if (editIndexList.value > -1) {
-        jobCallStore.academicTrainings[editIndexList.value].training = academicTraining.value
+        jobCallStore.academicTrainings[editIndexList.value].description = academicTraining.value
+        jobCallStore.academicTrainings[editIndexList.value].desiredLevel = desiredLevel.value
         resetValues()
     }
 }

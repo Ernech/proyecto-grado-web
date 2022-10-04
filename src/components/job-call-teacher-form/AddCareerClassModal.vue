@@ -19,7 +19,8 @@
 import CareerClassSection from './add-career-modal-sections/CareerClassSection.vue';
 import TeacherAcademicTrainingSection from './add-career-modal-sections/TeacherAcademicTrainingSection.vue';
 import ModalRequiredKnowledge from './add-career-modal-sections/ModalRequiredKnowledge.vue';
-import { useTeacherJobCallStore, computed } from '../../store/teacher-job-call';
+import { useTeacherJobCallStore } from '../../store/teacher-job-call';
+import { computed } from 'vue';
 const teacherJobCallStore = useTeacherJobCallStore()
 const isDisabled = computed(() => {
     if (teacherJobCallStore.id !== null && teacherJobCallStore.id !== ''
@@ -47,7 +48,7 @@ const addCollegeClass = () => {
     const newCollegeClassToDB = {
         id: teacherJobCallStore.id,
         requiredNumber: teacherJobCallStore.requiredNumber,
-        jobCallCode: teacherJobCallStore.jobCallCode,
+        jobCallCode: `${teacherJobCallStore.jobCallNumber}${String.fromCharCode(65+teacherJobCallStore.collegeClassesToDB.length)}`,
         requirements
     }
     teacherJobCallStore.collegeClasses.push(newCollegeClass)
