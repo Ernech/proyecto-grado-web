@@ -14,8 +14,7 @@
 
             </thead>
             <tbody>
-                <tr v-for="(item,index) in teacherJobCallsStore.collegeClasses" :key="index">
-                   
+                <tr v-for="(item,index) in teacherJobCallsStore.collegeClasses" :key="index">     
                     <td>
                         {{item.code}}
                     </td>
@@ -36,7 +35,7 @@
 <script setup>
 import SectionTitle from '../job-call-form-sections/SectionTitle.vue';
 import AddCareerClassModal from '../../components/job-call-teacher-form/AddCareerClassModal.vue'
-import {ref} from 'vue'
+import { ref } from 'vue'
 import { useTeacherJobCallStore } from '../../store/teacher-job-call';
 const showModal = ref(false)
 const teacherJobCallsStore = useTeacherJobCallStore()

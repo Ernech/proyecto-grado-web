@@ -21,7 +21,8 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
         academicTrainings: [],
         requiredKnowledgeArray: [],
         requirements: [],
-        jobCallEdit: {}
+        jobCallEdit: {},
+        showModal:false
 
     }), actions: {
 
@@ -106,20 +107,12 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
             this.jobCallName = ''
             this.jobCallNumber = ''
             this.jobCallObj = ''
-            this.openingDate = new Date()
-            this.closingDate = ''
+            this.openingDate = ''
             this.experiences = []
             this.academicTrainings = []
             this.requiredKnowledgeArray = []
 
         },
-        resetCollegueClassValues() {
-            this.id = ''
-            this.name = ''
-            this.requiredNumber = 0
-            this.code = ''
-            this.jobCallCode = '14A'
-        }
     },
 
 })

@@ -2,7 +2,7 @@
     <div class="container">
         <div class="form-input-container">
             <label for="code" class="form-label">Sigla</label>
-            <input class="form-input" type="text" id="code" maxlength="10" v-model="teacherJobCallStore.code" @change="getJobCallByCode">
+            <input class="form-input" type="text" id="code" maxlength="10" v-model="teacherJobCallStore.code" @change="getJobCallByCode"/>
         </div>
         <div class="form-input-container">
             <label for="college-class" class="form-label">Materia</label>
@@ -16,7 +16,7 @@
 
 </template>
 <script setup>
-import { ref } from 'vue'
+import { ref,computed } from 'vue'
 import { useTeacherJobCallStore  } from '../../../store/teacher-job-call' ;
 const teacherJobCallStore = useTeacherJobCallStore()
 const collegeClass = ref({})
@@ -27,6 +27,17 @@ const getJobCallByCode =()=>{
         teacherJobCallStore.id=collegeClass.value.id
     }
 }
+const filterCollegeClasses = computed(()=>{
+
+    if(teacherJobCallStore.code===''){
+        return []
+    }
+
+    return teacherJobCallStore.collegeClassesFromDB.filter(collegeClass => collegeClass.code.toUpperCase().includes(teacherJobCallStore.code))
+
+
+
+})
 
 </script>
 <style lang="scss" scoped>

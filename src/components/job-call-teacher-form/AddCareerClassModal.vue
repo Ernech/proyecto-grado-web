@@ -8,7 +8,7 @@
                 <ModalRequiredKnowledge />
                 <div class="button_container">
                     <button class="back-button" @click="$emit('close-modal')">Cerrar</button>
-                    <button class="add_button" @click="addCollegeClass" :disabled="isDisabled" :class="{disabled:isDisabled}">Agregar materia</button>
+                    <button class="add_button" @click="addCollegeClass();$emit('close-modal');" :disabled="isDisabled" :class="{disabled:isDisabled}">Agregar materia</button>
                 </div>
             </div>
 
@@ -53,8 +53,17 @@ const addCollegeClass = () => {
     }
     teacherJobCallStore.collegeClasses.push(newCollegeClass)
     teacherJobCallStore.collegeClassesToDB.push(newCollegeClassToDB)
-    teacherJobCallStore.resetCollegueClassValues()
+    resetCollegeClassValues()
 }
+const resetCollegeClassValues=()=> {
+            teacherJobCallStore.id = ''
+            teacherJobCallStore.name = ''
+            teacherJobCallStore.requiredNumber = 0
+            teacherJobCallStore.code = ''
+            teacherJobCallStore.jobCallCode = '',
+            teacherJobCallStore.academicTrainings = [],
+            teacherJobCallStore.requiredKnowledgeArray = []
+        }
 
 
 </script>
