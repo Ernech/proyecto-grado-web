@@ -22,7 +22,7 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
         requiredKnowledgeArray: [],
         requirements: [],
         jobCallEdit: {},
-        showModal:false
+        showModal: false
 
     }), actions: {
 
@@ -68,25 +68,25 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
                 },
                 newCareerClass: this.collegeClassesToDB
             }
-            console.log(JSON.stringify(newJobCallBody));
-            try {
-                const resp = await fetch('http://localhost:3000/job-call/teacher', {
-                    method: 'POST',
-                    headers: {
-                        "Content-Type": "application/json",
-                        'Authorization': localStorage.getItem('recruiter-token')
-                    },
-                    body: JSON.stringify(newJobCallBody)
-                })
-                console.log(resp);
-                console.log(resp.status);
-               
-            } catch (error) {
-                console.log(error);
-            }
-            finally{
-                router.push('/saved-job-call')
-            }
+           console.log(newJobCallBody)
+            // try {
+            //     const resp = await fetch('http://localhost:3000/job-call/teacher', {
+            //         method: 'POST',
+            //         headers: {
+            //             "Content-Type": "application/json",
+            //             'Authorization': localStorage.getItem('recruiter-token')
+            //         },
+            //         body: JSON.stringify(newJobCallBody)
+            //     })
+            //     console.log(resp);
+            //     console.log(resp.status);
+
+            // } catch (error) {
+            //     console.log(error);
+            // }
+            // finally{
+            //     router.push('/saved-job-call')
+            // }
         },
         getPagedList(page, pageItems) {
             const pageData = [];

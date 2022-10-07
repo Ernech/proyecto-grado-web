@@ -65,7 +65,7 @@
 import { ref, computed } from 'vue'
 import { useTeacherJobCallStore } from '../../store/teacher-job-call'
 import SectionTitle from '../../components/job-call-form-sections/SectionTitle.vue';
-const dataType=ref('PROFESSIONAL_EXPERIENCE')
+const dataType = ref('PROFESSIONAL_EXPERIENCE')
 const description = ref('');
 const years = ref(1);
 const requirement = ref('Escoja una opción...')
@@ -74,8 +74,9 @@ const editJobExperience = ref(false)
 const editListIndex = ref(-1);
 const jobCallStore = useTeacherJobCallStore()
 const addJobExperience = () => {
-    const newExperience = { dataType:dataType.value,description: description.value, yearsOfExperience: years.value, requirement: requirement.value, type: type.value }
+    const newExperience = { dataType: dataType.value, description: description.value, yearsOfExperience: years.value, requirement: requirement.value, type: type.value }
     jobCallStore.experiences.push(newExperience)
+    modifyJobExperiencesFromAllCareerClasses()
     resetValues()
 
 }
@@ -105,6 +106,7 @@ const editExperience = () => {
         jobCallStore.experiences[editListIndex.value].yearsOfExperience = years.value
         jobCallStore.experiences[editListIndex.value].requirement = requirement.value
         jobCallStore.experiences[editListIndex.value].type = type.value
+        modifyJobExperiencesFromAllCareerClasses()
         resetValues()
     }
 
@@ -114,9 +116,20 @@ const editExperience = () => {
 const deleteJobExperience = (index) => {
 
     jobCallStore.experiences.splice(index, 1)
+    modifyJobExperiencesFromAllCareerClasses()
     resetValues()
 
 
+}
+const modifyJobExperiencesFromAllCareerClasses=()=>{
+    if (jobCallStore.collegeClassesToDB.length >= 1) {
+        jobCallStore.collegeClassesToDB.forEach(obj => {
+            let newRequirements = obj.requirements.filter(req => req.dataType !== 'PROFESSIONAL_EXPERIENCE') 
+           newRequirements= newRequirements.concat(jobCallStore.experiences)
+            return obj.requirements = newRequirements
+        }
+        )
+    }
 }
 const resetValues = () => {
     editJobExperience.value = false

@@ -32,10 +32,12 @@ export default {
             if (teacherJobCallsStore.jobCallName !== null && teacherJobCallsStore.jobCallName !== ''
                 && teacherJobCallsStore.jobCallNumber !== null && teacherJobCallsStore.jobCallNumber !== ''
                 && teacherJobCallsStore.jobManualFile !== null && teacherJobCallsStore.jobManualFile !== '') {
-
-                if (teacherJobCallsStore.closingDate > teacherJobCallsStore.openingDate && teacherJobCallsStore.openingDate > today) {
-                    if (teacherJobCallsStore.collegeClassesToDB.length >= 1) {
+                   
+                if (new Date(teacherJobCallsStore.closingDate) > new Date(teacherJobCallsStore.openingDate) 
+                &&  new Date(teacherJobCallsStore.openingDate) > today) {
+                    if (teacherJobCallsStore.collegeClassesToDB.length >0 && teacherJobCallsStore.experiences.length>0) {
                         return false;
+                        
                     }
                 }
 
