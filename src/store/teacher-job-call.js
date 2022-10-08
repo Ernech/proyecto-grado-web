@@ -69,24 +69,24 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
                 newCareerClass: this.collegeClassesToDB
             }
            console.log(newJobCallBody)
-            // try {
-            //     const resp = await fetch('http://localhost:3000/job-call/teacher', {
-            //         method: 'POST',
-            //         headers: {
-            //             "Content-Type": "application/json",
-            //             'Authorization': localStorage.getItem('recruiter-token')
-            //         },
-            //         body: JSON.stringify(newJobCallBody)
-            //     })
-            //     console.log(resp);
-            //     console.log(resp.status);
+            try {
+                const resp = await fetch('http://localhost:3000/job-call/teacher', {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': localStorage.getItem('recruiter-token')
+                    },
+                    body: JSON.stringify(newJobCallBody)
+                })
+                console.log(resp);
+                console.log(resp.status);
 
-            // } catch (error) {
-            //     console.log(error);
-            // }
-            // finally{
-            //     router.push('/saved-job-call')
-            // }
+            } catch (error) {
+                console.log(error);
+            }
+            finally{
+                router.push('/saved-job-call')
+            }
         },
         getPagedList(page, pageItems) {
             const pageData = [];
@@ -102,7 +102,32 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
             }
             return pageData;
         },
-
+        async getOpenedTeacherJobCalls() {
+            try {
+                const resp = await fetch('http://localhost:3000/job-call/opened/teacher', {
+                    method: 'GET',
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                })
+                const dataDb = await resp.json()
+                this.jobCalls = dataDb
+            } catch (error) {
+                console.log(error);
+            }
+        },getPagedList(page, pageItems) {
+            const pageData = [];
+            let init = (page * pageItems) - pageItems
+            let end = (page * pageItems)
+            for (let i = init; i < end; i++) {
+                if (this.jobCalls[i]) {
+                    pageData.push(this.jobCalls[i])
+                } else {
+                    break
+                }
+            }
+            return pageData;
+        },
         resetValues() {
             this.jobCallName = ''
             this.jobCallNumber = ''

@@ -5,54 +5,83 @@
         <div class="input-container">
             <div class="form-input-container">
                 <label for="job-call-name" class="form-label">Buscar convocatoria</label>
-                <input class="form-input" type="text" id="job-call-name" maxlength="100" v-model.trim="searchJobCall" @input="filterJobCalls">
+                <input class="form-input" type="text" id="job-call-name" maxlength="100" v-model.trim="searchJobCall"
+                    @input="filterJobCalls">
             </div>
-        
+            <div class="form-input-container">
+                <label class="form-label">Cargo</label>
+                <select class="form-input" v-model="jobCallType">
+                    <option>Administrativo</option>
+                    <option>Docente</option>
+                </select>
+            </div>
+        </div>
+        <div v-if="jobCallType==='Administrativo'">
+            <div v-if="jobCallStore.jobCalls.length>0" class="job-call-list-container">
+                <JobCallCard v-for="item in pagedData" :key="item.id" :jobCallName="item.jobCallName"
+                    :jobCallNumber="item.jobCallNumber" :openingDate="new Date(item.openingDate)" />
+            </div>
+            <div v-else class="job-call-list-container">
+                <p>No existen convocatorias guardadas</p>
+            </div>
+        </div>
+        <div v-else>
+            <div v-if="teacherJobCallStore.jobCalls.length>0" class="job-call-list-container">
+                <JobCallCard v-for="item in teacherPagedData" :key="item.id" :jobCallName="item.jobCallName"
+                    :jobCallNumber="item.jobCallNumber" :openingDate="new Date(item.openingDate)" />
+            </div>
+            <div v-else class="job-call-list-container">
+                <p>No existen convocatorias guardadas</p>
+            </div>
         </div>
 
-        <div v-if="jobCallStore.jobCalls.length>0" class="job-call-list-container">
-            <JobCallCard v-for="item in pagedData" :key="item.id" :jobCallName="item.jobCallName"
-                :jobCallNumber="item.jobCallNumber" :openingDate="new Date(item.openingDate)"/>
-        </div>
-        <div v-else class="job-call-list-container">
-            <p>No existen convocatorias guardadas</p>
-        </div>
-        <vue-awesome-paginate v-if="jobCallStore.jobCalls.length>0"
+        <vue-awesome-paginate v-if="jobCallStore.jobCalls.length>0 && jobCallType==='Administrativo'"
             :total-items="jobCallStore.jobCalls.length" :items-per-page="4" :max-pages-shown="10" :current-page="1"
             :on-click="onClickHandler" />
+
+        <vue-awesome-paginate v-else="teacherJobCallStore.jobCalls.length>0 && jobCallType==='Docente'"
+            :total-items="teacherJobCallStore.jobCalls.length" :items-per-page="4" :max-pages-shown="10" :current-page="1"
+            :on-click="onClickHandlerTeacher" />
 
     </div>
 </template>
 <script setup>
 import JobCallCard from '../../components/job-call/JobCallCard.vue';
 import { useJobCallStore } from '../../store/job-call';
+import { useTeacherJobCallStore } from '../../store/teacher-job-call'
 import { onBeforeMount, ref } from 'vue'
 const jobCallStore = useJobCallStore()
+const teacherJobCallStore = useTeacherJobCallStore()
 const searchJobCall = ref('')
 const jobCalls = ref([])
-
+const teacherJobCalls = ref([])
+const jobCallType = ref('Administrativo')
 onBeforeMount(async () => {
     await jobCallStore.getOpenedJobCalls();
-    jobCalls.value = jobCallStore.jobCalls;
+    await teacherJobCallStore.getOpenedTeacherJobCalls();
+    jobCalls.value = jobCallStore.jobCalls
+    teacherJobCalls.value = teacherJobCallStore.jobCalls;
     onClickHandler(1)
+    onClickHandlerTeacher(1)
 })
 const filterJobCalls = () => {
     jobCallStore.jobCalls = jobCalls.value
-    if(searchJobCall.value!==null && searchJobCall.value!==''){       
-       jobCallStore.jobCalls = jobCalls.value.filter(obj=> obj.jobCallName.search(searchJobCall.value.toUpperCase())>-1)
-       
+    if (searchJobCall.value !== null && searchJobCall.value !== '') {
+        jobCallStore.jobCalls = jobCalls.value.filter(obj => obj.jobCallName.search(searchJobCall.value.toUpperCase()) > -1)
+
     }
     onClickHandler(1)
-    
-
 }
 const pageItems = ref(4)
 const pagedData = ref([]);
+const teacherPagedData = ref([])
 const onClickHandler = (page) => {
-    pagedData.value = jobCallStore.getPagedList(page,pageItems.value)
+    pagedData.value = jobCallStore.getPagedList(page, pageItems.value)
 
 }
-
+const onClickHandlerTeacher = (page) => {
+    teacherPagedData.value = teacherJobCallStore.getPagedList(page, pageItems.value)
+}
 
 
 </script>
@@ -121,9 +150,11 @@ const onClickHandler = (page) => {
     padding-top: 3px;
     padding-bottom: 3px;
 }
-#job-call-name{
+
+#job-call-name {
     text-transform: uppercase;
 }
+
 .form-input-container select {
     height: 30px;
 }
