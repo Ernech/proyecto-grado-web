@@ -8,7 +8,9 @@ import ClosedJobCall from '../views/Recruiter/ClosedJobCall.vue'
 import SavedJobCall from '../views/Recruiter/SavedJobCall.vue'
 import NewJobCall from '../views/Recruiter/NewJobCall.vue'
 import EditJobCall from '../views/Recruiter/EditJobCall.vue'
+import TeacherJobCall from '../views/Recruiter/TeacherJobCall.vue'
 import { useUserStore } from '../store/user'
+import { useTeacherJobCallStore } from '../store/teacher-job-call'
 
 
 const requireAuth = (to, from, next) => {
@@ -28,6 +30,9 @@ const routes = [
         path: '/', component: Home,
         children: [{
             path: '/open-job-call', component: OpenJobCall
+        },
+        {
+            path: '/open-job-call/teacher/:id', component: TeacherJobCall,name:'teacher-job-calls'
         },
         {
             path: '/pending-job-call', component: PendingJobCall

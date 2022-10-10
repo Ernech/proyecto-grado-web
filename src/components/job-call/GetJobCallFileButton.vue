@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button class="get-word-file-button" :disables="isDisabled" :class="{disabled:isDisabled}" @click="reportComponent.getDoc">
+    <button class="get-word-file-button" :disabled="isDisabled" :class="{disabled:isDisabled}" @click="reportComponent.getDoc">
       <fa class="get-word-file-icon" icon="fa-solid fa-file-word"/>Download Word Document</button>
   </div>
 </template>

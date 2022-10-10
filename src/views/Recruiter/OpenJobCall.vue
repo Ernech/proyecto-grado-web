@@ -28,7 +28,8 @@
         <div v-else>
             <div v-if="teacherJobCallStore.jobCalls.length>0" class="job-call-list-container">
                 <JobCallCard v-for="item in teacherPagedData" :key="item.id" :jobCallName="item.jobCallName"
-                    :jobCallNumber="item.jobCallNumber" :openingDate="new Date(item.openingDate)" />
+                    :jobCallNumber="item.jobCallNumber" :openingDate="new Date(item.openingDate)"
+                    @click="toTeacherJobCallInfo(item.id)" />
             </div>
             <div v-else class="job-call-list-container">
                 <p>No existen convocatorias guardadas</p>
@@ -50,6 +51,7 @@ import JobCallCard from '../../components/job-call/JobCallCard.vue';
 import { useJobCallStore } from '../../store/job-call';
 import { useTeacherJobCallStore } from '../../store/teacher-job-call'
 import { onBeforeMount, ref } from 'vue'
+import router from '../../routes/recruiter-router'
 const jobCallStore = useJobCallStore()
 const teacherJobCallStore = useTeacherJobCallStore()
 const searchJobCall = ref('')
@@ -83,10 +85,14 @@ const onClickHandlerTeacher = (page) => {
     teacherPagedData.value = teacherJobCallStore.getPagedList(page, pageItems.value)
 }
 
+const toTeacherJobCallInfo = (id)=>{
+    console.log(id);
+    router.push({name:'teacher-job-calls',params:{id}})
+}
 
 </script>
 
-<style>
+<style scoped>
 .main {
     padding: 10px 50px;
 }

@@ -18,7 +18,7 @@ export default {
     flex-direction: column;
     gap: 2px;
     margin-bottom: 0px;
-    margin-top: 40px;
+    margin-top: 25px;
 }
 
 .section-title p {

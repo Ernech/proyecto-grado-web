@@ -6,6 +6,7 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
         collegeClasses: [],
         collegeClassesToDB: [],
         collegeClassesFromDB: [],
+        teacherApplies: [],
         id: '',
         name: '',
         requiredNumber: 0,
@@ -22,7 +23,8 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
         requiredKnowledgeArray: [],
         requirements: [],
         jobCallEdit: {},
-        showModal: false
+        showModal: false,
+        selectedTeacherJobCall: {}
 
     }), actions: {
 
@@ -68,7 +70,7 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
                 },
                 newCareerClass: this.collegeClassesToDB
             }
-           console.log(newJobCallBody)
+            console.log(newJobCallBody)
             try {
                 const resp = await fetch('http://localhost:3000/job-call/teacher', {
                     method: 'POST',
@@ -84,7 +86,7 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
             } catch (error) {
                 console.log(error);
             }
-            finally{
+            finally {
                 router.push('/saved-job-call')
             }
         },
@@ -108,6 +110,7 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
                     method: 'GET',
                     headers: {
                         "Content-Type": "application/json",
+
                     },
                 })
                 const dataDb = await resp.json()
@@ -115,7 +118,39 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
             } catch (error) {
                 console.log(error);
             }
-        },getPagedList(page, pageItems) {
+        },
+        async getTeacherJobCallById(id) {
+            try {
+                const resp = await fetch(`http://localhost:3000/job-call/teacher-jc/${id}`, {
+                    method: 'GET',
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': localStorage.getItem('recruiter-token')
+                    },
+                })
+                const dataDb = await resp.json()
+                this.selectedTeacherJobCall = dataDb
+            } catch (error) {
+                console.log(error);
+            }
+        },
+
+        async getCandidatesByTeacherJobCallId(id) {
+            try {
+                const resp = await fetch(`http://localhost:3000/job-call/candiates/teacher/${id}`, {
+                    method: 'GET',
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': localStorage.getItem('recruiter-token')
+                    },
+                })
+                const dataDb = await resp.json()
+                this.teacherApplies = dataDb
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        getPagedList(page, pageItems) {
             const pageData = [];
             let init = (page * pageItems) - pageItems
             let end = (page * pageItems)
@@ -127,6 +162,97 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
                 }
             }
             return pageData;
+        },
+        generateReportData(code, name) {
+            const data = {
+                code, name,
+                candidates: this.teacherApplies.teacherApply.map(obj => this.generateCandidatesData(obj.applyTPersonalData, obj.applyTCVData))
+            }
+            return data
+        },
+        generateCandidatesData(personalData, cvData) {
+            const candidateName = `${personalData.name} ${personalData.firstLastName} ${personalData.secondLastName}`
+            const candidateBirthDay = personalData.birthDate
+            const candidateAge = this.calculateAge(personalData.birthDate)
+            const academicTitle =  `Licenciatura en ${this.getMainAcademicTitle(cvData).title} ${this.getMainAcademicTitle(cvData).institution} (${this.getMainAcademicTitle(cvData).degreeDate})`
+            const secondAcademicTitle = this.getSecondAcademicTitle(cvData).length>0? 'SI' :'NO'
+            const teacherAcadmicTraining = 'SI'
+            const requiredKnowledge = 'NO'
+            const professionalExperienceTime = this.getProfessionalExperienceTime(cvData) 
+            const teachingExperienceYears = this.getTeachingExperienceTime('2015') 
+            const ucbFormatDocument ='SI'
+            const techingPlan ='SI'
+            const mainTitleFile = !this.getMainAcademicTitle(cvData).professionalTitleFile!=='--'? 'SI' :'NO'
+            const teacherTitleFile = 'NO'
+            const personalIdFile =  personalData.personalIdFile!== '--' ? 'SI':'NO'
+            const academicTrainingTrue ='NO'
+            const professionalExperienceTrue ='NO'
+            const TeachingExperienceTrue ='SI'
+            const Habilitated ='NO'
+            const candidateData = {
+             candidateName,
+             candidateBirthDay,
+             candidateAge,
+             academicTitle,
+             secondAcademicTitle,
+             teacherAcadmicTraining,
+             requiredKnowledge,
+             professionalExperienceTime,
+             teachingExperienceYears,
+             ucbFormatDocument,
+             techingPlan,
+             mainTitleFile,
+             teacherTitleFile,
+             personalIdFile,
+             academicTrainingTrue,
+             professionalExperienceTrue,
+             TeachingExperienceTrue,
+             Habilitated
+            }
+            return candidateData
+        },
+
+        getMainAcademicTitle(cvData) {
+            const academicTitles = cvData.filter(obj => obj.dataType === 'ACADEMIC_TRAINING' && obj.degree === 'Licenciatura')
+            const mainTitle = academicTitles[0]
+            return mainTitle
+
+        },
+        getProfessionalExperienceTime(cvData) {
+            const academicTitles = cvData.filter(obj => obj.dataType === 'ACADEMIC_TRAINING' && obj.degree === 'Licenciatura')
+            const mainTitle = academicTitles[0]
+            let df = new Date(mainTitle.degreeDate);
+            let dt = new Date();
+            let allYears = dt.getFullYear() - df.getFullYear();
+            let partialMonths = dt.getMonth() - df.getMonth();
+            if (partialMonths < 0) {
+                allYears--;
+                partialMonths = partialMonths + 12;
+            }
+            let total = allYears + " años " + partialMonths + " meses";
+            return total
+        },
+        getTeachingExperienceTime(teachingYears) {
+            let df = new Date(teachingYears);
+            let dt = new Date();
+            let allYears = dt.getFullYear() - df.getFullYear();
+            let partialMonths = dt.getMonth() - df.getMonth();
+            if (partialMonths < 0) {
+                allYears--;
+                partialMonths = partialMonths + 12;
+            }
+            let total = allYears + " años " + partialMonths + " meses";
+            return total
+        },
+        getSecondAcademicTitle(cvData) {
+            const academicTitles = cvData.filter(obj => obj.dataType === 'ACADEMIC_TRAINING' && obj.degree === 'Postgrado')
+            return academicTitles
+
+        },
+        calculateAge(birthDate) {
+            const ageDifMs = Date.now() - new Date(birthDate).getTime();
+            const ageDate = new Date(ageDifMs);
+            return Math.abs(ageDate.getUTCFullYear() - 1970);
         },
         resetValues() {
             this.jobCallName = ''
