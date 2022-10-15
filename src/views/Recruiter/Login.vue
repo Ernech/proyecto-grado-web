@@ -10,6 +10,9 @@
         <div class="grid-item-2">
             <div class="card-container">
                 <h3 class="card-container__text">Bienvenido</h3>
+                <div v-if="loginError" class="login-error" >
+                    <span>Usuario o contraseña incorrectos</span>
+                </div>
                 <div class="form">
                     <form @submit.prevent="handleSubmit">
                         <div class="form-input-container">
@@ -41,6 +44,8 @@ import { useUserStore } from '../../store/user'
 const userStore = useUserStore();
 const email = ref('')
 const password = ref('')
+const loginError=ref(false)
+
 
 const handleSubmit = async () => {
     await userStore.loginUser(email.value, password.value)
