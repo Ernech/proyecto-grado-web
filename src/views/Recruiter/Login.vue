@@ -189,4 +189,22 @@ const isDisabled = computed(()=>{
     order: 10;
     font-family: 'Oswald', sans-serif;
 }
+.login-error{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+  
+    padding: 5px 10px;
+    width: 80%;
+    margin-bottom: 0px;
+}
+
+.login-error span{
+
+    color: #FF5962;
+    font-family: sans-serif;
+    font-size: 15px;
+  
+}
 </style>
