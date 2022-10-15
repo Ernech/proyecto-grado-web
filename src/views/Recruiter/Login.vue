@@ -41,7 +41,7 @@
 <script setup>
 import { ref,computed } from 'vue'
 import { useUserStore } from '../../store/user'
-import {router} from '../../routes/recruiter-router'
+import router from '../../routes/recruiter-router'
 const userStore = useUserStore();
 const email = ref('')
 const password = ref('')
