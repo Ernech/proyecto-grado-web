@@ -11,7 +11,7 @@ export const useUserStore=defineStore('user',{
             this.isLoading=true;
             this.loginData={email,password}
             try {
-                const resp = await fetch('http://localhost:3000/user/token',{
+                const resp = await fetch('http://proyecto-grado-api-production.up.railway.app/user/token',{
                     method:'POST',
                     headers: { "Content-Type": "application/json"},
                     body: JSON.stringify(this.loginData)

@@ -56,7 +56,7 @@ export const useJobCallStore = defineStore('job-call', {
                     requiredKnowledge: this.requiredKnowledgeArray,
                     aptitudes: this.aptitudes
                 }
-                const resp = await fetch('http://localhost:3000/job-call', {
+                const resp = await fetch('http://proyecto-grado-api-production.up.railway.app/job-call', {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json",
@@ -90,7 +90,7 @@ export const useJobCallStore = defineStore('job-call', {
                     requiredKnowledge: this.requiredKnowledgeArray,
                     aptitudes: this.aptitudes
                 }
-                const resp = await fetch(`http://localhost:3000/job-call/${id}`, {
+                const resp = await fetch(`http://proyecto-grado-api-production.up.railway.app/job-call/${id}`, {
                     method: 'PUT',
                     headers: {
                         "Content-Type": "application/json",
@@ -108,7 +108,7 @@ export const useJobCallStore = defineStore('job-call', {
         },
         async getSavedJobCalls() {
             try {
-                const resp = await fetch('http://localhost:3000/job-call/saved', {
+                const resp = await fetch('http://proyecto-grado-api-production.up.railway.app/job-call/saved', {
                     method: 'GET',
                     headers: {
                         "Content-Type": "application/json",
@@ -123,7 +123,7 @@ export const useJobCallStore = defineStore('job-call', {
         },
         async getPendingJobCalls() {
             try {
-                const resp = await fetch('http://localhost:3000/job-call/pending', {
+                const resp = await fetch('http://proyecto-grado-api-production.up.railway.app/job-call/pending', {
                     method: 'GET',
                     headers: {
                         "Content-Type": "application/json",
@@ -138,7 +138,7 @@ export const useJobCallStore = defineStore('job-call', {
         },
         async getOpenedJobCalls() {
             try {
-                const resp = await fetch('http://localhost:3000/job-call/opened', {
+                const resp = await fetch('http://proyecto-grado-api-production.up.railway.app/job-call/opened', {
                     method: 'GET',
                     headers: {
                         "Content-Type": "application/json",
@@ -153,7 +153,7 @@ export const useJobCallStore = defineStore('job-call', {
         },
         async publishJobCall(id){
             try {
-                const resp = await fetch(`http://localhost:3000/job-call/pending/${id}`,{
+                const resp = await fetch(`http://proyecto-grado-api-production.up.railway.app/job-call/pending/${id}`,{
                     method:'PATCH',
                     headers:{
                         "Content-Type": "application/json",

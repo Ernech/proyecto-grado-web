@@ -30,7 +30,7 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
 
         async getCollegeClasses() {
             try {
-                const resp = await fetch('http://localhost:3000/college-class', {
+                const resp = await fetch('http://proyecto-grado-api-production.up.railway.app/college-class', {
                     method: 'GET',
                     headers: {
                         "Content-Type": "application/json",
@@ -45,7 +45,7 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
         },
         async publishJobCall(id) {
             try {
-                const resp = await fetch(`http://localhost:3000/job-call/pending/${id}`, {
+                const resp = await fetch(`http://proyecto-grado-api-production.up.railway.app/job-call/pending/${id}`, {
                     method: 'PATCH',
                     headers: {
                         "Content-Type": "application/json",
@@ -72,7 +72,7 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
             }
             console.log(newJobCallBody)
             try {
-                const resp = await fetch('http://localhost:3000/job-call/teacher', {
+                const resp = await fetch('http://proyecto-grado-api-production.up.railway.app/job-call/teacher', {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json",
@@ -106,7 +106,7 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
         },
         async getOpenedTeacherJobCalls() {
             try {
-                const resp = await fetch('http://localhost:3000/job-call/opened/teacher', {
+                const resp = await fetch('http://proyecto-grado-api-production.up.railway.app/job-call/opened/teacher', {
                     method: 'GET',
                     headers: {
                         "Content-Type": "application/json",
@@ -121,7 +121,7 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
         },
         async getTeacherJobCallById(id) {
             try {
-                const resp = await fetch(`http://localhost:3000/job-call/teacher-jc/${id}`, {
+                const resp = await fetch(`http://proyecto-grado-api-production.up.railway.app/job-call/teacher-jc/${id}`, {
                     method: 'GET',
                     headers: {
                         "Content-Type": "application/json",
@@ -137,7 +137,7 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
 
         async getCandidatesByTeacherJobCallId(id) {
             try {
-                const resp = await fetch(`http://localhost:3000/job-call/candiates/teacher/${id}`, {
+                const resp = await fetch(`http://proyecto-grado-api-production.up.railway.app/job-call/candiates/teacher/${id}`, {
                     method: 'GET',
                     headers: {
                         "Content-Type": "application/json",
