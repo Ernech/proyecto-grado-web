@@ -19,7 +19,7 @@ export const useUserStore=defineStore('user',{
                 const {token} =await resp.json()
                 this.accessToken=token;
                 localStorage.setItem('recruiter-token',`bearer ${token}`)  
-               router.push('/open-job-call')
+              return resp.status
             } catch (error) {
                console.log(error);
             }finally{

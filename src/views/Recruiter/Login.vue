@@ -41,6 +41,7 @@
 <script setup>
 import { ref,computed } from 'vue'
 import { useUserStore } from '../../store/user'
+import {router} from '../../routes/recruiter-router'
 const userStore = useUserStore();
 const email = ref('')
 const password = ref('')
@@ -48,7 +49,12 @@ const loginError=ref(false)
 
 
 const handleSubmit = async () => {
-    await userStore.loginUser(email.value, password.value)
+    const resp = await userStore.loginUser(email.value, password.value)
+    if(resp===201){
+        router.push('/open-job-call')
+        return
+    }
+    loginError.value=true
 }
 
 const isDisabled = computed(()=>{
