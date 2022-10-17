@@ -70,7 +70,6 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
                 },
                 newCareerClass: this.collegeClassesToDB
             }
-            console.log(newJobCallBody)
             try {
                 const resp = await fetch('http://localhost:3000/job-call/teacher', {
                     method: 'POST',
@@ -80,8 +79,7 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
                     },
                     body: JSON.stringify(newJobCallBody)
                 })
-                console.log(resp);
-                console.log(resp.status);
+              return resp.status
 
             } catch (error) {
                 console.log(error);

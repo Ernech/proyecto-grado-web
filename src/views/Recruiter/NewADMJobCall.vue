@@ -1,17 +1,18 @@
 <template>
 
-        <div class="job-call-form">
-            <GeneralInformationSection />
-            <FunctionsSection />
-            <AcademicTrainingSection />
-            <JobExperienceSection />
-            <RequiredKnowledge />
-            <AptitudeSection />
-            <button type="submit" class="job-call-form__create_button" @click="createJobCall" :disabled="isDisabled"
-                :class="{ disabled: isDisabled }">Crear
-                convocatoria</button>
-        </div>
- 
+    <div class="job-call-form">
+        <GeneralInformationSection />
+        <FunctionsSection />
+        <AcademicTrainingSection />
+        <JobExperienceSection />
+        <RequiredKnowledge />
+        <AptitudeSection />
+        <button type="submit" class="job-call-form__create_button" @click="createJobCall" :disabled="isDisabled"
+            :class="{ disabled: isDisabled }">Crear
+            convocatoria</button>
+        <FeetbackModal v-show="showModal" @close-modal="showModal=false" :title="modalTitle" :message="modalMessage" />
+    </div>
+
 </template>
 <script>
 import FunctionsSection from '../../components/job-call-form-sections/FunctionsSection.vue';
@@ -20,8 +21,9 @@ import JobExperienceSection from '../../components/job-call-form-sections/JobExp
 import RequiredKnowledge from '../../components/job-call-form-sections/RequiredKnowledge.vue';
 import AptitudeSection from '../../components/job-call-form-sections/AptitudeSection.vue';
 import GeneralInformationSection from '../../components/job-call-form-sections/GeneralInformationSection.vue';
+import FeetbackModal from '../../components/modals/FeetbackModal.vue'
 import { useJobCallStore } from '../../store/job-call'
-import { computed,onBeforeMount } from 'vue';
+import { computed, onBeforeMount, ref } from 'vue';
 export default {
 
     components: {
@@ -30,15 +32,29 @@ export default {
         JobExperienceSection,
         RequiredKnowledge,
         AptitudeSection,
-        GeneralInformationSection
+        GeneralInformationSection,
+        FeetbackModal
     },
     setup() {
         const jobCallStore = useJobCallStore()
-        onBeforeMount(()=>{
+        const showModal = ref(false)
+        const modalTitle = ref('')
+        const modalMessage = ref('')
+        onBeforeMount(() => {
             jobCallStore.resetValues()
         })
         const createJobCall = async () => {
-            await jobCallStore.createJobCall()
+            const resp = await jobCallStore.createJobCall()
+            if (resp === 201) {
+                modalTitle.value = "Convocatoria creada"
+                modalMessage.value = "Se ha creado una nueva convocatoria."
+                showModal.value = true
+                jobCallStore.resetValues()
+                return
+            }
+            modalTitle.value = "Se ha producido un error"
+            modalMessage.value = "No se pudo crear la convocatoria."
+            showModal.value = true
             jobCallStore.resetValues()
 
         }
@@ -49,7 +65,8 @@ export default {
                 && jobCallStore.jobManualFile !== null && jobCallStore.jobManualFile !== ''
                 && jobCallStore.jobCallObj !== null && jobCallStore.jobCallObj !== '') {
 
-                if (jobCallStore.closingDate>jobCallStore.openingDate && jobCallStore.openingDate>today) {
+                if (new Date(jobCallStore.closingDate) > new Date(jobCallStore.openingDate)
+                    && new Date(jobCallStore.openingDate) > today) {
                     if (jobCallStore.jobFunctions.length >= 1
                         && jobCallStore.academicTrainings.length >= 1
                         && jobCallStore.experiences.length >= 1
@@ -62,12 +79,11 @@ export default {
             }
             return true
         })
-        return { createJobCall, isDisabled }
+        return { createJobCall, isDisabled, showModal, modalTitle, modalMessage }
     }
 }
 </script>
 <style scoped>
-
 .job-call-form {
     display: flex;
     flex-direction: column;

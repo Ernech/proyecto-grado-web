@@ -7,23 +7,29 @@
             <button class="add_button" @click="createNewTeacherJobCall" :disabled="isDisabled"
                 :class="{disabled:isDisabled}">Crear convocatoria</button>
         </div>
+        <FeetbackModal v-show="showModal" @close-modal="showModal=false" :title="modalTitle" :message="modalMessage" />
     </div>
 </template>
 <script>
 import GeneralInformationSectionTeacherVue from '../../components/job-call-teacher-form/GeneralInformationSectionTeacher.vue';
 import CareerClassesSectionSection from '../../components/job-call-teacher-form/CareerClassesSection.vue'
 import JobExperienceSection from '../../components/job-call-teacher-form/JobExperienceSection.vue'
+import FeetbackModal from '../../components/modals/FeetbackModal.vue'
 import { onBeforeMount, computed } from 'vue';
 import { useTeacherJobCallStore } from '../../store/teacher-job-call';
 export default {
     components: {
         GeneralInformationSectionTeacherVue,
         CareerClassesSectionSection,
-        JobExperienceSection
+        JobExperienceSection,
+        FeetbackModal
     },
 
     setup(props) {
         const teacherJobCallsStore = useTeacherJobCallStore()
+        const showModal = ref(false)
+        const modalTitle = ref('')
+        const modalMessage = ref('')
         onBeforeMount(async () => {
             await teacherJobCallsStore.getCollegeClasses()
         })
@@ -45,7 +51,16 @@ export default {
             return true
         })
         const createNewTeacherJobCall = async () => {
-            await teacherJobCallsStore.createTeacherJobCall()
+           const resp =  await teacherJobCallsStore.createTeacherJobCall()
+           if (resp === 201) {
+                modalTitle.value = "Convocatoria creada"
+                modalMessage.value = "Se ha creado una nueva convocatoria."
+                showModal.value = true
+                return
+            }
+            modalTitle.value = "Se ha producido un error"
+            modalMessage.value = "No se pudo crear la convocatoria."
+            showModal.value = true
         }
         return { createNewTeacherJobCall, isDisabled }
 

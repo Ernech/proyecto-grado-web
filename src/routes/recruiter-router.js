@@ -14,7 +14,7 @@ import { useTeacherJobCallStore } from '../store/teacher-job-call'
 
 
 const requireAuth = (to, from, next) => {
-const userStore = useUserStore()
+    const userStore = useUserStore()
     const authToken = userStore.accessToken
     if (authToken) {
         next()
@@ -25,32 +25,33 @@ const userStore = useUserStore()
 }
 
 const routes = [
+   
     { path: '/login', component: Login },
     {
-        path: '/', component: Home,
+        path: '/', component: Home, redirect: '/open-job-call',
         children: [{
             path: '/open-job-call', component: OpenJobCall
         },
         {
-            path: '/open-job-call/teacher/:id', component: TeacherJobCall,name:'teacher-job-calls'
+            path: '/open-job-call/teacher/:id', component: TeacherJobCall, name: 'teacher-job-calls'
         },
         {
             path: '/pending-job-call', component: PendingJobCall
         },
         {
             path: '/closed-job-call', component: ClosedJobCall
-        }, 
+        },
         {
-            path: '/saved-job-call', component: SavedJobCall, 
-        }, 
+            path: '/saved-job-call', component: SavedJobCall,
+        },
         {
             path: '/new-job-call', component: NewJobCall
         },
-        { 
-            path: '/edit-job-call/:id', component: EditJobCall,name:'Edit-job-call'
+        {
+            path: '/edit-job-call/:id', component: EditJobCall, name: 'Edit-job-call'
         }
         ],
-       beforeEnter:requireAuth
+        beforeEnter: requireAuth
     },
 ]
 

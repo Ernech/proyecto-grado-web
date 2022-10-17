@@ -79,7 +79,7 @@ const filterCollegeClasses = computed(() => {
     border-radius: 5px;
     z-index: 10;
     background-color: #fff;
-
+    
 }
 
 .class-code-list ul {

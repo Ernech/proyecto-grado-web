@@ -64,8 +64,7 @@ export const useJobCallStore = defineStore('job-call', {
                     },
                     body: JSON.stringify(newJobCallBody)
                 })
-                console.log(resp.status);
-                console.log(resp);  
+                return resp.status
               
             } catch (error) {
                 console.log(error);
@@ -74,7 +73,6 @@ export const useJobCallStore = defineStore('job-call', {
             }
         },
         async editJobCall(id) {      
-            console.log(id);
             try {
                 const editJobCallBody = {
                     jobCallName: this.jobCallName.toUpperCase(),
