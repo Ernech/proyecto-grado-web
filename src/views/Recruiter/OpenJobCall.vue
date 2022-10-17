@@ -40,7 +40,7 @@
             :total-items="jobCallStore.jobCalls.length" :items-per-page="4" :max-pages-shown="10" :current-page="1"
             :on-click="onClickHandler" />
 
-        <vue-awesome-paginate v-else="teacherJobCallStore.jobCalls.length>0 && jobCallType==='Docente'"
+        <vue-awesome-paginate v-if="teacherJobCallStore.jobCalls.length>0 && jobCallType==='Docente'"
             :total-items="teacherJobCallStore.jobCalls.length" :items-per-page="4" :max-pages-shown="10" :current-page="1"
             :on-click="onClickHandlerTeacher" />
 

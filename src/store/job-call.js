@@ -149,6 +149,21 @@ export const useJobCallStore = defineStore('job-call', {
                 console.log(error);
             }
         },
+        async getClosedJobCalls() {
+            try {
+                const resp = await fetch('http://localhost:3000/job-call/closed', {
+                    method: 'GET',
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': localStorage.getItem('recruiter-token')
+                    },
+                })
+                const dataDb = await resp.json()
+                this.jobCalls = dataDb
+            } catch (error) {
+                console.log(error);
+            }
+        },
         async publishJobCall(id){
             try {
                 const resp = await fetch(`http://localhost:3000/job-call/pending/${id}`,{
