@@ -104,11 +104,57 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
         },
         async getOpenedTeacherJobCalls() {
             try {
-                const resp = await fetch('http://localhost:3000/job-call/opened/teacher', {
+                const resp = await fetch('http://localhost:3000/job-call/opened/teacher/jc', {
                     method: 'GET',
                     headers: {
                         "Content-Type": "application/json",
 
+                    },
+                })
+                const dataDb = await resp.json()
+                this.jobCalls = dataDb
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        
+        async getSavedTeacherJobCalls() {
+            try {
+                const resp = await fetch('http://localhost:3000/job-call/saved/teacher', {
+                    method: 'GET',
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': localStorage.getItem('recruiter-token')
+                    },
+                })
+                const dataDb = await resp.json()
+                this.jobCalls = dataDb
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async getPendingTeacherJobCalls() {
+            try {
+                const resp = await fetch('http://localhost:3000/job-call/pending/teacher', {
+                    method: 'GET',
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': localStorage.getItem('recruiter-token')
+                    },
+                })
+                const dataDb = await resp.json()
+                this.jobCalls = dataDb
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async getClosedTeacherJobCalls() {
+            try {
+                const resp = await fetch('http://localhost:3000/job-call/closed/teacher', {
+                    method: 'GET',
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': localStorage.getItem('recruiter-token')
                     },
                 })
                 const dataDb = await resp.json()

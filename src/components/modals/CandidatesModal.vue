@@ -3,27 +3,61 @@
         <div class="modal-overlay">
             <div class="modal">
                 <h3 class="title">Candidatos</h3>
-                <div class="button_container">
-                    <button class="back-button" @click="$emit('close-modal')">Cerrar</button>
-                </div>
+                <table>
+            <thead>
+                <tr>
+                    <th class="code-column">Nombre</th>
+                    <th class="code-column">Apellido Paterno</th>
+                    <th class="class-name-column">Apellido Materno</th>
+                    <th class="candidates-column">Fecha de postulación</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item,index) in candidates" :key="index" class="college-classes-list"> 
+                    <td>
+                        {{item.applyTPersonalData.name}}
+                    </td>    
+                    <td>
+                        {{item.applyTPersonalData.firstLastName}}
+                    </td>
+                    <td>
+                       {{item.applyTPersonalData.secondLastName}}
+                    </td>
+                    <td>
+                       {{item.applyDate}}
+                    </td>
+                    
+                </tr>
+                
+
+            </tbody>
+        </table>
+                <button class="back-button" @click="$emit('close-modal')">Cerrar</button>
+                
             </div>
 
         </div>
     </div>
 </template>
-<script setup>
+<script>
 import { useTeacherJobCallStore } from '../../store/teacher-job-call';
 import { computed } from 'vue';
-const teacherJobCallStore = useTeacherJobCallStore()
-props:{
-    
+export default{
+    props:{
+        candidates:{type:Array,required:true}
+    },
+
+    setup(props){
+        const teacherJobCallStore = useTeacherJobCallStore()
+    }
+
 }
 
 
 </script>
 <style lang="scss" scoped>
 @import '../../styles/buttons.scss';
-
+@import '../../styles/tables.scss';
 .modal-overlay {
     position: fixed;
     top: 0;

@@ -9,6 +9,7 @@ import SavedJobCall from '../views/Recruiter/SavedJobCall.vue'
 import NewJobCall from '../views/Recruiter/NewJobCall.vue'
 import EditJobCall from '../views/Recruiter/EditJobCall.vue'
 import TeacherJobCall from '../views/Recruiter/TeacherJobCall.vue'
+import ClosedTeacherJobCallInfo from '../views/Recruiter/ClosedTeacherJobCallInfo.vue'
 import { useUserStore } from '../store/user'
 import { useTeacherJobCallStore } from '../store/teacher-job-call'
 
@@ -40,6 +41,9 @@ const routes = [
         },
         {
             path: '/closed-job-call', component: ClosedJobCall
+        },
+        {
+            path: '/closed-job-call/teacher/:id', component: ClosedTeacherJobCallInfo,name:'closed-teacher-job-call'
         },
         {
             path: '/saved-job-call', component: SavedJobCall,

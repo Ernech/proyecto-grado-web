@@ -30,7 +30,7 @@
             <div v-if="teacherJobCallStore.jobCalls.length>0" class="job-call-list-container">
                 <JobCallCard v-for="item in teacherPagedData" :key="item.id" :jobCallName="item.jobCallName"
                     :jobCallNumber="item.jobCallNumber" :openingDate="new Date(item.openingDate)"
-                  />
+                 @click="toClosedTeacherJobCallInfo(item.id)" />
             </div>
             <div v-else class="job-call-list-container">
                 <p>No existen convocatorias guardadas</p>
@@ -49,6 +49,7 @@ import JobCallCard from '../../components/job-call/JobCallCard.vue';
 import { useJobCallStore } from '../../store/job-call';
 import { useTeacherJobCallStore } from '../../store/teacher-job-call'
 import { onBeforeMount, ref } from 'vue'
+import router from '../../routes/recruiter-router'
 const jobCallStore = useJobCallStore()
 const teacherJobCallStore = useTeacherJobCallStore()
 const searchJobCall = ref('')
@@ -57,7 +58,7 @@ const teacherJobCalls = ref([])
 const jobCallType = ref('Administrativo')
 onBeforeMount(async () => {
     await jobCallStore.getClosedJobCalls();
-    await teacherJobCallStore.getOpenedTeacherJobCalls();
+    await teacherJobCallStore.getClosedTeacherJobCalls();
     jobCalls.value = jobCallStore.jobCalls;
     teacherJobCalls.value = teacherJobCallStore.jobCalls;
     onClickHandler(1)
@@ -66,12 +67,9 @@ onBeforeMount(async () => {
 const filterJobCalls = () => {
     jobCallStore.jobCalls = jobCalls.value
     if(searchJobCall.value!==null && searchJobCall.value!==''){       
-       jobCallStore.jobCalls = jobCalls.value.filter(obj=> obj.jobCallName.search(searchJobCall.value.toUpperCase())>-1)
-       
+       jobCallStore.jobCalls = jobCalls.value.filter(obj=> obj.jobCallName.search(searchJobCall.value.toUpperCase())>-1)  
     }
     onClickHandler(1)
-    
-
 }
 const pageItems = ref(4)
 const pagedData = ref([]);
@@ -82,6 +80,9 @@ const onClickHandler = (page) => {
 }
 const onClickHandlerTeacher = (page) => {
     teacherPagedData.value = teacherJobCallStore.getPagedList(page, pageItems.value)
+}
+const toClosedTeacherJobCallInfo = (id)=>{
+    router.push({name:'closed-teacher-job-call',params:{id}})
 }
 
 </script>

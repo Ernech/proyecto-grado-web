@@ -36,7 +36,6 @@ export default{
     align-items: center;
     background-color: #000000da;
     margin-left: 360px;
-
 }
 
 .modal {

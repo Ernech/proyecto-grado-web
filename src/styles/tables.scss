@@ -1,0 +1,49 @@
+table {
+    width: 85%;
+}
+
+table,
+th,
+td {
+    border: 1px solid #B9B9B9;
+    border-collapse: collapse;
+    font-family: 'Inter';
+    font-size: 13px;
+    padding: 5px 3px;
+    text-align: center;
+}
+
+thead {
+
+    background-color: #0B0273;
+    color: #FFFFFF;
+}
+
+.actions-column {
+    margin: auto;
+    width: 10%;
+}
+
+.actions-cell {
+    text-align: center;
+}
+
+.data_date{
+    width: 10%;
+}
+.language-column{
+    width: 15%;
+}
+.writing-column{
+    width: 10%;
+}
+.reading-column{
+    width: 10%;
+}
+.listening-column{
+    width: 10%;
+}
+
+.start-date-column, .finish-date-column{
+    width: 8%;
+}

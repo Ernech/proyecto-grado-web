@@ -58,7 +58,7 @@ const teacherJobCalls = ref([])
 const jobCallType = ref('Administrativo')
 onBeforeMount(async () => {
     await jobCallStore.getSavedJobCalls();
-    await teacherJobCallStore.getOpenedTeacherJobCalls();
+    await teacherJobCallStore.getSavedTeacherJobCalls();
     jobCalls.value = jobCallStore.jobCalls;
     teacherJobCalls.value = teacherJobCallStore.jobCalls;
     onClickHandler(1)

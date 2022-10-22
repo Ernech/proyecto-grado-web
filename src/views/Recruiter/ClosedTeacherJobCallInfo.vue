@@ -4,7 +4,7 @@
             <h3>CONVOCATORIA N°{{jobCall.jobCallNumber}}</h3>
             <h3>DOCENTE TIEMPO HORARIO</h3>
             <b>Fecha límite de presentación: <span>{{jobCall.closingDate}}</span></b>
-            <b>Estado: <span>Abierta</span></b>
+            <b>Estado: <span>Cerrada</span></b>
         </div>
         <div class="career-classes-section ">
             <SectionTitle title="Materias" />
@@ -43,15 +43,16 @@
         </table>
         </div>
     </div>
-    <CandidatesModal v-show="showModal" @close-modal="showModal=false" :candidates="candidates" />
+    <CandidatesCLosedJCModal v-show="showModal" @close-modal="showModal=false" :candidates="candidates" />
 </template>
 <script setup>
 import {onBeforeMount,ref} from'vue'
 import {useTeacherJobCallStore} from '../../store/teacher-job-call'
 import {useRoute} from "vue-router"
 import SectionTitle from '../../components/job-call-form-sections/SectionTitle.vue'
-import CandidatesModal from '../../components/modals/CandidatesModal.vue'
+import CandidatesCLosedJCModal from '../../components/modals/CandidatesClosedJCModal.vue'
 import CandidatesReport from '../../class/CandidatesReport'
+
 const jobCall = ref({})
 const teacherJobCallStore = useTeacherJobCallStore()
 const router = useRoute()
