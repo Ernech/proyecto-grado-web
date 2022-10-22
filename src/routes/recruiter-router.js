@@ -5,6 +5,7 @@ import Home from '../views/Recruiter/Home.vue'
 import OpenJobCall from '../views/Recruiter/OpenJobCall.vue'
 import PendingJobCall from '../views/Recruiter/PendingJobCall.vue'
 import ClosedJobCall from '../views/Recruiter/ClosedJobCall.vue'
+import ClosedJobCallInfo from '../views/Recruiter/ClosedJobCallInfo.vue'
 import SavedJobCall from '../views/Recruiter/SavedJobCall.vue'
 import NewJobCall from '../views/Recruiter/NewJobCall.vue'
 import EditJobCall from '../views/Recruiter/EditJobCall.vue'
@@ -41,6 +42,9 @@ const routes = [
         },
         {
             path: '/closed-job-call', component: ClosedJobCall
+        },
+        {
+            path: '/closed-job-call/:id', component: ClosedJobCallInfo,  name:'closed-job-call-info'
         },
         {
             path: '/closed-job-call/teacher/:id', component: ClosedTeacherJobCallInfo,name:'closed-teacher-job-call'

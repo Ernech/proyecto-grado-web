@@ -108,7 +108,6 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
                     method: 'GET',
                     headers: {
                         "Content-Type": "application/json",
-
                     },
                 })
                 const dataDb = await resp.json()
@@ -223,7 +222,7 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
             const teacherAcadmicTraining = 'SI'
             const requiredKnowledge = 'NO'
             const professionalExperienceTime = this.getProfessionalExperienceTime(cvData) 
-            const teachingExperienceYears = this.getTeachingExperienceTime('2015') 
+            const teachingExperienceYears = personalData.teachingStartYear>0? this.getTeachingExperienceTime(personalData.teachingStartYear):'NO' 
             const ucbFormatDocument ='SI'
             const techingPlan ='SI'
             const mainTitleFile = !this.getMainAcademicTitle(cvData).professionalTitleFile!=='--'? 'SI' :'NO'

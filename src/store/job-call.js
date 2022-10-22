@@ -37,7 +37,8 @@ export const useJobCallStore = defineStore('job-call', {
             aptitudeType: '',
             desiredLevel: ''
         },
-        jobCallEdit: {}
+        jobCallEdit: {},
+        applies:{}
 
     }), actions: {
         async createJobCall() {
@@ -151,7 +152,7 @@ export const useJobCallStore = defineStore('job-call', {
         },
         async getClosedJobCalls() {
             try {
-                const resp = await fetch('http://localhost:3000/job-call/closed', {
+                const resp = await fetch('http://localhost:3000/job-call/closed/jc', {
                     method: 'GET',
                     headers: {
                         "Content-Type": "application/json",
@@ -160,6 +161,21 @@ export const useJobCallStore = defineStore('job-call', {
                 })
                 const dataDb = await resp.json()
                 this.jobCalls = dataDb
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async getCandidatesAppliedToClosedJobCalls(id) {
+            try {
+                const resp = await fetch(`http://localhost:3000/job-call/closed/candidates/${id}`, {
+                    method: 'GET',
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': localStorage.getItem('recruiter-token')
+                    },
+                })
+                const dataDb = await resp.json()
+                this.applies = dataDb
             } catch (error) {
                 console.log(error);
             }
