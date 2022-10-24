@@ -2,79 +2,73 @@
     <div class="main">
         <div class="job-call-info">
             <h3>CONVOCATORIA N°{{jobCall.jobCallNumber}}</h3>
-            <h3>DOCENTE TIEMPO HORARIO</h3>
-            <b>Fecha límite de presentación: <span>{{jobCall.closingDate}}</span></b>
+            <h3>{{jobCall.jobCallName}}</h3>
+            <b>Fecha límite de presentación: <span>{{formatDate}}</span></b>
+            <b>Total de postulantes: <span>{{apply.length}}</span></b>
             <b>Estado: <span>Abierta</span></b>
         </div>
-        <div class="career-classes-section ">
-            <SectionTitle title="Materias" />
-            <table>
-            <thead>
-                <tr>
-                    <th class="code-column">Número</th>
-                    <th class="code-column">Sigla</th>
-                    <th class="class-name-column">Materia</th>
-                    <th class="candidates-column">N° de candidatos</th>
-                    <th class="actions-column">Candidatos</th>
-                </tr>
+        <div class="candidates-section">
+            <h3>Candidatos</h3>
+            
+                <table :style="'width:100%'">
+                    <thead>
+                        <tr>
+                            <th class="code-column">Nombre</th>
+                            <th class="code-column">Apellido Paterno</th>
+                            <th class="class-name-column">Apellido Materno</th>
+                            <th class="candidates-column">Fecha de postulación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item,index) in apply" :key="index" class="college-classes-list">
+                            <td>
+                                {{item.applyPersonalData.name}}
+                            </td>
+                            <td>
+                                {{item.applyPersonalData.firstLastName}}
+                            </td>
+                            <td>
+                                {{item.applyPersonalData.secondLastName}}
+                            </td>
+                            <td>
+                                {{formatTableDate(item.applyDate)}}
+                            </td>
 
-            </thead>
-            <tbody>
-                <tr v-for="(item,index) in jobCall.teacherJobCalls" :key="index" @click="openModal(item.id)" class="college-classes-list"> 
-                    <td>
-                        {{item.jobCallCode}}
-                    </td>    
-                    <td>
-                        {{item.collegeClass.code}}
-                    </td>
-                    <td>
-                       {{item.collegeClass.name}}
-                    </td>
-                    <td>
-                       {{item.candidates}}
-                    </td>
-                    <td class="actions-cell">
-                        <fa class="excel-icon" icon="fa-solid fa-file-excel" @click="getCandidates(item.id,item.collegeClass.code,item.collegeClass.name)"/>
-                    </td>
-                </tr>
-                
+                        </tr>
 
-            </tbody>
-        </table>
-        </div>
+                    </tbody>
+                </table>
+            </div>
+        
     </div>
-    <CandidatesModal v-show="showModal" @close-modal="showModal=false" :candidates="candidates" />
 </template>
 <script setup>
-import {onBeforeMount,ref} from'vue'
-import {useTeacherJobCallStore} from '../../store/teacher-job-call'
-import {useRoute} from "vue-router"
-import SectionTitle from '../../components/job-call-form-sections/SectionTitle.vue'
-import CandidatesModal from '../../components/modals/CandidatesModal.vue'
-import CandidatesReport from '../../class/CandidatesReport'
+import { onBeforeMount, ref, computed } from 'vue'
+import { useJobCallStore } from '../../store/job-call'
+import { useRoute } from "vue-router"
 const jobCall = ref({})
-const teacherJobCallStore = useTeacherJobCallStore()
+const apply=ref([])
+const jobCallStore = useJobCallStore()
 const router = useRoute()
-const showModal = ref(false)
-const candidates = ref([])
-
-onBeforeMount(async()=>{
-    await teacherJobCallStore.getTeacherJobCallById(router.params.id)
-    jobCall.value = teacherJobCallStore.selectedTeacherJobCall
+onBeforeMount(async () => {
+    await jobCallStore.getCandidatesAppliedToOpenedJobCall(router.params.id)
+    jobCall.value = jobCallStore.applies
+    apply.value=jobCall.value.apply
 })
-const getCandidates = async(id,code,name)=>{
-   await teacherJobCallStore.getCandidatesByTeacherJobCallId(id)
-   const candidatesReport = new CandidatesReport(teacherJobCallStore.generateReportData(code,name))
-   candidatesReport.getDoc()
+const formatDate = computed(() => {
+    const date = new Date(jobCall.value.closingDate);
+    return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+})
+
+const formatTableDate = (tableDate) => {
+    const date = new Date(tableDate);
+    return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
 }
 
-const openModal = async(id)=>{
-    await teacherJobCallStore.getCandidatesByTeacherJobCallId(id)
-    candidates.value=teacherJobCallStore.teacherApplies.teacherApply
-    showModal.value=true
-}
 </script>
 <style scoped lang="scss">
+@import '../../styles/tables.scss';
+
 .main {
     padding: 10px 50px;
 }
@@ -89,6 +83,14 @@ const openModal = async(id)=>{
 
 }
 
+.candidates-section {
+    margin-top: 25px;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 30px;
+}
+
 h3 {
     font-family: 'Inter';
     font-style: normal;
@@ -96,80 +98,30 @@ h3 {
     font-size: 20px;
     margin: 0px;
 }
-b{
+
+b {
     font-family: 'Inter';
     font-size: 15px;
 }
-b span{
+
+b span {
     font-weight: normal;
     font-size: 15px;
 }
-.edit-icon {
-    color: #5686E1;
-    width: 14px;
-    height: 20px;
-    margin: 2px;
-}
 
-.delete-icon {
-    color: #EB3223;
-    width: 14px;
-    height: 20px;
-    margin: 2px;
-}
-
-.excel-icon {
-    color: #188831;
-    width: 14px;
-    height: 20px;
-    margin: 2px;
-}
-.excel-icon:hover {
-    color: #1c9a38;
-   
-}
-
-table,
-th,
-td {
-    border: 1px solid #B9B9B9;
-    border-collapse: collapse;
-    font-family: 'Inter';
-    font-size: 13px;
-    padding: 5px 3px;
-    text-align: center;
-}
-
-thead {
-
-    background-color: #0B0273;
-    color: #FFFFFF;
-}
-.college-classes-list:hover{
+.college-classes-list:hover {
     background-color: #efefef;
 }
-.code-column{
-    width: 20%;
-}
-.class-name-column{
-    width: 50%;
+
+.code-column {
+    width: 30%;
 }
 
-.candidates-column{
+.class-name-column {
+    width: 25%;
+}
+
+.candidates-column {
     width: 20%;
-}
-.career-classes-section {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding: 0px;
-    gap: 20px;
-}
-.actions-column {
-    text-align: center;
-    width: 10%;
-}
-.actions-cell {
-    text-align: center;
 }
 </style>

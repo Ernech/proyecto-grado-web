@@ -180,6 +180,21 @@ export const useJobCallStore = defineStore('job-call', {
                 console.log(error);
             }
         },
+        async getCandidatesAppliedToOpenedJobCall(id) {
+            try {
+                const resp = await fetch(`http://localhost:3000/job-call/opened/candidates/${id}`, {
+                    method: 'GET',
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': localStorage.getItem('recruiter-token')
+                    },
+                })
+                const dataDb = await resp.json()
+                this.applies = dataDb
+            } catch (error) {
+                console.log(error);
+            }
+        },
         async publishJobCall(id){
             try {
                 const resp = await fetch(`http://localhost:3000/job-call/pending/${id}`,{

@@ -19,7 +19,8 @@
         <div v-if="jobCallType==='Administrativo'">
             <div v-if="jobCallStore.jobCalls.length>0" class="job-call-list-container">
                 <JobCallCard v-for="item in pagedData" :key="item.id" :jobCallName="item.jobCallName"
-                    :jobCallNumber="item.jobCallNumber" :openingDate="new Date(item.openingDate)" />
+                    :jobCallNumber="item.jobCallNumber" :openingDate="new Date(item.openingDate)" 
+                    @click="toOpenedJobCallInfo(item.id)"/>
             </div>
             <div v-else class="job-call-list-container">
                 <p>No existen convocatorias guardadas</p>
@@ -84,7 +85,9 @@ const onClickHandler = (page) => {
 const onClickHandlerTeacher = (page) => {
     teacherPagedData.value = teacherJobCallStore.getPagedList(page, pageItems.value)
 }
-
+const toOpenedJobCallInfo = (id)=>{
+    router.push({name:'opened-job-call-info',params:{id}})
+}
 const toTeacherJobCallInfo = (id)=>{
     console.log(id);
     router.push({name:'teacher-job-calls',params:{id}})

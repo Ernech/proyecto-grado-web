@@ -4,7 +4,7 @@
             <h3>CONVOCATORIA N°{{jobCall.jobCallNumber}}</h3>
             <h3>{{jobCall.jobCallName}}</h3>
             <b>Fecha límite de presentación: <span>{{formatDate}}</span></b>
-            <b>Total de postulantes: <span>{{jobCall.apply.length}}</span></b>
+            <b>Total de postulantes: <span>{{apply.length}}</span></b>
             <b>Estado: <span>Cerrada</span></b>
         </div>
         <div class="candidates-section">
@@ -13,10 +13,10 @@
                 <div class="buttons-container">
                     <button @click="tableTab='ACEPTED'; acceptedTab=true;rejectedTab=false;"
                         class="buttons-container__tab" :class="{selected:acceptedTab}">Candidatos
-                        habilitados|{{getAcceptedCandidates.length}}</button>
+                        habilitados | {{getAcceptedCandidates.length}}</button>
                     <button @click="tableTab='REJECTED'; acceptedTab=false;rejectedTab=true;"
                         class="buttons-container__tab" :class="{selected:rejectedTab}">Candidatos no
-                        habilitados |{{getRejectedCandidates.length}}</button>
+                        habilitados | {{getRejectedCandidates.length}}</button>
                 </div>
                 <table :style="'width:100%'">
                     <thead>
@@ -30,16 +30,16 @@
                     <tbody v-if="tableTab==='ACEPTED'">
                         <tr v-for="(item,index) in getAcceptedCandidates" :key="index" class="college-classes-list">
                             <td>
-                                {{item.applyTPersonalData.name}}
+                                {{item.applyPersonalData.name}}
                             </td>
                             <td>
-                                {{item.applyTPersonalData.firstLastName}}
+                                {{item.applyPersonalData.firstLastName}}
                             </td>
                             <td>
-                                {{item.applyTPersonalData.secondLastName}}
+                                {{item.applyPersonalData.secondLastName}}
                             </td>
                             <td>
-                                {{item.applyDate}}
+                                {{formatTableDate(item.applyDate)}}
                             </td>
 
                         </tr>
@@ -48,16 +48,16 @@
                     <tbody v-else>
                         <tr v-for="(item,index) in getRejectedCandidates" :key="index" class="college-classes-list">
                             <td>
-                                {{item.applyTPersonalData.name}}
+                                {{item.applyPersonalData.name}}
                             </td>
                             <td>
-                                {{item.applyTPersonalData.firstLastName}}
+                                {{item.applyPersonalData.firstLastName}}
                             </td>
                             <td>
-                                {{item.applyTPersonalData.secondLastName}}
+                                {{item.applyPersonalData.secondLastName}}
                             </td>
                             <td>
-                                {{item.applyDate}}
+                                {{formatTableDate(item.applyDate)}}
                             </td>
 
                         </tr>
@@ -74,6 +74,7 @@ import { useRoute } from "vue-router"
 import SectionTitle from '../../components/job-call-form-sections/SectionTitle.vue'
 
 const jobCall = ref({})
+const apply=ref([])
 const jobCallStore = useJobCallStore()
 const router = useRoute()
 const tableTab = ref('ACEPTED')
@@ -82,17 +83,24 @@ const rejectedTab = ref(false)
 onBeforeMount(async () => {
     await jobCallStore.getCandidatesAppliedToClosedJobCalls(router.params.id)
     jobCall.value = jobCallStore.applies
+    apply.value=jobCall.value.apply
 })
 const formatDate = computed(() => {
     const date = new Date(jobCall.value.closingDate);
     return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
 })
 
+const formatTableDate = (tableDate) => {
+    const date = new Date(tableDate);
+    return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+}
+
+
 const getAcceptedCandidates = computed(() => {
-    return jobCall.value.apply.filter(obj => obj.applyStatus === 'ACEPTED')
+    return apply.value.filter(obj => obj.applyStatus === 'ACEPTED')
 })
 const getRejectedCandidates = computed(() => {
-    return jobCall.value.apply.filter(obj => obj.applyStatus === 'REJECTED')
+    return apply.value.filter(obj => obj.applyStatus === 'REJECTED')
 })
 </script>
 <style scoped lang="scss">
@@ -174,11 +182,11 @@ b span {
 }
 
 .code-column {
-    width: 20%;
+    width: 30%;
 }
 
 .class-name-column {
-    width: 50%;
+    width: 25%;
 }
 
 .candidates-column {
