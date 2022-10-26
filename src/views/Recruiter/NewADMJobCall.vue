@@ -10,7 +10,7 @@
         <button type="submit" class="job-call-form__create_button" @click="createJobCall" :disabled="isDisabled"
             :class="{ disabled: isDisabled }">Crear
             convocatoria</button>
-        <FeetbackModal v-show="showModal" @close-modal="showModal=false" :title="modalTitle" :message="modalMessage" />
+        <FeetbackModal v-show="showModal" @close-modal="showModal=false; router.push('/saved-job-call')" :title="modalTitle" :message="modalMessage" />
     </div>
 
 </template>
@@ -24,6 +24,7 @@ import GeneralInformationSection from '../../components/job-call-form-sections/G
 import FeetbackModal from '../../components/modals/FeetbackModal.vue'
 import { useJobCallStore } from '../../store/job-call'
 import { computed, onBeforeMount, ref } from 'vue';
+import router from '../../routes/recruiter-router'
 export default {
 
     components: {
@@ -79,7 +80,7 @@ export default {
             }
             return true
         })
-        return { createJobCall, isDisabled, showModal, modalTitle, modalMessage }
+        return { createJobCall, isDisabled, showModal, modalTitle, modalMessage,router }
     }
 }
 </script>

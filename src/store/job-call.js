@@ -69,8 +69,6 @@ export const useJobCallStore = defineStore('job-call', {
               
             } catch (error) {
                 console.log(error);
-            } finally {
-                router.push('/saved-job-call')
             }
         },
         async editJobCall(id) {      
@@ -152,7 +150,7 @@ export const useJobCallStore = defineStore('job-call', {
         },
         async getClosedJobCalls() {
             try {
-                const resp = await fetch('http://localhost:3000/job-call/closed/jc', {
+                const resp = await fetch('http://localhost:3000/job-call/closed', {
                     method: 'GET',
                     headers: {
                         "Content-Type": "application/json",

@@ -2,7 +2,8 @@
     <div class="general-info-section">
         <div class="form-input-container">
             <label for="name" class="form-label">Nombre del puesto</label>
-            <input class="form-input" type="text" id="name" v-model.trim="jobCallStore.jobCallName" maxlength="300" disabled>
+            <input class="form-input" type="text" id="name" v-model.trim="jobCallStore.jobCallName" maxlength="300"
+                disabled>
         </div>
         <div class="grid-container">
             <div class="form-input-container">
@@ -14,12 +15,12 @@
             <div class="form-input-container">
                 <label for="number-job-call" class="form-label">Número de convocatoria</label>
                 <input class="form-input" type="text" id="number-job-call" v-model.trim="jobCallStore.jobCallNumber"
-                    maxlength="100">
+                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                    maxlength="2">
             </div>
             <div class="form-input-container">
                 <label for="opening-date" class="form-label">Fecha de apertura</label>
-                <input class="form-input" type="datetime-local" id="opening-date"
-                    v-model="jobCallStore.openingDate">
+                <input class="form-input" type="datetime-local" id="opening-date" v-model="jobCallStore.openingDate">
             </div>
             <div class="form-input-container">
                 <label for="closing-date" class="form-label">Fecha de cierre</label>
@@ -27,7 +28,7 @@
                     v-model.trim="jobCallStore.closingDate">
             </div>
         </div>
-       
+
     </div>
 </template>
 <script setup>
@@ -74,9 +75,10 @@ const selectFile = () => {
     padding-bottom: 3px;
 }
 
-#name{
+#name {
     text-transform: uppercase;
 }
+
 .grid-container {
     display: grid;
     grid-template-columns: repeat(2, 50%);
@@ -103,18 +105,21 @@ const selectFile = () => {
     height: 31px;
     padding: 0px;
 }
-::-webkit-file-upload-button{
+
+::-webkit-file-upload-button {
     height: 100%;
-    border-radius: 5px ;
+    border-radius: 5px;
     background: #53C61D;
     color: #fff;
     border: none;
 }
-::-webkit-file-upload-button:hover{
-    
+
+::-webkit-file-upload-button:hover {
+
     background: #53d71D;
 
 }
+
 .form-input-container textarea {
     width: 98.5%;
     height: 50px;

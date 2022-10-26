@@ -18,7 +18,7 @@ export default class CandidatesReport {
 
     let dataset = this.reportData
 
-    this.loadFile(`${import.meta.env.BASE_URL}Templates/Plantilla-prueba.docx`, function (error, content) {
+    this.loadFile(`${import.meta.env.BASE_URL}Templates/Planilla-prueba.docx`, function (error, content) {
       if (error) {
         throw error
       };

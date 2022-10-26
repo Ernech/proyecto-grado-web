@@ -20,7 +20,7 @@
 
             </thead>
             <tbody>
-                <tr v-for="(item,index) in jobCall.teacherJobCalls" :key="index" @click="openModal(item.id)" class="college-classes-list"> 
+                <tr v-for="(item,index) in jobCall.teacherJobCalls" :key="index"  class="college-classes-list"> 
                     <td>
                         {{item.jobCallCode}}
                     </td>    

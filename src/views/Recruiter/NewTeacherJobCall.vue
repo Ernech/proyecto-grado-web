@@ -7,7 +7,7 @@
             <button class="add_button" @click="createNewTeacherJobCall" :disabled="isDisabled"
                 :class="{disabled:isDisabled}">Crear convocatoria</button>
         </div>
-        <FeetbackModal v-show="showModal" @close-modal="showModal=false" :title="modalTitle" :message="modalMessage" />
+        <FeetbackModal v-show="showModal" @close-modal="showModal=false;router.push('/saved-job-call')" :title="modalTitle" :message="modalMessage" />
     </div>
 </template>
 <script>
@@ -15,8 +15,9 @@ import GeneralInformationSectionTeacherVue from '../../components/job-call-teach
 import CareerClassesSectionSection from '../../components/job-call-teacher-form/CareerClassesSection.vue'
 import JobExperienceSection from '../../components/job-call-teacher-form/JobExperienceSection.vue'
 import FeetbackModal from '../../components/modals/FeetbackModal.vue'
-import { onBeforeMount, computed } from 'vue';
+import { onBeforeMount, computed,ref } from 'vue';
 import { useTeacherJobCallStore } from '../../store/teacher-job-call';
+import router from '../../routes/recruiter-router'
 export default {
     components: {
         GeneralInformationSectionTeacherVue,
@@ -62,7 +63,7 @@ export default {
             modalMessage.value = "No se pudo crear la convocatoria."
             showModal.value = true
         }
-        return { createNewTeacherJobCall, isDisabled }
+        return { createNewTeacherJobCall, isDisabled, modalMessage,modalTitle,showModal}
 
     }
 

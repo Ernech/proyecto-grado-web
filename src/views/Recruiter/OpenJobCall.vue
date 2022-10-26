@@ -86,7 +86,7 @@ const onClickHandlerTeacher = (page) => {
     teacherPagedData.value = teacherJobCallStore.getPagedList(page, pageItems.value)
 }
 const toOpenedJobCallInfo = (id)=>{
-    router.push({name:'opened-job-call-info',params:{id}})
+    router.push({name:'open-job-call-info',params:{id}})
 }
 const toTeacherJobCallInfo = (id)=>{
     console.log(id);

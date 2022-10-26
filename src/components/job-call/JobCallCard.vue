@@ -10,6 +10,7 @@
     </div>
 </template>
 <script>
+import {computed} from 'vue'
 export default {
     props:{
         jobCallName:{type:String,required:true},
@@ -17,8 +18,10 @@ export default {
         openingDate:{type:Date,required:true}
     },
     setup(props){
-        const formatDate= `${props.openingDate.getDay()}/${props.openingDate.getMonth()+1}/${props.openingDate.getFullYear()} ${props.openingDate.getHours()}:${props.openingDate.getMinutes()}`
-          
+        const formatDate = computed(() => {
+            const date = new Date(props.openingDate);
+            return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+        })  
         
         return{formatDate}
     }

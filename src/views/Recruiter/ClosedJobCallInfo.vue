@@ -59,11 +59,12 @@
                             <td>
                                 {{formatTableDate(item.applyDate)}}
                             </td>
-
                         </tr>
                     </tbody>
                 </table>
             </div>
+        <button class="add_button">Descargar convocatoria</button>
+        <button class="xlsx-button"><fa class="excel-icon" icon="fa-solid fa-file-excel"/>Planilla</button>
         </div>
     </div>
 </template>
@@ -105,7 +106,7 @@ const getRejectedCandidates = computed(() => {
 </script>
 <style scoped lang="scss">
 @import '../../styles/tables.scss';
-
+@import '../../styles/buttons.scss';
 .main {
     padding: 10px 50px;
 }
@@ -193,20 +194,19 @@ b span {
     width: 20%;
 }
 
-.career-classes-section {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding: 0px;
-    gap: 20px;
+.xlsx-button{
+    background-color: #179B34;
+    border-radius: 8px;
+    color: #FFFFFF;
+    border-color: #179B34;
+    width: 15%;
+    font-family: 'Nunito', sans-serif;
 }
-
-.actions-column {
-    text-align: center;
-    width: 10%;
-}
-
-.actions-cell {
-    text-align: center;
+.excel-icon {
+    color: #fff;
+    width: 12px;
+    height: 18px;
+    margin-right: 5px;
+    
 }
 </style>
