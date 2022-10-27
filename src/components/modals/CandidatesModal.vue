@@ -24,7 +24,7 @@
                        {{item.applyTPersonalData.secondLastName}}
                     </td>
                     <td>
-                       {{item.applyDate}}
+                       {{formatDate(item.applyDate)}}
                     </td>
                     
                 </tr>
@@ -49,6 +49,13 @@ export default{
 
     setup(props){
         const teacherJobCallStore = useTeacherJobCallStore()
+
+        const formatDate = (itemDate) =>{
+            const date = new Date(itemDate);
+            return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+        }
+
+        return {formatDate}
     }
 
 }

@@ -1,7 +1,7 @@
 <template>
   <div>
     <button class="get-word-file-button" :disabled="isDisabled" :class="{disabled:isDisabled}" @click="reportComponent.getDoc">
-      <fa class="get-word-file-icon" icon="fa-solid fa-file-word"/>Download Word Document</button>
+      <fa class="get-word-file-icon" icon="fa-solid fa-file-word"/>Descargar convocatoria</button>
   </div>
 </template>
 
@@ -22,7 +22,7 @@
                 && jobCallStore.jobManualFile !== null && jobCallStore.jobManualFile !== ''
                 && jobCallStore.jobCallObj !== null && jobCallStore.jobCallObj !== '') {
 
-                if (jobCallStore.closingDate > jobCallStore.openingDate) {
+                if (new Date(jobCallStore.closingDate) > new Date(jobCallStore.openingDate)) {
                     if (jobCallStore.jobFunctions.length >= 1
                         && jobCallStore.academicTrainings.length >= 1
                         && jobCallStore.experiences.length >= 1

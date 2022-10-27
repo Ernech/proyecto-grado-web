@@ -84,9 +84,6 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
             } catch (error) {
                 console.log(error);
             }
-            finally {
-                router.push('/saved-job-call')
-            }
         },
         getPagedList(page, pageItems) {
             const pageData = [];

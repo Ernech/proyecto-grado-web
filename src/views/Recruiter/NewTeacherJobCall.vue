@@ -63,7 +63,7 @@ export default {
             modalMessage.value = "No se pudo crear la convocatoria."
             showModal.value = true
         }
-        return { createNewTeacherJobCall, isDisabled, modalMessage,modalTitle,showModal}
+        return { createNewTeacherJobCall, isDisabled, modalMessage,modalTitle,showModal,router}
 
     }
 
