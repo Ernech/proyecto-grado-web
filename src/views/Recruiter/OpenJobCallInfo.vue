@@ -13,10 +13,11 @@
                 <table :style="'width:100%'">
                     <thead>
                         <tr>
-                            <th class="code-column">Nombre</th>
-                            <th class="code-column">Apellido Paterno</th>
-                            <th class="class-name-column">Apellido Materno</th>
-                            <th class="candidates-column">Fecha de postulación</th>
+                            <th class="name-column">Nombre</th>
+                            <th class="first-last-name-column">Apellido Paterno</th>
+                            <th class="second-last-name-column">Apellido Materno</th>
+                            <th class="date-column">Fecha de postulación</th>
+                            <th class="cv-column">CV</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -33,7 +34,9 @@
                             <td>
                                 {{formatTableDate(item.applyDate)}}
                             </td>
-
+                            <td class="cv-cell">
+                                <fa class="word-file" icon="fa-solid fa-file-word" @click="getCandidateCV(item)" />
+                            </td>
                         </tr>
 
                     </tbody>
@@ -64,10 +67,15 @@ const formatTableDate = (tableDate) => {
     const date = new Date(tableDate);
     return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
 }
-
+const getCandidateCV = (item) => {
+    const personalData = item.applyPersonalData
+    const cvData = item.applyCVData
+    console.log(personalData, cvData);
+}
 </script>
 <style scoped lang="scss">
 @import '../../styles/tables.scss';
+@import '../../styles/icons.scss';
 
 .main {
     padding: 10px 50px;
@@ -109,19 +117,19 @@ b span {
     font-size: 15px;
 }
 
-.college-classes-list:hover {
-    background-color: #efefef;
+
+.name-column {
+    width: 20%;
 }
 
-.code-column {
-    width: 30%;
+.first-last-name-column {
+    width: 20%;
 }
 
-.class-name-column {
-    width: 25%;
+.second-last-name-column {
+    width: 20%;
 }
-
-.candidates-column {
+.date-column {
     width: 20%;
 }
 </style>

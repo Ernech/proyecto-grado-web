@@ -5,12 +5,12 @@
                 <h3 class="title">Candidatos</h3>
                 <div class="table-container">
                     <div class="buttons-container">
-                        <button @click="tableTab='ACEPTED'; acceptedTab=true;rejectedTab=false;"
+                        <button @click="tableTab = 'ACEPTED'; acceptedTab = true; rejectedTab = false;"
                             class="buttons-container__tab" :class="{selected:acceptedTab}">Candidatos
-                            habilitados|{{getAcceptedCandidates.length}}</button>
-                        <button @click="tableTab='REJECTED'; acceptedTab=false;rejectedTab=true;"
-                            class="buttons-container__tab" :class="{selected:rejectedTab}">Candidatos no
-                            habilitados |{{getRejectedCandidates.length}}</button>
+                            habilitados|{{ getAcceptedCandidates.length }}</button>
+                        <button @click="tableTab = 'REJECTED'; acceptedTab = false; rejectedTab = true;"
+                            class="buttons-container__tab" :class="{ selected: rejectedTab }">Candidatos no
+                            habilitados |{{ getRejectedCandidates.length }}</button>
                     </div>
                     <table :style="'width:100%'">
                         <thead>
@@ -19,41 +19,46 @@
                                 <th class="code-column">Apellido Paterno</th>
                                 <th class="class-name-column">Apellido Materno</th>
                                 <th class="candidates-column">Fecha de postulación</th>
+                                <th class="cv-column">CV</th>
                             </tr>
                         </thead>
-                        <tbody v-if="tableTab==='ACEPTED'">
-                            <tr v-for="(item,index) in getAcceptedCandidates" :key="index" class="college-classes-list">
+                        <tbody v-if="tableTab === 'ACEPTED'">
+                            <tr v-for="(item, index) in getAcceptedCandidates" :key="index" class="college-classes-list">
                                 <td>
-                                    {{item.applyTPersonalData.name}}
+                                    {{ item.applyTPersonalData.name }}
                                 </td>
                                 <td>
-                                    {{item.applyTPersonalData.firstLastName}}
+                                    {{ item.applyTPersonalData.firstLastName }}
                                 </td>
                                 <td>
-                                    {{item.applyTPersonalData.secondLastName}}
+                                    {{ item.applyTPersonalData.secondLastName }}
                                 </td>
                                 <td>
-                                    {{item.applyDate}}
+                                    {{ item.applyDate }}
                                 </td>
-
+                                <td class="cv-cell">
+                                    <fa class="word-file" icon="fa-solid fa-file-word" @click="getCandidateCV(item)" />
+                                </td>
                             </tr>
 
                         </tbody>
                         <tbody v-else>
-                            <tr v-for="(item,index) in getRejectedCandidates" :key="index" class="college-classes-list">
+                            <tr v-for="(item, index) in getRejectedCandidates" :key="index" class="college-classes-list">
                                 <td>
-                                    {{item.applyTPersonalData.name}}
+                                    {{ item.applyTPersonalData.name }}
                                 </td>
                                 <td>
-                                    {{item.applyTPersonalData.firstLastName}}
+                                    {{ item.applyTPersonalData.firstLastName }}
                                 </td>
                                 <td>
-                                    {{item.applyTPersonalData.secondLastName}}
+                                    {{ item.applyTPersonalData.secondLastName }}
                                 </td>
                                 <td>
-                                    {{item.applyDate}}
+                                    {{ item.applyDate }}
                                 </td>
-
+                                <td class="cv-cell">
+                                    <fa class="word-file" icon="fa-solid fa-file-word" @click="getCandidateCV(item)" />
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -84,7 +89,12 @@ export default {
         const getRejectedCandidates = computed(() => {
             return props.candidates.filter(obj => obj.applyStatus === 'REJECTED')
         })
-        return { tableTab, acceptedTab, rejectedTab, getAcceptedCandidates, getRejectedCandidates }
+        const getCandidateCV=(item) =>{
+           const personalData = item.applyTPersonalData
+           const cvData = item.applyTCVData
+           console.log(personalData,cvData);
+        }
+        return { tableTab, acceptedTab, rejectedTab, getAcceptedCandidates, getRejectedCandidates,getCandidateCV }
     }
 
 }
@@ -94,7 +104,7 @@ export default {
 <style lang="scss" scoped>
 @import '../../styles/buttons.scss';
 @import '../../styles/tables.scss';
-
+@import '../../styles/icons.scss';
 .modal-overlay {
     position: fixed;
     top: 0;

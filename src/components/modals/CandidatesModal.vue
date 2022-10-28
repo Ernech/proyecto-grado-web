@@ -10,6 +10,7 @@
                     <th class="code-column">Apellido Paterno</th>
                     <th class="class-name-column">Apellido Materno</th>
                     <th class="candidates-column">Fecha de postulación</th>
+                    <th class="cv-column">CV</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,7 +27,9 @@
                     <td>
                        {{formatDate(item.applyDate)}}
                     </td>
-                    
+                    <td class="cv-cell">
+                        <fa class="word-file" icon="fa-solid fa-file-word" @click="getCandidateCV(item)"/>
+                    </td>
                 </tr>
                 
 
@@ -55,7 +58,13 @@ export default{
             return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
         }
 
-        return {formatDate}
+        const getCandidateCV=(item) =>{
+           const personalData = item.applyTPersonalData
+           const cvData = item.applyTCVData
+           console.log(personalData,cvData);
+        }
+
+        return {formatDate,getCandidateCV}
     }
 
 }
@@ -65,6 +74,7 @@ export default{
 <style lang="scss" scoped>
 @import '../../styles/buttons.scss';
 @import '../../styles/tables.scss';
+@import '../../styles/icons.scss';
 .modal-overlay {
     position: fixed;
     top: 0;

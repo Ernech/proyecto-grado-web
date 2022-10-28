@@ -1,70 +1,78 @@
 <template>
     <div class="main">
         <div class="job-call-info">
-            <h3>CONVOCATORIA N°{{jobCall.jobCallNumber}}</h3>
-            <h3>{{jobCall.jobCallName}}</h3>
-            <b>Fecha límite de presentación: <span>{{formatDate}}</span></b>
-            <b>Total de postulantes: <span>{{apply.length}}</span></b>
+            <h3>CONVOCATORIA N°{{ jobCall.jobCallNumber }}</h3>
+            <h3>{{ jobCall.jobCallName }}</h3>
+            <b>Fecha límite de presentación: <span>{{ formatDate }}</span></b>
+            <b>Total de postulantes: <span>{{ apply.length }}</span></b>
             <b>Estado: <span>Cerrada</span></b>
         </div>
         <div class="candidates-section">
             <h3>Candidatos</h3>
             <div class="table-container">
                 <div class="buttons-container">
-                    <button @click="tableTab='ACEPTED'; acceptedTab=true;rejectedTab=false;"
-                        class="buttons-container__tab" :class="{selected:acceptedTab}">Candidatos
-                        habilitados | {{getAcceptedCandidates.length}}</button>
-                    <button @click="tableTab='REJECTED'; acceptedTab=false;rejectedTab=true;"
-                        class="buttons-container__tab" :class="{selected:rejectedTab}">Candidatos no
-                        habilitados | {{getRejectedCandidates.length}}</button>
+                    <button @click="tableTab = 'ACEPTED'; acceptedTab = true; rejectedTab = false;"
+                        class="buttons-container__tab" :class="{ selected: acceptedTab }">Candidatos
+                        habilitados | {{ getAcceptedCandidates.length }}</button>
+                    <button @click="tableTab = 'REJECTED'; acceptedTab = false; rejectedTab = true;"
+                        class="buttons-container__tab" :class="{ selected: rejectedTab }">Candidatos no
+                        habilitados | {{ getRejectedCandidates.length }}</button>
                 </div>
                 <table :style="'width:100%'">
                     <thead>
                         <tr>
-                            <th class="code-column">Nombre</th>
-                            <th class="code-column">Apellido Paterno</th>
-                            <th class="class-name-column">Apellido Materno</th>
-                            <th class="candidates-column">Fecha de postulación</th>
+                            <th class="name-column">Nombre</th>
+                            <th class="first-last-name-column">Apellido Paterno</th>
+                            <th class="second-last-name-column">Apellido Materno</th>
+                            <th class="date-column">Fecha de postulación</th>
+                            <th class="cv-column">CV</th>
                         </tr>
                     </thead>
-                    <tbody v-if="tableTab==='ACEPTED'">
-                        <tr v-for="(item,index) in getAcceptedCandidates" :key="index" class="college-classes-list">
+                    <tbody v-if="tableTab === 'ACEPTED'">
+                        <tr v-for="(item, index) in getAcceptedCandidates" :key="index" class="college-classes-list">
                             <td>
-                                {{item.applyPersonalData.name}}
+                                {{ item.applyPersonalData.name }}
                             </td>
                             <td>
-                                {{item.applyPersonalData.firstLastName}}
+                                {{ item.applyPersonalData.firstLastName }}
                             </td>
                             <td>
-                                {{item.applyPersonalData.secondLastName}}
+                                {{ item.applyPersonalData.secondLastName }}
                             </td>
                             <td>
-                                {{formatTableDate(item.applyDate)}}
+                                {{ formatTableDate(item.applyDate) }}
                             </td>
-
+                            <td class="cv-cell">
+                                <fa class="word-file" icon="fa-solid fa-file-word" @click="getCandidateCV(item)" />
+                            </td>
                         </tr>
 
                     </tbody>
                     <tbody v-else>
-                        <tr v-for="(item,index) in getRejectedCandidates" :key="index" class="college-classes-list">
+                        <tr v-for="(item, index) in getRejectedCandidates" :key="index" class="college-classes-list">
                             <td>
-                                {{item.applyPersonalData.name}}
+                                {{ item.applyPersonalData.name }}
                             </td>
                             <td>
-                                {{item.applyPersonalData.firstLastName}}
+                                {{ item.applyPersonalData.firstLastName }}
                             </td>
                             <td>
-                                {{item.applyPersonalData.secondLastName}}
+                                {{ item.applyPersonalData.secondLastName }}
                             </td>
                             <td>
-                                {{formatTableDate(item.applyDate)}}
+                                {{ formatTableDate(item.applyDate) }}
+                            </td>
+                            <td class="cv-cell">
+                                <fa class="word-file" icon="fa-solid fa-file-word" @click="getCandidateCV(item)" />
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-        <button class="add_button">Descargar convocatoria</button>
-        <button class="xlsx-button"><fa class="excel-icon" icon="fa-solid fa-file-excel"/>Planilla</button>
+            <button class="add_button">Descargar convocatoria</button>
+            <button class="xlsx-button">
+                <fa class="excel-icon" icon="fa-solid fa-file-excel" />Planilla
+            </button>
         </div>
     </div>
 </template>
@@ -72,10 +80,9 @@
 import { onBeforeMount, ref, computed } from 'vue'
 import { useJobCallStore } from '../../store/job-call'
 import { useRoute } from "vue-router"
-import SectionTitle from '../../components/job-call-form-sections/SectionTitle.vue'
 
 const jobCall = ref({})
-const apply=ref([])
+const apply = ref([])
 const jobCallStore = useJobCallStore()
 const router = useRoute()
 const tableTab = ref('ACEPTED')
@@ -84,7 +91,7 @@ const rejectedTab = ref(false)
 onBeforeMount(async () => {
     await jobCallStore.getCandidatesAppliedToClosedJobCalls(router.params.id)
     jobCall.value = jobCallStore.applies
-    apply.value=jobCall.value.apply
+    apply.value = jobCall.value.apply
 })
 const formatDate = computed(() => {
     const date = new Date(jobCall.value.closingDate);
@@ -103,10 +110,17 @@ const getAcceptedCandidates = computed(() => {
 const getRejectedCandidates = computed(() => {
     return apply.value.filter(obj => obj.applyStatus === 'REJECTED')
 })
+const getCandidateCV = (item) => {
+    const personalData = item.applyTPersonalData
+    const cvData = item.applyTCVData
+    console.log(personalData, cvData);
+}
 </script>
 <style scoped lang="scss">
 @import '../../styles/tables.scss';
 @import '../../styles/buttons.scss';
+@import '../../styles/icons.scss';
+
 .main {
     padding: 10px 50px;
 }
@@ -178,23 +192,10 @@ b span {
 }
 
 
-.college-classes-list:hover {
-    background-color: #efefef;
-}
 
-.code-column {
-    width: 30%;
-}
 
-.class-name-column {
-    width: 25%;
-}
 
-.candidates-column {
-    width: 20%;
-}
-
-.xlsx-button{
+.xlsx-button {
     background-color: #179B34;
     border-radius: 8px;
     color: #FFFFFF;
@@ -202,11 +203,12 @@ b span {
     width: 15%;
     font-family: 'Nunito', sans-serif;
 }
+
 .excel-icon {
     color: #fff;
     width: 12px;
     height: 18px;
     margin-right: 5px;
-    
+
 }
 </style>

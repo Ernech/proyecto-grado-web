@@ -56,6 +56,7 @@ const searchJobCall = ref('')
 const jobCalls = ref([])
 const teacherJobCalls = ref([])
 const jobCallType = ref('Administrativo')
+
 onBeforeMount(async () => {
     await jobCallStore.getClosedJobCalls();
     await teacherJobCallStore.getClosedTeacherJobCalls();
@@ -87,6 +88,7 @@ const toClosedJobCallInfo = (id)=>{
 const toClosedTeacherJobCallInfo = (id)=>{
     router.push({name:'closed-teacher-job-call',params:{id}})
 }
+
 
 </script>
 
