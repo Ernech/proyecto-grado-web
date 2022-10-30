@@ -80,7 +80,7 @@
 import { onBeforeMount, ref, computed } from 'vue'
 import { useJobCallStore } from '../../store/job-call'
 import { useRoute } from "vue-router"
-
+import CVFile from '../../class/cv-file'
 const jobCall = ref({})
 const apply = ref([])
 const jobCallStore = useJobCallStore()
@@ -111,9 +111,12 @@ const getRejectedCandidates = computed(() => {
     return apply.value.filter(obj => obj.applyStatus === 'REJECTED')
 })
 const getCandidateCV = (item) => {
+
     const personalData = item.applyTPersonalData
     const cvData = item.applyTCVData
-    console.log(personalData, cvData);
+    const cv = getCV(personalData, cvData)
+    const cvFile = new CVFile(cv)
+    cvFile.getDoc()
 }
 </script>
 <style scoped lang="scss">

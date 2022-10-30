@@ -1,62 +1,64 @@
 <template>
     <div class="main">
         <div class="job-call-info">
-            <h3>CONVOCATORIA N°{{jobCall.jobCallNumber}}</h3>
-            <h3>{{jobCall.jobCallName}}</h3>
-            <b>Fecha límite de presentación: <span>{{formatDate}}</span></b>
-            <b>Total de postulantes: <span>{{apply.length}}</span></b>
+            <h3>CONVOCATORIA N°{{ jobCall.jobCallNumber }}</h3>
+            <h3>{{ jobCall.jobCallName }}</h3>
+            <b>Fecha límite de presentación: <span>{{ formatDate }}</span></b>
+            <b>Total de postulantes: <span>{{ apply.length }}</span></b>
             <b>Estado: <span>Abierta</span></b>
         </div>
         <div class="candidates-section">
             <h3>Candidatos</h3>
-            
-                <table :style="'width:100%'">
-                    <thead>
-                        <tr>
-                            <th class="name-column">Nombre</th>
-                            <th class="first-last-name-column">Apellido Paterno</th>
-                            <th class="second-last-name-column">Apellido Materno</th>
-                            <th class="date-column">Fecha de postulación</th>
-                            <th class="cv-column">CV</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(item,index) in apply" :key="index" class="college-classes-list">
-                            <td>
-                                {{item.applyPersonalData.name}}
-                            </td>
-                            <td>
-                                {{item.applyPersonalData.firstLastName}}
-                            </td>
-                            <td>
-                                {{item.applyPersonalData.secondLastName}}
-                            </td>
-                            <td>
-                                {{formatTableDate(item.applyDate)}}
-                            </td>
-                            <td class="cv-cell">
-                                <fa class="word-file" icon="fa-solid fa-file-word" @click="getCandidateCV(item)" />
-                            </td>
-                        </tr>
 
-                    </tbody>
-                </table>
-            </div>
-        
+            <table :style="'width:100%'">
+                <thead>
+                    <tr>
+                        <th class="name-column">Nombre</th>
+                        <th class="first-last-name-column">Apellido Paterno</th>
+                        <th class="second-last-name-column">Apellido Materno</th>
+                        <th class="date-column">Fecha de postulación</th>
+                        <th class="cv-column">CV</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item, index) in apply" :key="index" class="college-classes-list">
+                        <td>
+                            {{ item.applyPersonalData.name }}
+                        </td>
+                        <td>
+                            {{ item.applyPersonalData.firstLastName }}
+                        </td>
+                        <td>
+                            {{ item.applyPersonalData.secondLastName }}
+                        </td>
+                        <td>
+                            {{ formatTableDate(item.applyDate) }}
+                        </td>
+                        <td class="cv-cell">
+                            <fa class="word-file" icon="fa-solid fa-file-word" @click="getCandidateCV(item)" />
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
     </div>
 </template>
 <script setup>
 import { onBeforeMount, ref, computed } from 'vue'
 import { useJobCallStore } from '../../store/job-call'
 import { useRoute } from "vue-router"
+
+import CVFile from '../../class/cv-file'
 const jobCall = ref({})
-const apply=ref([])
+const apply = ref([])
 const jobCallStore = useJobCallStore()
 const router = useRoute()
 onBeforeMount(async () => {
     await jobCallStore.getCandidatesAppliedToOpenedJobCall(router.params.id)
     jobCall.value = jobCallStore.applies
-    apply.value=jobCall.value.apply
+    apply.value = jobCall.value.apply
 })
 const formatDate = computed(() => {
     const date = new Date(jobCall.value.closingDate);
@@ -68,9 +70,12 @@ const formatTableDate = (tableDate) => {
     return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
 }
 const getCandidateCV = (item) => {
-    const personalData = item.applyPersonalData
-    const cvData = item.applyCVData
-    console.log(personalData, cvData);
+
+    const personalData = item.applyTPersonalData
+    const cvData = item.applyTCVData
+    const cv = getCV(personalData, cvData)
+    const cvFile = new CVFile(cv)
+    cvFile.getDoc()
 }
 </script>
 <style scoped lang="scss">
@@ -129,6 +134,7 @@ b span {
 .second-last-name-column {
     width: 20%;
 }
+
 .date-column {
     width: 20%;
 }

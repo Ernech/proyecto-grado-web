@@ -44,7 +44,9 @@
 </template>
 <script>
 import { useTeacherJobCallStore } from '../../store/teacher-job-call';
+import { getCV } from '../../helpers/get-cv-data';
 import { computed } from 'vue';
+import CVFile from '../../class/cv-file'
 export default{
     props:{
         candidates:{type:Array,required:true}
@@ -59,9 +61,12 @@ export default{
         }
 
         const getCandidateCV=(item) =>{
+            
            const personalData = item.applyTPersonalData
            const cvData = item.applyTCVData
-           console.log(personalData,cvData);
+           const cv = getCV(personalData,cvData)
+           const cvFile = new CVFile(cv)
+           cvFile.getDoc()
         }
 
         return {formatDate,getCandidateCV}

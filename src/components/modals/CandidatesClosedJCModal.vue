@@ -73,6 +73,7 @@
 <script>
 import { useTeacherJobCallStore } from '../../store/teacher-job-call';
 import { ref, computed } from 'vue'
+import CVFile from '../../class/cv-file'
 export default {
     props: {
         candidates: { type: Array, required: true }
@@ -90,10 +91,13 @@ export default {
             return props.candidates.filter(obj => obj.applyStatus === 'REJECTED')
         })
         const getCandidateCV=(item) =>{
-           const personalData = item.applyTPersonalData
-           const cvData = item.applyTCVData
-           console.log(personalData,cvData);
-        }
+            
+            const personalData = item.applyTPersonalData
+            const cvData = item.applyTCVData
+            const cv = getCV(personalData,cvData)
+            const cvFile = new CVFile(cv)
+            cvFile.getDoc()
+         }
         return { tableTab, acceptedTab, rejectedTab, getAcceptedCandidates, getRejectedCandidates,getCandidateCV }
     }
 
