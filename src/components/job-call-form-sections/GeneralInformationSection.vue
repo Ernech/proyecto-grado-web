@@ -40,8 +40,8 @@ import { useJobCallStore } from '../../store/job-call'
 const file = ref(null)
 const jobCallStore = useJobCallStore();
 const selectFile = () => {
-    //   jobCallStore.jobManualFile= file.value.files[0];
-    console.log(jobCallStore.jobManualFile = file.value.files[0]);
+    jobCallStore.jobManualFile= file.value.files[0];
+    
 }
 </script>
 <style scoped>
