@@ -9,7 +9,7 @@
             <RequiredKnowledge />
             <AptitudeSection />
             <div class="job-call-form__buttons-container">
-                <GetJobCallFileButton :item = "jobCallStore.jobCallEdit"/>
+                <GetJobCallFileButton :item="jobCallStore.jobCallEdit" />
                 <button type="submit" class="job-call-form__publish_button"
                     @click="publishJobCall($route.params.id)">Publicar convocatoria</button>
                 <button type="submit" class="job-call-form__create_button " @click="editJobCall($route.params.id)"
@@ -18,7 +18,10 @@
             </div>
 
         </div>
+        <FeetbackModal v-show="showModal" @close-modal="showModal=false; router.push('/pending-job-call')"
+            :title="modalTitle" :message="modalMessage" />
     </div>
+
 </template>
 <script>
 import FunctionsSection from '../../components/job-call-form-sections/FunctionsSection.vue';
@@ -29,8 +32,9 @@ import AptitudeSection from '../../components/job-call-form-sections/AptitudeSec
 import GeneralInformationSection from '../../components/job-call-form-sections/GeneralInformationSection.vue';
 import GetJobCallFileButton from '../../components/job-call/GetJobCallFileButton.vue';
 import { useJobCallStore } from '../../store/job-call'
-import { computed,onBeforeMount } from 'vue';
-import  router  from '../../routes/recruiter-router'
+import { computed, onBeforeMount, ref } from 'vue';
+import router from '../../routes/recruiter-router'
+import FeetbackModal from '../../components/modals/FeetbackModal.vue'
 export default {
     components: {
         GeneralInformationSection,
@@ -39,15 +43,19 @@ export default {
         JobExperienceSection,
         RequiredKnowledge,
         AptitudeSection,
-        GetJobCallFileButton
+        GetJobCallFileButton,
+        FeetbackModal
     },
     setup() {
 
         const jobCallStore = useJobCallStore()
+        const showModal = ref(false)
+        const modalTitle = ref('')
+        const modalMessage = ref('')
         onBeforeMount(() => {
-          if(!jobCallStore.editJobCall || JSON.stringify(jobCallStore.jobCallEdit)==='{}'){
-            router.push('/saved-job-call')
-          }  
+            if (!jobCallStore.editJobCall || JSON.stringify(jobCallStore.jobCallEdit) === '{}') {
+                router.push('/saved-job-call')
+            }
         })
         const editJobCall = async (id) => {
             await jobCallStore.editJobCall(id)
@@ -55,7 +63,16 @@ export default {
         }
 
         const publishJobCall = async (id) => {
-            await jobCallStore.publishJobCall(id)
+            const resp = await jobCallStore.publishJobCall(id)
+            console.log(resp);
+            showModal.value = true
+            if (resp === 200) {
+                modalTitle.value = 'Se ha publicado al convocatoria'
+                modalMessage.value = 'Se ha agregado la convoatoria a la lista de pendientes'
+                return
+            }
+            modalTitle.value = 'Ha ocurrido jun error'
+            modalMessage.value = 'No se pudo publicar la convocatoria'
         }
 
         const isDisabled = computed(() => {
@@ -77,7 +94,7 @@ export default {
             }
             return true
         })
-        return { editJobCall, publishJobCall, isDisabled,jobCallStore }
+        return { editJobCall, publishJobCall, isDisabled, jobCallStore, router, showModal, modalTitle, modalMessage }
     }
 }
 </script>
@@ -120,7 +137,7 @@ export default {
     border-color: #0094FF;
     width: 25%;
     font-family: 'Nunito', sans-serif;
-   
+
 }
 
 .job-call-form__publish_button {
@@ -132,7 +149,7 @@ export default {
     width: 25%;
     font-family: 'Nunito', sans-serif;
 
-   
+
 }
 
 .job-call-form__create_button.disabled {

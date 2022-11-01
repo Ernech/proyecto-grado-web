@@ -201,8 +201,7 @@ export const useJobCallStore = defineStore('job-call', {
                         'Authorization': localStorage.getItem('recruiter-token')
                     }
                 })
-                console.log(resp);
-                console.log(resp.status);
+                return resp.status
             } catch (error) {
                 console.log(error);
             }

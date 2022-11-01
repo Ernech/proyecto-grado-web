@@ -42,7 +42,8 @@
                 </tbody>
             </table>
         </div>
-
+        <button class="add_button">Descargar convocatoria</button>
+            
     </div>
 </template>
 <script setup>
@@ -81,7 +82,7 @@ const getCandidateCV = (item) => {
 <style scoped lang="scss">
 @import '../../styles/tables.scss';
 @import '../../styles/icons.scss';
-
+@import '../../styles/buttons.scss';
 .main {
     padding: 10px 50px;
 }
