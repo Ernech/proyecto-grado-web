@@ -76,6 +76,7 @@ const openModal = async(id)=>{
 }
 </script>
 <style scoped lang="scss">
+@import '../../styles/buttons.scss';
 .main {
     padding: 10px 50px;
 }
@@ -172,5 +173,14 @@ thead {
 }
 .actions-cell {
     text-align: center;
+}
+.buttons_container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 20px 0px;
+    width: 100%;
+    gap: 20px;
 }
 </style>

@@ -69,10 +69,16 @@
                     </tbody>
                 </table>
             </div>
-            <button class="add_button">Descargar convocatoria</button>
-            <button class="xlsx-button">
-                <fa class="excel-icon" icon="fa-solid fa-file-excel" />Planilla
-            </button>
+            <div class="buttons_container">
+                <button class="xlsx-button">
+                    <fa class="excel-icon" icon="fa-solid fa-file-excel" />Planilla
+                </button>
+                <!-- <button class="add_button" @click="downloadManualFile">Descargar manual</button> -->
+                <button class="get-word-file-button" @click="downloadJobCallFile">
+                    <fa class="get-word-file-icon" icon="fa-solid fa-file-word" />Descargar convocatoria
+                </button>
+            </div>
+
         </div>
     </div>
 </template>
@@ -81,6 +87,8 @@ import { onBeforeMount, ref, computed } from 'vue'
 import { useJobCallStore } from '../../store/job-call'
 import { useRoute } from "vue-router"
 import CVFile from '../../class/cv-file'
+
+import ReportComponent from '../../class/ReportComponent'
 const jobCall = ref({})
 const apply = ref([])
 const jobCallStore = useJobCallStore()
@@ -118,6 +126,11 @@ const getCandidateCV = (item) => {
     const cvFile = new CVFile(cv)
     cvFile.getDoc()
 }
+const downloadJobCallFile = async () => {
+    await jobCallStore.getJobCallById(router.params.id)
+    const reportComponent = new ReportComponent(jobCallStore.selectedJobCall)
+    reportComponent.getDoc()
+}
 </script>
 <style scoped lang="scss">
 @import '../../styles/tables.scss';
@@ -126,6 +139,16 @@ const getCandidateCV = (item) => {
 
 .main {
     padding: 10px 50px;
+}
+
+.buttons_container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 20px 0px;
+    width: 100%;
+    gap: 20px;
 }
 
 .job-call-info {

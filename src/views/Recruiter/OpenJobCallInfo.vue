@@ -42,15 +42,18 @@
                 </tbody>
             </table>
         </div>
-        <button class="add_button">Descargar convocatoria</button>
-            
+        <div class="buttons_container">
+            <!-- <button class="add_button" @click="downloadManualFile">Descargar manual</button> -->
+            <button class="get-word-file-button" @click="downloadJobCallFile"><fa class="get-word-file-icon" icon="fa-solid fa-file-word" />Descargar convocatoria</button>
+        </div>
+
     </div>
 </template>
 <script setup>
 import { onBeforeMount, ref, computed } from 'vue'
 import { useJobCallStore } from '../../store/job-call'
 import { useRoute } from "vue-router"
-
+import ReportComponent from '../../class/ReportComponent'
 import CVFile from '../../class/cv-file'
 const jobCall = ref({})
 const apply = ref([])
@@ -78,11 +81,28 @@ const getCandidateCV = (item) => {
     const cvFile = new CVFile(cv)
     cvFile.getDoc()
 }
+const downloadManualFile = () => {
+    console.log();
+    var fileURL = window.URL.createObjectURL(new Blob([jobCall.value.jobManualFile]));
+    var fileLink = document.createElement('a');
+
+    fileLink.href = fileURL;
+    fileLink.setAttribute('download',jobCall.value.jobManualFileName);
+    document.body.appendChild(fileLink);
+
+    fileLink.click();
+}
+const downloadJobCallFile = async() =>{ 
+    await jobCallStore.getJobCallById(router.params.id)
+    const reportComponent = new ReportComponent(jobCallStore.selectedJobCall)
+    reportComponent.getDoc()
+}
 </script>
 <style scoped lang="scss">
 @import '../../styles/tables.scss';
 @import '../../styles/icons.scss';
 @import '../../styles/buttons.scss';
+
 .main {
     padding: 10px 50px;
 }
@@ -123,7 +143,15 @@ b span {
     font-size: 15px;
 }
 
-
+.buttons_container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 20px 0px;
+    width: 100%;
+    gap: 20px;
+}
 .name-column {
     width: 20%;
 }

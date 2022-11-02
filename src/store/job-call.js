@@ -37,7 +37,8 @@ export const useJobCallStore = defineStore('job-call', {
             desiredLevel: ''
         },
         jobCallEdit: {},
-        applies:{}
+        applies:{},
+        selectedJobCall:{}
 
     }), actions: {
         async createJobCall() {
@@ -100,6 +101,22 @@ export const useJobCallStore = defineStore('job-call', {
                 console.log(error);
             } finally {
                 router.push('/saved-job-call')
+            }
+        },
+        async getJobCallById(id){
+            try {
+                
+            const resp = await fetch(`http://localhost:3000/job-call/${id}`, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                    'Authorization': localStorage.getItem('recruiter-token')
+                }
+            })
+            const dataDB= await resp.json()
+            this.selectedJobCall = dataDB
+            } catch (error) {
+                console.log(error);
             }
         },
         async getSavedJobCalls() {
