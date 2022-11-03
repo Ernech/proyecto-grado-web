@@ -24,7 +24,8 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
         requirements: [],
         jobCallEdit: {},
         showModal: false,
-        selectedTeacherJobCall: {}
+        selectedTeacherJobCall: {},
+        editIndex: -1
 
     }), actions: {
 
@@ -79,7 +80,7 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
                     },
                     body: JSON.stringify(newJobCallBody)
                 })
-              return resp.status
+                return resp.status
 
             } catch (error) {
                 console.log(error);
@@ -113,7 +114,7 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
                 console.log(error);
             }
         },
-        
+
         async getSavedTeacherJobCalls() {
             try {
                 const resp = await fetch('http://localhost:3000/job-call/saved/teacher', {
@@ -214,41 +215,41 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
             const candidateName = `${personalData.name} ${personalData.firstLastName} ${personalData.secondLastName}`
             const candidateBirthDay = personalData.birthDate
             const candidateAge = this.calculateAge(personalData.birthDate)
-            const academicTitle = this.getMainAcademicTitle(cvData) ? 
-             `Licenciatura en ${this.getMainAcademicTitle(cvData).title} ${this.getMainAcademicTitle(cvData).institution} (${this.getMainAcademicTitle(cvData).degreeDate})` :'NO'
-            const secondAcademicTitle = this.getSecondAcademicTitle(cvData).length>0? 'SI' :'NO'
+            const academicTitle = this.getMainAcademicTitle(cvData) ?
+                `Licenciatura en ${this.getMainAcademicTitle(cvData).title} ${this.getMainAcademicTitle(cvData).institution} (${this.getMainAcademicTitle(cvData).degreeDate})` : 'NO'
+            const secondAcademicTitle = this.getSecondAcademicTitle(cvData).length > 0 ? 'SI' : 'NO'
             const teacherAcadmicTraining = 'SI'
             const requiredKnowledge = 'NO'
-            const professionalExperienceTime = this.getProfessionalExperienceTime(cvData) 
-            const teachingExperienceYears = personalData.teachingStartYear>0? this.getTeachingExperienceTime(personalData.teachingStartYear):'NO' 
-            const ucbFormatDocument ='SI'
-            const techingPlan ='SI'
-            const mainTitleFile = this.getMainAcademicTitle(cvData) && !this.getMainAcademicTitle(cvData).professionalTitleFile!=='--'? 'SI' :'NO'
+            const professionalExperienceTime = this.getProfessionalExperienceTime(cvData)
+            const teachingExperienceYears = personalData.teachingStartYear > 0 ? this.getTeachingExperienceTime(personalData.teachingStartYear) : 'NO'
+            const ucbFormatDocument = 'SI'
+            const techingPlan = 'SI'
+            const mainTitleFile = this.getMainAcademicTitle(cvData) && !this.getMainAcademicTitle(cvData).professionalTitleFile !== '--' ? 'SI' : 'NO'
             const teacherTitleFile = 'NO'
-            const personalIdFile =  personalData.personalIdFile!== '--' ? 'SI':'NO'
-            const academicTrainingTrue ='NO'
-            const professionalExperienceTrue ='NO'
-            const TeachingExperienceTrue ='SI'
-            const Habilitated =''
+            const personalIdFile = personalData.personalIdFile !== '--' ? 'SI' : 'NO'
+            const academicTrainingTrue = 'NO'
+            const professionalExperienceTrue = 'NO'
+            const TeachingExperienceTrue = 'SI'
+            const Habilitated = ''
             const candidateData = {
-             candidateName,
-             candidateBirthDay,
-             candidateAge,
-             academicTitle,
-             secondAcademicTitle,
-             teacherAcadmicTraining,
-             requiredKnowledge,
-             professionalExperienceTime,
-             teachingExperienceYears,
-             ucbFormatDocument,
-             techingPlan,
-             mainTitleFile,
-             teacherTitleFile,
-             personalIdFile,
-             academicTrainingTrue,
-             professionalExperienceTrue,
-             TeachingExperienceTrue,
-             Habilitated
+                candidateName,
+                candidateBirthDay,
+                candidateAge,
+                academicTitle,
+                secondAcademicTitle,
+                teacherAcadmicTraining,
+                requiredKnowledge,
+                professionalExperienceTime,
+                teachingExperienceYears,
+                ucbFormatDocument,
+                techingPlan,
+                mainTitleFile,
+                teacherTitleFile,
+                personalIdFile,
+                academicTrainingTrue,
+                professionalExperienceTrue,
+                TeachingExperienceTrue,
+                Habilitated
             }
             return candidateData
         },
@@ -258,12 +259,12 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
             const mainTitle = academicTitles[0]
             return mainTitle
 
-            
+
 
         },
         getProfessionalExperienceTime(cvData) {
             const mainTitle = this.getMainAcademicTitle(cvData)
-            if(!mainTitle){
+            if (!mainTitle) {
                 return 'NO'
             }
             let df = new Date(mainTitle.degreeDate);
@@ -278,7 +279,7 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
             return total
         },
         getTeachingExperienceTime(teachingYears) {
-            let df = new Date(teachingYears+'');
+            let df = new Date(teachingYears + '');
             let dt = new Date();
             let allYears = dt.getFullYear() - df.getFullYear();
             let partialMonths = dt.getMonth() - df.getMonth();
@@ -286,8 +287,8 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
                 allYears--;
                 partialMonths = partialMonths + 12;
             }
-            let total =  allYears + " años " + partialMonths + " meses";
-            
+            let total = allYears + " años " + partialMonths + " meses";
+
             return `(${teachingYears}) ${total}`
         },
         getSecondAcademicTitle(cvData) {
@@ -310,6 +311,14 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
             this.requiredKnowledgeArray = []
 
         },
+        setCollegeClass(item, index) {
+            this.editIndex = index
+            this.code = item.code
+            this.name = item.name
+            this.requiredNumber = item.requiredNumber
+            this.requiredKnowledgeArray=item.requiredKnowledge
+            this.academicTrainings=item.academicTraining
+        }
     },
 
 })

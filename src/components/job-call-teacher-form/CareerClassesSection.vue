@@ -2,6 +2,7 @@
     <div class="career-classes-section">
         <SectionTitle title="Materias" />
         <AddCareerClassModal v-show="showModal"  @close-modal="showModal = false"/>
+        <EditCareerClassModal v-show="showEditModal"  @close-modal="showEditModal = false"/>
         <button  class="classes-add_button" @click="openModal">Agregar Materia</button>
         <table>
             <thead>
@@ -22,8 +23,8 @@
                        {{item.name}}
                     </td>
                     <td class="actions-cell">
-                        <fa class="edit-icon" icon="fa-solid fa-pen" />
-                        <fa class="delete-icon" icon="fa-solid fa-trash" />
+                        <fa class="edit-icon" icon="fa-solid fa-pen" @click="openEditModal(item,index)" />
+                        <fa class="delete-icon" icon="fa-solid fa-trash" @click="deleteCollegeClass(index)" />
                     </td>
                 </tr>
 
@@ -35,13 +36,24 @@
 <script setup>
 import SectionTitle from '../job-call-form-sections/SectionTitle.vue';
 import AddCareerClassModal from '../../components/job-call-teacher-form/AddCareerClassModal.vue'
+import EditCareerClassModal from '../../components/job-call-teacher-form/EditCareerClassModal.vue'
 import { ref } from 'vue'
 import { useTeacherJobCallStore } from '../../store/teacher-job-call';
 const showModal = ref(false)
+const showEditModal = ref(false)
 const teacherJobCallsStore = useTeacherJobCallStore()
 
 const openModal=()=>{
     showModal.value=true
+}
+
+const openEditModal=(item,index)=>{
+    showEditModal.value=true
+    teacherJobCallsStore.setCollegeClass(item,index)
+}
+const deleteCollegeClass = (index) => {
+ teacherJobCallsStore.collegeClasses.splice(index,1)
+ teacherJobCallsStore.collegeClassesToDB.splice(index,1)   
 }
 </script>
 

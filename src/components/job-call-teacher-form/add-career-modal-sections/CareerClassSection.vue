@@ -3,7 +3,7 @@
         <div class="form-input-container">
             <label for="code" class="form-label">Sigla</label>
             <input class="form-input" type="text" id="code" autocomplete="off" maxlength="10"
-                v-model="teacherJobCallStore.code" @input="filterCollegeClasses" @change="getJobCallByCode"
+                v-model.trim="teacherJobCallStore.code" @input="filterCollegeClasses" @change="getJobCallByCode"
                 @focus="suggestionList=true" />
             <div class="class-code-list" v-if="filterCollegeClasses && suggestionList">
                 <ul>
@@ -15,7 +15,7 @@
         </div>
         <div class="form-input-container">
             <label for="college-class" class="form-label">Materia</label>
-            <input class="form-input" type="text" id="college-class" maxlength="100" v-model="teacherJobCallStore.name"
+            <input class="form-input" type="text" id="college-class" maxlength="100" v-model.trim="teacherJobCallStore.name"
                 disabled />
         </div>
         <div class="form-input-container">
