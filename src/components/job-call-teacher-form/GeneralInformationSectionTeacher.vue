@@ -8,9 +8,7 @@
         <div class="grid-container">
             <div class="form-input-container">
                 <label for="manual" class="form-label">Manual de puesto (.docx)</label>
-
                 <input type="file" class="upload-input" id="manual" ref="file" @change="selectFile" accept=".doc,.docx">
-
             </div>
             <div class="form-input-container">
                 <label for="number-job-call" class="form-label">Número de convocatoria</label>

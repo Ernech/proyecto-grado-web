@@ -11,6 +11,7 @@ import ClosedJobCallInfo from '../views/Recruiter/ClosedJobCallInfo.vue'
 import SavedJobCall from '../views/Recruiter/SavedJobCall.vue'
 import NewJobCall from '../views/Recruiter/NewJobCall.vue'
 import EditJobCall from '../views/Recruiter/EditJobCall.vue'
+import EditTeacherJobCall from '../views/Recruiter/EditTeacherJobCall.vue'
 import TeacherJobCall from '../views/Recruiter/TeacherJobCall.vue'
 import ClosedTeacherJobCallInfo from '../views/Recruiter/ClosedTeacherJobCallInfo.vue'
 import { useUserStore } from '../store/user'
@@ -62,6 +63,9 @@ const routes = [
         },
         {
             path: '/edit-job-call/:id', component: EditJobCall, name: 'Edit-job-call'
+        },
+        {
+            path: '/edit-teacher-job-call/:id', component: EditTeacherJobCall, name: 'Edit-teacher-job-call'
         }
         ],
         beforeEnter: requireAuth

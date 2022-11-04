@@ -310,6 +310,29 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
             this.academicTrainings = []
             this.requiredKnowledgeArray = []
 
+        }, setTeacherJobCall(item) {
+            this.jobCallNumber=item.jobCallNumber
+            this.openingDate=item.openingDate
+            this.closingDate=item.closingDate
+            this.jobManualFile=item.jobManualFile
+            this.experiences=item.teacherJobCalls[0].requirements.filter(obj=>obj.requirementType==='PROFESSIONAL_EXPERIENCE')
+            this.collegeClasses = item.teacherJobCalls.map(obj=>{
+                return {
+                    code: obj.collegeClass.code,
+                    name: obj.collegeClass.name,
+                    requiredNumber: obj.requiredNumber,
+                    academicTraining:obj.requirements.filter(obj=>obj.requirementType==='ACADEMIC_TRAINING'),
+                    requiredKnowledge:obj.requirements.filter(obj=>obj.requirementType==='REQUIRED_KNOWLEDGE')
+                }
+            })
+            this.collegeClassesToDB=item.teacherJobCalls.map(obj=>{
+                return {
+                    id:obj.collegeClass.id,
+                    requiredNumber: obj.requiredNumber,
+                    jobCallCode: obj.jobCallCode,
+                    requirements:obj.requirements
+                }
+            })
         },
         setCollegeClass(item, index) {
             this.editIndex = index

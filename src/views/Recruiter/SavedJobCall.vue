@@ -30,7 +30,8 @@
         <div v-else>
             <div v-if="teacherJobCallStore.jobCalls.length>0" class="job-call-list-container">
                 <JobCallCard v-for="item in teacherPagedData" :key="item.id" :jobCallName="item.jobCallName"
-                    :jobCallNumber="item.jobCallNumber" :openingDate="new Date(item.openingDate)" />
+                    :jobCallNumber="item.jobCallNumber" :openingDate="new Date(item.openingDate)" 
+                    @click="toEditTeacherJobCall(item)"/>
             </div>
             <div v-else class="job-call-list-container">
                 <p>No existen convocatorias guardadas</p>
@@ -88,6 +89,10 @@ const toEditJobCall = (item) => {
     router.push({ name: 'Edit-job-call', params: { id: item.id, jobCall: item } })
 
 }
+const toEditTeacherJobCall = (item) => {
+    router.push({ name: 'Edit-teacher-job-call', params: { id: item.id } })
+}
+
 
 </script>
 

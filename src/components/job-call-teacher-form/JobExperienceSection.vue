@@ -47,8 +47,8 @@
                 <tr v-for="(item, index) in jobCallStore.experiences">
                     <td>{{ item.description }}</td>
                     <td>Mayor igual a {{ item.yearsOfExperience }} años</td>
-                    <td>{{ item.requirement }}</td>
-                    <td>{{ item.type }}</td>
+                    <td>{{ item.desiredLevel }}</td>
+                    <td>{{ item.experienceType }}</td>
                     <td class="actions-cell">
                         <fa class="edit-icon" icon="fa-solid fa-pen" @click="getJobExperience(item, index)" />
                         <fa class="delete-icon" icon="fa-solid fa-trash" @click="deleteJobExperience(index)" />
@@ -74,7 +74,7 @@ const editJobExperience = ref(false)
 const editListIndex = ref(-1);
 const jobCallStore = useTeacherJobCallStore()
 const addJobExperience = () => {
-    const newExperience = { dataType: dataType.value, description: description.value, yearsOfExperience: years.value, requirement: requirement.value, type: type.value }
+    const newExperience = { dataType: dataType.value, description: description.value, yearsOfExperience: years.value, desiredLevel: requirement.value, experienceType: type.value }
     jobCallStore.experiences.push(newExperience)
     modifyJobExperiencesFromAllCareerClasses()
     resetValues()
