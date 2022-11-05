@@ -6,8 +6,9 @@
             <JobExperienceSection />
             <CareerClassesSectionSection />
             <div class="button-container">
-                <button class="add_button" @click="createNewTeacherJobCall" :disabled="isDisabled"
+                <button class="add_button" @click="editTeacherJobCall" :disabled="isDisabled"
                     :class="{disabled:isDisabled}">Modificar convocatoria</button>
+                    <button type="submit" class="publish_button">Publicar convocatoria</button>
             </div>
             <FeetbackModal v-show="showModal" @close-modal="showModal=false;router.push('/saved-job-call')"
                 :title="modalTitle" :message="modalMessage" />
@@ -61,7 +62,7 @@ export default {
             return true
         })
         const editTeacherJobCall = async () => {
-            const resp = await teacherJobCallsStore.createTeacherJobCall()
+            const resp = await teacherJobCallsStore.editTeacherJobCall(vueRouter.params.id)
             if (resp === 201) {
                 modalTitle.value = "Convocatoria modificada"
                 modalMessage.value = "Se han guardado los cambios"
@@ -107,5 +108,16 @@ export default {
     width: 100%;
     justify-content: flex-end;
     margin: 20px 15px;
+}
+.publish_button {
+    background-color: #00ff1e;
+    border-radius: 8px;
+    color: #FFFFFF;
+    padding: 5px;
+    border-color: #00ff1e;
+    width: 25%;
+    font-family: 'Nunito', sans-serif;
+
+
 }
 </style>
