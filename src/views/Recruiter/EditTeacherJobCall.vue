@@ -60,19 +60,19 @@ export default {
             }
             return true
         })
-        const createNewTeacherJobCall = async () => {
+        const editTeacherJobCall = async () => {
             const resp = await teacherJobCallsStore.createTeacherJobCall()
             if (resp === 201) {
-                modalTitle.value = "Convocatoria creada"
-                modalMessage.value = "Se ha creado una nueva convocatoria."
+                modalTitle.value = "Convocatoria modificada"
+                modalMessage.value = "Se han guardado los cambios"
                 showModal.value = true
                 return
             }
             modalTitle.value = "Se ha producido un error"
-            modalMessage.value = "No se pudo crear la convocatoria."
+            modalMessage.value = "No se pudo modificar la convocatoria."
             showModal.value = true
         }
-        return { createNewTeacherJobCall, isDisabled, modalMessage, modalTitle, showModal, router }
+        return { editTeacherJobCall, isDisabled, modalMessage, modalTitle, showModal, router }
 
     }
 

@@ -92,8 +92,8 @@ const getJobExperience = (currentJobExperience, index) => {
 
     description.value = currentJobExperience.description
     years.value = currentJobExperience.yearsOfExperience
-    requirement.value = currentJobExperience.requirement
-    type.value = currentJobExperience.type
+    requirement.value = currentJobExperience.desiredLevel
+    type.value = currentJobExperience.experienceType
     editListIndex.value = index
     editJobExperience.value = true
 
@@ -104,8 +104,8 @@ const editExperience = () => {
     if (editListIndex.value > -1) {
         jobCallStore.experiences[editListIndex.value].description = description.value
         jobCallStore.experiences[editListIndex.value].yearsOfExperience = years.value
-        jobCallStore.experiences[editListIndex.value].requirement = requirement.value
-        jobCallStore.experiences[editListIndex.value].type = type.value
+        jobCallStore.experiences[editListIndex.value].desiredLevel = requirement.value
+        jobCallStore.experiences[editListIndex.value].experienceType = type.value
         modifyJobExperiencesFromAllCareerClasses()
         resetValues()
     }

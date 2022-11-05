@@ -54,6 +54,7 @@ import { onBeforeMount, ref, computed } from 'vue'
 import { useJobCallStore } from '../../store/job-call'
 import { useRoute } from "vue-router"
 import ReportComponent from '../../class/ReportComponent'
+import { getCV } from '../../helpers/get-cv-data'
 import CVFile from '../../class/cv-file'
 const jobCall = ref({})
 const apply = ref([])
@@ -75,8 +76,8 @@ const formatTableDate = (tableDate) => {
 }
 const getCandidateCV = (item) => {
 
-    const personalData = item.applyTPersonalData
-    const cvData = item.applyTCVData
+    const personalData = item.applyPersonalData
+    const cvData = item.applyCVData
     const cv = getCV(personalData, cvData)
     const cvFile = new CVFile(cv)
     cvFile.getDoc()

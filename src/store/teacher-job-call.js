@@ -64,8 +64,7 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
                 teacherJobCall: {
                     jobCallName: this.jobCallName,
                     jobCallNumber: this.jobCallNumber,
-                    jobManualFile: 'Manual.docx',
-                    jobInfoFile: 'Info.pdf',
+                    jobManualFile: this.jobManualFile,
                     openingDate: this.openingDate,
                     closingDate: this.closingDate
                 },
@@ -74,6 +73,32 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
             try {
                 const resp = await fetch('http://localhost:3000/job-call/teacher', {
                     method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': localStorage.getItem('recruiter-token')
+                    },
+                    body: JSON.stringify(newJobCallBody)
+                })
+                return resp.status
+
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async editTeacherJobCall(id) {
+            const newJobCallBody = {
+                teacherJobCall: {
+                    jobCallName: this.jobCallName,
+                    jobCallNumber: this.jobCallNumber,
+                    jobManualFile: this.jobManualFile,
+                    openingDate: this.openingDate,
+                    closingDate: this.closingDate
+                },
+                newCareerClass: this.collegeClassesToDB
+            }
+            try {
+                const resp = await fetch(`http://localhost:3000/job-call/teacher/${id}`, {
+                    method: 'PUT',
                     headers: {
                         "Content-Type": "application/json",
                         'Authorization': localStorage.getItem('recruiter-token')
