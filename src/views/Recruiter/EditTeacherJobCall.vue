@@ -8,7 +8,7 @@
             <div class="button-container">
                 <button class="add_button" @click="editTeacherJobCall" :disabled="isDisabled"
                     :class="{disabled:isDisabled}">Modificar convocatoria</button>
-                    <button type="submit" class="publish_button">Publicar convocatoria</button>
+                    <button type="submit" class="publish_button" @click="publishJobCall">Publicar convocatoria</button>
             </div>
             <FeetbackModal v-show="showModal" @close-modal="showModal=false;router.push('/saved-job-call')"
                 :title="modalTitle" :message="modalMessage" />
@@ -73,7 +73,18 @@ export default {
             modalMessage.value = "No se pudo modificar la convocatoria."
             showModal.value = true
         }
-        return { editTeacherJobCall, isDisabled, modalMessage, modalTitle, showModal, router }
+        const publishJobCall = async () => {
+            const resp = await teacherJobCallsStore.publishJobCall(vueRouter.params.id)
+            showModal.value = true
+            if (resp === 200) {
+                modalTitle.value = 'Se ha publicado al convocatoria'
+                modalMessage.value = 'Se ha agregado la convoatoria a la lista de pendientes'
+                return
+            }
+            modalTitle.value = 'Ha ocurrido jun error'
+            modalMessage.value = 'No se pudo publicar la convocatoria'
+        }
+        return { editTeacherJobCall, isDisabled, modalMessage, modalTitle, showModal, router ,publishJobCall}
 
     }
 

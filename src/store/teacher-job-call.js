@@ -111,6 +111,20 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
                 console.log(error);
             }
         },
+        async publishJobCall(id){
+            try {
+                const resp = await fetch(`http://localhost:3000/job-call/pending/${id}`,{
+                    method:'PATCH',
+                    headers:{
+                        "Content-Type": "application/json",
+                        'Authorization': localStorage.getItem('recruiter-token')
+                    }
+                })
+                return resp.status
+            } catch (error) {
+                console.log(error);
+            }
+        },
         getPagedList(page, pageItems) {
             const pageData = [];
             let init = (page * pageItems) - pageItems
