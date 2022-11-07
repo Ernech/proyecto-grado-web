@@ -86,7 +86,7 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
             }
         },
         async editTeacherJobCall(id) {
-            const newJobCallBody = {
+            const editJobCallBody = {
                 teacherJobCall: {
                     jobCallName: this.jobCallName,
                     jobCallNumber: this.jobCallNumber,
@@ -96,6 +96,7 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
                 },
                 newCareerClass: this.collegeClassesToDB
             }
+            console.log(editJobCallBody);
             try {
                 const resp = await fetch(`http://localhost:3000/job-call/teacher/${id}`, {
                     method: 'PUT',
@@ -103,8 +104,10 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
                         "Content-Type": "application/json",
                         'Authorization': localStorage.getItem('recruiter-token')
                     },
-                    body: JSON.stringify(newJobCallBody)
+                    body: JSON.stringify(editJobCallBody)
                 })
+                const dataDb = await resp.json()
+                console.log(dataDb);
                 return resp.status
 
             } catch (error) {

@@ -205,6 +205,7 @@ export const useJobCallStore = defineStore('job-call', {
                 })
                 const dataDb = await resp.json()
                 this.applies = dataDb
+                console.log(this.applies);
             } catch (error) {
                 console.log(error);
             }

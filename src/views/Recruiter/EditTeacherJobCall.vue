@@ -40,6 +40,7 @@ export default {
         const teacherJobCallToEdit = ref({})
         const vueRouter = useRoute()
         onBeforeMount(async () => {
+            await teacherJobCallsStore.getCollegeClasses()
             await teacherJobCallsStore.getTeacherJobCallById(vueRouter.params.id)
             teacherJobCallToEdit.value = teacherJobCallsStore.selectedTeacherJobCall
             teacherJobCallsStore.setTeacherJobCall(teacherJobCallToEdit.value)
@@ -63,7 +64,7 @@ export default {
         })
         const editTeacherJobCall = async () => {
             const resp = await teacherJobCallsStore.editTeacherJobCall(vueRouter.params.id)
-            if (resp === 201) {
+            if (resp === 200) {
                 modalTitle.value = "Convocatoria modificada"
                 modalMessage.value = "Se han guardado los cambios"
                 showModal.value = true
@@ -119,6 +120,7 @@ export default {
     width: 100%;
     justify-content: flex-end;
     margin: 20px 15px;
+    gap: 6px;
 }
 .publish_button {
     background-color: #00ff1e;

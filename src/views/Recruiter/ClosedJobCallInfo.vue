@@ -4,7 +4,8 @@
             <h3>CONVOCATORIA N°{{ jobCall.jobCallNumber }}</h3>
             <h3>{{ jobCall.jobCallName }}</h3>
             <b>Fecha límite de presentación: <span>{{ formatDate }}</span></b>
-            <b>Total de postulantes: <span>{{ apply.length }}</span></b>
+            <b>Total de postulantes: <span v-if="apply">{{ apply.length }}</span>
+            <span v-else>0</span></b>
             <b>Estado: <span>Cerrada</span></b>
         </div>
         <div class="candidates-section">

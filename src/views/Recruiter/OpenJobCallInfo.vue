@@ -4,13 +4,14 @@
             <h3>CONVOCATORIA N°{{ jobCall.jobCallNumber }}</h3>
             <h3>{{ jobCall.jobCallName }}</h3>
             <b>Fecha límite de presentación: <span>{{ formatDate }}</span></b>
-            <b>Total de postulantes: <span>{{ apply.length }}</span></b>
+            <b>Total de postulantes: <span v-if="apply">{{ apply.length }}</span>
+                <span v-else>0</span></b>
             <b>Estado: <span>Abierta</span></b>
         </div>
         <div class="candidates-section">
             <h3>Candidatos</h3>
 
-            <table :style="'width:100%'">
+            <table :style="'width:100%'" v-if="apply">
                 <thead>
                     <tr>
                         <th class="name-column">Nombre</th>
@@ -41,6 +42,7 @@
 
                 </tbody>
             </table>
+            <p v-else>No hay candidatos postulados a esta convocatoria.</p>
         </div>
         <div class="buttons_container">
             <!-- <button class="add_button" @click="downloadManualFile">Descargar manual</button> -->
@@ -143,7 +145,13 @@ b span {
     font-weight: normal;
     font-size: 15px;
 }
-
+.candidates-section p {
+    font-size: 25px;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    color: #000;
+}
 .buttons_container{
     display: flex;
     flex-direction: row;
