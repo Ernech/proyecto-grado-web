@@ -3,7 +3,7 @@
         <div class="modal-overlay">
             <div class="modal">
                 <h3 class="title">Candidatos</h3>
-                <div class="table-container">
+                <div class="table-container" v-if="candidates && candidates.length>0">
                     <div class="buttons-container">
                         <button @click="tableTab = 'ACEPTED'; acceptedTab = true; rejectedTab = false;"
                             class="buttons-container__tab" :class="{selected:acceptedTab}">Candidatos
@@ -63,6 +63,7 @@
                         </tbody>
                     </table>
                 </div>
+                <p v-else>No existen candidatos postulados</p>
                 <button class="back-button" @click="$emit('close-modal')">Cerrar</button>
 
             </div>
@@ -176,5 +177,12 @@ export default {
     width: 100%;
     flex-direction: column;
     justify-content: center;
+}
+.modal p {
+    font-size: 25px;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    color: #000;
 }
 </style>

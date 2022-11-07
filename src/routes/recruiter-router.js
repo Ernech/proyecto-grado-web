@@ -14,6 +14,7 @@ import EditJobCall from '../views/Recruiter/EditJobCall.vue'
 import EditTeacherJobCall from '../views/Recruiter/EditTeacherJobCall.vue'
 import TeacherJobCall from '../views/Recruiter/TeacherJobCall.vue'
 import ClosedTeacherJobCallInfo from '../views/Recruiter/ClosedTeacherJobCallInfo.vue'
+import CVInfo from '../views/Recruiter/CVInfo.vue'
 import { useUserStore } from '../store/user'
 import { useTeacherJobCallStore } from '../store/teacher-job-call'
 
@@ -66,6 +67,9 @@ const routes = [
         },
         {
             path: '/edit-teacher-job-call/:id', component: EditTeacherJobCall, name: 'Edit-teacher-job-call'
+        },
+        {
+            path: '/cv-info', component: CVInfo, name: 'CVInfo'
         }
         ],
         beforeEnter: requireAuth
@@ -79,4 +83,3 @@ const router = createRouter({
 })
 
 export default router;
-

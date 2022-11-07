@@ -3,7 +3,7 @@
         <div class="job-call-info">
             <h3>CONVOCATORIA N°{{jobCall.jobCallNumber}}</h3>
             <h3>DOCENTE TIEMPO HORARIO</h3>
-            <b>Fecha límite de presentación: <span>{{jobCall.closingDate}}</span></b>
+            <b>Fecha límite de presentación: <span>{{formatDate(jobCall.closingDate)}}</span></b>
             <b>Estado: <span>Cerrada</span></b>
         </div>
         <div class="career-classes-section ">
@@ -73,6 +73,10 @@ const openModal = async(id)=>{
     await teacherJobCallStore.getCandidatesByTeacherJobCallId(id)
     candidates.value=teacherJobCallStore.teacherApplies.teacherApply
     showModal.value=true
+}
+const formatDate = (itemDate) => {
+    const date = new Date(itemDate);
+    return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
 }
 </script>
 <style scoped lang="scss">

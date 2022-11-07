@@ -19,7 +19,7 @@
                         class="buttons-container__tab" :class="{ selected: rejectedTab }">Candidatos no
                         habilitados | {{ getRejectedCandidates.length }}</button>
                 </div>
-                <table :style="'width:100%'">
+                <table :style="'width:100%'"  v-if="apply">
                     <thead>
                         <tr>
                             <th class="name-column">Nombre</th>
@@ -69,6 +69,7 @@
                         </tr>
                     </tbody>
                 </table>
+                <p v-else>No hay candidatos postulados a esta convocatoria.</p>
             </div>
             <div class="buttons_container">
                 <button class="xlsx-button">
@@ -187,7 +188,13 @@ b span {
     font-weight: normal;
     font-size: 15px;
 }
-
+.candidates-section p {
+    font-size: 25px;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    color: #000;
+}
 .buttons-container {
     display: flex;
     flex-direction: row;

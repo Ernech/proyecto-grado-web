@@ -229,6 +229,7 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
                 })
                 const dataDb = await resp.json()
                 this.teacherApplies = dataDb
+                
             } catch (error) {
                 console.log(error);
             }

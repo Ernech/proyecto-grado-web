@@ -3,7 +3,7 @@
         <div class="modal-overlay">
             <div class="modal">
                 <h3 class="title">Candidatos</h3>
-                <table>
+                <table v-if="candidates && candidates.length>0">
             <thead>
                 <tr>
                     <th class="code-column">Nombre</th>
@@ -35,6 +35,7 @@
 
             </tbody>
         </table>
+        <p v-else>No existen candidatos postulados</p>
                 <button class="back-button" @click="$emit('close-modal')">Cerrar</button>
                 
             </div>
@@ -125,5 +126,12 @@ export default{
     justify-content: flex-end;
     gap: 5px;
     width: 95%;
+}
+.modal p {
+    font-size: 25px;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    color: #000;
 }
 </style>
