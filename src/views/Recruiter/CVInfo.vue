@@ -77,5 +77,6 @@ h3 {
 
 .accordion-container {
     width: 100%;
+    margin-top: 25px;
 }
 </style>

@@ -6,7 +6,24 @@
             <fa v-else icon="fa-solid fa-chevron-up" class="arrow-icon"/>
         </div> 
         <div class="content" v-if="isOpen">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, dicta, eius aliquid commodi sint similique ea ducimus facilis amet harum corrupti. Enim mollitia culpa dicta accusantium similique dolore quibusdam? Quod.</p>
+            <table>
+            <thead>
+                <tr>
+                    <th>Título del libro o publicación</th>
+                    <th>Lugar de publicación</th>
+                    <th>Tipo</th>
+                    <th class="data_date">Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- <tr v-for="(item, index) in cvStore.getPublications" :key="index">
+                    <td>{{item.title}}</td>
+                    <td>{{item.location}}</td>
+                    <td>{{item.dataClass}}</td>
+                    <td>{{item.dataDate}}</td>
+                </tr> -->
+            </tbody>
+        </table>
         </div>
     </div>
 </template>

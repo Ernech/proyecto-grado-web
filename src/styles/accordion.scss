@@ -1,3 +1,4 @@
+@import './tables.scss';
 .accordion{
     width: 100%;
     
@@ -20,8 +21,11 @@
 }
 
 .content{
-    padding: 5px;
+    padding: 20px 0px;
     margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .arrow-icon{
     color: #000;

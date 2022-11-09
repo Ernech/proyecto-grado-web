@@ -6,7 +6,24 @@
             <fa v-else icon="fa-solid fa-chevron-up" class="arrow-icon"/>
         </div> 
         <div class="content" v-if="isOpen">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, dicta, eius aliquid commodi sint similique ea ducimus facilis amet harum corrupti. Enim mollitia culpa dicta accusantium similique dolore quibusdam? Quod.</p>
+            <table>
+            <thead>
+                <tr>
+                    <th>Lugar de trabajo</th>
+                    <th>Cargo</th>
+                    <th class="start-date-column">Desde</th>
+                    <th class="finish-date-column">Hasta</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- <tr v-for="(item, index) in cvStore.getJobExperiences" :key="index">
+                    <td>{{item.institution}}</td>
+                    <td>{{item.position}}</td>
+                    <td>{{item.startDate}}</td>
+                    <td>{{item.finishDate}}</td>
+                </tr> -->
+            </tbody>
+        </table>
         </div>
     </div>
 </template>

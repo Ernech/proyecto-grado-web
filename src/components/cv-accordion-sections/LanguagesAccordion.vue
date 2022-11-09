@@ -6,7 +6,26 @@
             <fa v-else icon="fa-solid fa-chevron-up" class="arrow-icon"/>
         </div> 
         <div class="content" v-if="isOpen">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, dicta, eius aliquid commodi sint similique ea ducimus facilis amet harum corrupti. Enim mollitia culpa dicta accusantium similique dolore quibusdam? Quod.</p>
+            <table>
+            <thead>
+                <tr>
+                    <th class="language-column">Idioma</th>
+                    <th class="writing-column">Escritura</th>
+                    <th class="reading-column">Lectura</th>
+                    <th class="listening-column">Habla</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- <tr v-for="(item, index) in cvStore.getLanguages" :key="index">
+                    <td>{{item.language}}</td>
+                    <td>{{item.writing}}</td>
+                    <td>{{item.reading}}</td>
+                    <td>{{item.speacking}}</td>
+                </tr> -->
+
+
+            </tbody>
+        </table>
         </div>
     </div>
 </template>
@@ -24,4 +43,5 @@ const changeAccordeonStatus=()=>{
 </script>
 <style lang="scss" scoped>
 @import '../../styles/accordion.scss';
+
 </style>

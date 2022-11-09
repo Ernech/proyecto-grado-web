@@ -6,7 +6,32 @@
             <fa v-else icon="fa-solid fa-chevron-up" class="arrow-icon"/>
         </div> 
         <div class="content" v-if="isOpen">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, dicta, eius aliquid commodi sint similique ea ducimus facilis amet harum corrupti. Enim mollitia culpa dicta accusantium similique dolore quibusdam? Quod.</p>
+            <table>
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Universidad/centro/instituto</th>
+                    <th>Grado</th>
+                    <th>Titulo 1</th>
+                    <th>Titulo 2</th>
+                    <th class="data_date">Fecha de titulación</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <!-- <tr v-for="(item, index) in cvStore.getAcademicTrainings" :key="index">
+
+                    <td>{{item.title}}</td>
+                    <td>{{item.institution}}</td>
+                    <td>{{item.degree}}</td>
+                    <td>{{item.professionalTitleFile}}</td>
+                    <td>{{item.professionalNTitleFile}}</td>
+                    <td>{{item.degreeDate}}</td>
+                </tr> -->
+
+
+            </tbody>
+        </table>    
         </div>
     </div>
 </template>
@@ -24,4 +49,5 @@ const changeAccordeonStatus=()=>{
 </script>
 <style lang="scss" scoped>
 @import '../../styles/accordion.scss';
+@import '../../styles/tables.scss';
 </style>

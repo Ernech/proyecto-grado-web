@@ -6,7 +6,24 @@
             <fa v-else icon="fa-solid fa-chevron-up" class="arrow-icon"/>
         </div> 
         <div class="content" v-if="isOpen">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, dicta, eius aliquid commodi sint similique ea ducimus facilis amet harum corrupti. Enim mollitia culpa dicta accusantium similique dolore quibusdam? Quod.</p>
+            <table>
+            <thead>
+                <tr>
+                    <th>Título de la consultoría o investigación</th>
+                    <th>Organismo contratante</th>
+                    <th>Tipo</th>
+                    <th>fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- <tr v-for="(item, index) in cvStore.getConsultingAndResearch" :key="index">
+                    <td>{{item.title}}</td>
+                    <td>{{item.institution}}</td>
+                    <td>{{item.dataClass}}</td>
+                    <td>{{item.dataDate}}</td>
+                </tr> -->
+            </tbody>
+        </table>
         </div>
     </div>
 </template>
