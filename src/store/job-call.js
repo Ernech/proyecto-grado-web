@@ -264,8 +264,27 @@ export const useJobCallStore = defineStore('job-call', {
                 const dataDb = await resp.json()
                 this.applyPersonalData = dataDb.applyPersonalData
                 this.applyCVData = dataDb.applyCVData
-                if(dataDB.applyCVData.filter(obj => obj.dataType === 'CURRENT_PROFESSIONAL_INFO').length>0){
-                    this.currentProfessionalInfo = dataDB.applyCVData.filter(obj => obj.dataType === 'CURRENT_PROFESSIONAL_INFO')[0]
+                if(dataDb.applyCVData.filter(obj => obj.dataType === 'CURRENT_PROFESSIONAL_INFO').length>0){
+                    this.currentProfessionalInfo = dataDb.applyCVData.filter(obj => obj.dataType === 'CURRENT_PROFESSIONAL_INFO')[0]
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async getTeacherApplyById(id) {
+            try {
+                const resp = await fetch(`http://localhost:3000/job-apply/teacher/${id}`, {
+                    method: 'GET',
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': localStorage.getItem('recruiter-token')
+                    },
+                })
+                const dataDb = await resp.json()
+                this.applyPersonalData = dataDb.applyTPersonalData
+                this.applyCVData = dataDb.applyTCVData
+                if(dataDb.applyTCVData.filter(obj => obj.dataType === 'CURRENT_PROFESSIONAL_INFO').length>0){
+                    this.currentProfessionalInfo = dataDb.applyTCVData.filter(obj => obj.dataType === 'CURRENT_PROFESSIONAL_INFO')[0]
                 }
             } catch (error) {
                 console.log(error);

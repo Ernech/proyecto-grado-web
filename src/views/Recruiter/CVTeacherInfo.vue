@@ -70,7 +70,7 @@ export default {
         const jobCallStore = useJobCallStore()
         const applyPersonalData = ref({})
         onBeforeMount(async () => {
-            await jobCallStore.getApplyById(router.params.id)
+            await jobCallStore.getTeacherApplyById(router.params.id)
             applyPersonalData.value = jobCallStore.applyPersonalData
         })
 

@@ -122,16 +122,14 @@ const getRejectedCandidates = computed(() => {
     return apply.value.filter(obj => obj.applyStatus === 'REJECTED')
 })
 const getCandidateCV = (item) => {
-console.log(item);
 
-    // const personalData = item.applyPersonalData
-    // const cvData = item.applyCVData
-    // const cv = getCV(personalData, cvData)
-    // const cvFile = new CVFile(cv)
-    // cvFile.getDoc()
+    const personalData = item.applyPersonalData
+    const cvData = item.applyCVData
+    const cv = getCV(personalData, cvData)
+    const cvFile = new CVFile(cv)
+    cvFile.getDoc()
 }
 const toCvInfo = (id)=>{
-    console.log(id);
     router.push({name:'CVInfo',params:{id}})
 }
 const downloadJobCallFile = async () => {

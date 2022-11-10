@@ -22,7 +22,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(item, index) in apply" :key="index" class="college-classes-list">
+                    <tr v-for="(item, index) in apply" :key="index" class="college-classes-list" @click="toCvInfo(item.id)">
                         <td>
                             {{ item.applyPersonalData.name }}
                         </td>
@@ -99,6 +99,9 @@ const downloadJobCallFile = async() =>{
     await jobCallStore.getJobCallById(router.params.id)
     const reportComponent = new ReportComponent(jobCallStore.selectedJobCall)
     reportComponent.getDoc()
+}
+const toCvInfo = (id)=>{
+    router.push({name:'CVInfo',params:{id}})
 }
 </script>
 <style scoped lang="scss">

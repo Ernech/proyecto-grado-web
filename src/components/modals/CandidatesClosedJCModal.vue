@@ -3,10 +3,10 @@
         <div class="modal-overlay">
             <div class="modal">
                 <h3 class="title">Candidatos</h3>
-                <div class="table-container" v-if="candidates && candidates.length>0">
+                <div class="table-container" v-if="candidates && candidates.length > 0">
                     <div class="buttons-container">
                         <button @click="tableTab = 'ACEPTED'; acceptedTab = true; rejectedTab = false;"
-                            class="buttons-container__tab" :class="{selected:acceptedTab}">Candidatos
+                            class="buttons-container__tab" :class="{ selected: acceptedTab }">Candidatos
                             habilitados|{{ getAcceptedCandidates.length }}</button>
                         <button @click="tableTab = 'REJECTED'; acceptedTab = false; rejectedTab = true;"
                             class="buttons-container__tab" :class="{ selected: rejectedTab }">Candidatos no
@@ -23,7 +23,8 @@
                             </tr>
                         </thead>
                         <tbody v-if="tableTab === 'ACEPTED'">
-                            <tr v-for="(item, index) in getAcceptedCandidates" :key="index" class="college-classes-list">
+                            <tr v-for="(item, index) in getAcceptedCandidates" :key="index"
+                                class="college-classes-list" @click="toCvInfo(item.id)">
                                 <td>
                                     {{ item.applyTPersonalData.name }}
                                 </td>
@@ -43,7 +44,8 @@
 
                         </tbody>
                         <tbody v-else>
-                            <tr v-for="(item, index) in getRejectedCandidates" :key="index" class="college-classes-list">
+                            <tr v-for="(item, index) in getRejectedCandidates" :key="index"
+                                class="college-classes-list" @click="toCvInfo(item.id)">
                                 <td>
                                     {{ item.applyTPersonalData.name }}
                                 </td>
@@ -75,6 +77,7 @@
 import { useTeacherJobCallStore } from '../../store/teacher-job-call';
 import { ref, computed } from 'vue'
 import CVFile from '../../class/cv-file'
+import router from '../../routes/recruiter-router'
 export default {
     props: {
         candidates: { type: Array, required: true }
@@ -91,15 +94,19 @@ export default {
         const getRejectedCandidates = computed(() => {
             return props.candidates.filter(obj => obj.applyStatus === 'REJECTED')
         })
-        const getCandidateCV=(item) =>{
-            
+        const getCandidateCV = (item) => {
+
             const personalData = item.applyTPersonalData
             const cvData = item.applyTCVData
-            const cv = getCV(personalData,cvData)
+            const cv = getCV(personalData, cvData)
             const cvFile = new CVFile(cv)
             cvFile.getDoc()
-         }
-        return { tableTab, acceptedTab, rejectedTab, getAcceptedCandidates, getRejectedCandidates,getCandidateCV }
+        }
+
+        const toCvInfo = (id) => {
+            router.push({ name: 'CVTeacherInfo', params: { id } })
+        }
+        return { tableTab, acceptedTab, rejectedTab, getAcceptedCandidates, getRejectedCandidates, getCandidateCV ,toCvInfo}
     }
 
 }
@@ -110,6 +117,7 @@ export default {
 @import '../../styles/buttons.scss';
 @import '../../styles/tables.scss';
 @import '../../styles/icons.scss';
+
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -178,6 +186,7 @@ export default {
     flex-direction: column;
     justify-content: center;
 }
+
 .modal p {
     font-size: 25px;
     justify-content: center;
