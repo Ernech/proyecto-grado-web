@@ -69,7 +69,7 @@ const routes = [
             path: '/edit-teacher-job-call/:id', component: EditTeacherJobCall, name: 'Edit-teacher-job-call'
         },
         {
-            path: '/cv-info', component: CVInfo, name: 'CVInfo'
+            path: '/apply-cv-info/:id', component: CVInfo, name: 'CVInfo'
         }
         ],
         beforeEnter: requireAuth

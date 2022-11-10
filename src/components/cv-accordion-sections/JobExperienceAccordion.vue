@@ -16,12 +16,12 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- <tr v-for="(item, index) in cvStore.getJobExperiences" :key="index">
+                <tr v-for="(item, index) in jobCallStore.getJobExperiences" :key="index">
                     <td>{{item.institution}}</td>
                     <td>{{item.position}}</td>
                     <td>{{item.startDate}}</td>
                     <td>{{item.finishDate}}</td>
-                </tr> -->
+                </tr>
             </tbody>
         </table>
         </div>
@@ -29,8 +29,9 @@
 </template>
 <script setup>
 import {ref} from 'vue'
+import { useJobCallStore } from '../../store/job-call';
 const isOpen=ref(false)
-
+const jobCallStore = useJobCallStore()
 const changeAccordeonStatus=()=>{
     if(isOpen.value){
         isOpen.value=false

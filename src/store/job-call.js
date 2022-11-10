@@ -38,9 +38,51 @@ export const useJobCallStore = defineStore('job-call', {
         },
         jobCallEdit: {},
         applies:{},
-        selectedJobCall:{}
-
-    }), actions: {
+        selectedJobCall:{},
+       applyPersonalData:null,
+       applyCVData:[],
+       currentProfessionalInfo:null,
+    }), 
+    
+    getters: {
+        getAcademicTrainings(state) {
+            return state.applyCVData.filter(obj => obj.dataType === 'ACADEMIC_TRAINING');
+        },
+        getLanguages(state) {
+            return state.applyCVData.filter(obj => obj.dataType === 'LANGUAGE');
+        },
+        getCurrentProfessionalInfo(state) {
+            return state.applyCVData.filter(obj => obj.dataType === 'CURRENT_PROFESSIONAL_INFO');
+        },
+        getJobExperiences(state) {
+            return state.applyCVData.filter(obj => obj.dataType === 'PROFESSIONAL_EXPERIENCE');
+        },
+        getTeachingExperiences(state) {
+            return state.applyCVData.filter(obj => obj.dataType === 'TEACHING_EXPERIENCE');
+        },
+        getCoursesAndSeminars(state) {
+            return state.applyCVData.filter(obj => obj.dataType === 'COURSES_AND_SEMINARS');
+        },
+        getPublications(state) {
+            return state.applyCVData.filter(obj => obj.dataType === 'PUBLICATIONS');
+        },
+        getConsultingAndResearch(state) {
+            return state.applyCVData.filter(obj => obj.dataType === 'CONSULTING_AND_RESEARCH');
+        },
+        getAwards(state) {
+            return state.applyCVData.filter(obj => obj.dataType === 'AWARDS');
+        },
+        getAffiliations(state) {
+            return state.applyCVData.filter(obj => obj.dataType === 'AFFILIATIONS');
+        },
+        getJobReferences(state) {
+            return state.applyCVData.filter(obj => obj.dataType === 'JOB_REFERENCES');
+        },
+        getFamilyReferences(state) {
+            return state.applyCVData.filter(obj => obj.dataType === 'FAMILY_REFERENCES');
+        }
+    },
+    actions: {
         async createJobCall() {
             try {
                 const newJobCallBody = {
@@ -206,6 +248,25 @@ export const useJobCallStore = defineStore('job-call', {
                 const dataDb = await resp.json()
                 this.applies = dataDb
                 console.log(this.applies);
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async getApplyById(id) {
+            try {
+                const resp = await fetch(`http://localhost:3000/job-apply/${id}`, {
+                    method: 'GET',
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': localStorage.getItem('recruiter-token')
+                    },
+                })
+                const dataDb = await resp.json()
+                this.applyPersonalData = dataDb.applyPersonalData
+                this.applyCVData = dataDb.applyCVData
+                if(dataDB.applyCVData.filter(obj => obj.dataType === 'CURRENT_PROFESSIONAL_INFO').length>0){
+                    this.currentProfessionalInfo = dataDB.applyCVData.filter(obj => obj.dataType === 'CURRENT_PROFESSIONAL_INFO')[0]
+                }
             } catch (error) {
                 console.log(error);
             }

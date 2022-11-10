@@ -16,12 +16,12 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- <tr v-for="(item, index) in cvStore.getLanguages" :key="index">
+                <tr v-for="(item, index) in jobCallStore.getLanguages" :key="index">
                     <td>{{item.language}}</td>
                     <td>{{item.writing}}</td>
                     <td>{{item.reading}}</td>
                     <td>{{item.speacking}}</td>
-                </tr> -->
+                </tr>
 
 
             </tbody>
@@ -31,8 +31,9 @@
 </template>
 <script setup>
 import {ref} from 'vue'
+import { useJobCallStore } from '../../store/job-call';
 const isOpen=ref(false)
-
+const jobCallStore = useJobCallStore()
 const changeAccordeonStatus=()=>{
     if(isOpen.value){
         isOpen.value=false

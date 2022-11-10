@@ -30,7 +30,7 @@
                         </tr>
                     </thead>
                     <tbody v-if="tableTab === 'ACEPTED'">
-                        <tr v-for="(item, index) in getAcceptedCandidates" :key="index" class="college-classes-list">
+                        <tr v-for="(item, index) in getAcceptedCandidates" :key="index" class="college-classes-list" @click="toCvInfo(item.id)">
                             <td>
                                 {{ item.applyPersonalData.name }}
                             </td>
@@ -50,7 +50,7 @@
 
                     </tbody>
                     <tbody v-else>
-                        <tr v-for="(item, index) in getRejectedCandidates" :key="index" class="college-classes-list">
+                        <tr v-for="(item, index) in getRejectedCandidates" :key="index" class="college-classes-list" @click="toCvInfo(item.id)">
                             <td>
                                 {{ item.applyPersonalData.name }}
                             </td>
@@ -91,15 +91,16 @@ import { useRoute } from "vue-router"
 import CVFile from '../../class/cv-file'
 import { getCV } from '../../helpers/get-cv-data'
 import ReportComponent from '../../class/ReportComponent'
+import router from '../../routes/recruiter-router'
 const jobCall = ref({})
 const apply = ref([])
 const jobCallStore = useJobCallStore()
-const router = useRoute()
+const routes = useRoute()
 const tableTab = ref('ACEPTED')
 const acceptedTab = ref(true)
 const rejectedTab = ref(false)
 onBeforeMount(async () => {
-    await jobCallStore.getCandidatesAppliedToClosedJobCalls(router.params.id)
+    await jobCallStore.getCandidatesAppliedToClosedJobCalls(routes.params.id)
     jobCall.value = jobCallStore.applies
     apply.value = jobCall.value.apply
 })
@@ -121,15 +122,20 @@ const getRejectedCandidates = computed(() => {
     return apply.value.filter(obj => obj.applyStatus === 'REJECTED')
 })
 const getCandidateCV = (item) => {
+console.log(item);
 
-    const personalData = item.applyPersonalData
-    const cvData = item.applyCVData
-    const cv = getCV(personalData, cvData)
-    const cvFile = new CVFile(cv)
-    cvFile.getDoc()
+    // const personalData = item.applyPersonalData
+    // const cvData = item.applyCVData
+    // const cv = getCV(personalData, cvData)
+    // const cvFile = new CVFile(cv)
+    // cvFile.getDoc()
+}
+const toCvInfo = (id)=>{
+    console.log(id);
+    router.push({name:'CVInfo',params:{id}})
 }
 const downloadJobCallFile = async () => {
-    await jobCallStore.getJobCallById(router.params.id)
+    await jobCallStore.getJobCallById(routes.params.id)
     const reportComponent = new ReportComponent(jobCallStore.selectedJobCall)
     reportComponent.getDoc()
 }

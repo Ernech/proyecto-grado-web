@@ -22,7 +22,7 @@
 
                 </thead>
                 <tbody>
-                    <tr v-for="(item, index) in cvStore.getJobReferences" :key="index">
+                    <tr v-for="(item, index) in jobCallStore.getJobReferences" :key="index">
 
                         <td>{{ item.name }}</td>
                         <td>{{ item.position }}</td>
@@ -41,8 +41,9 @@
 </template>
 <script setup>
 import { ref } from 'vue'
+import { useJobCallStore } from '../../store/job-call';
 const isOpen = ref(false)
-
+const jobCallStore = useJobCallStore()
 const changeAccordeonStatus = () => {
     if (isOpen.value) {
         isOpen.value = false

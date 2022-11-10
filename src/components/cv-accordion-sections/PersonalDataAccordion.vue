@@ -7,35 +7,36 @@
         </div> 
         <div class="personal-data-content" v-if="isOpen">
             <div class="grid-container">
-                <DataInfo :dataType="'Nombre Completo'" :dataInfo="'Ernesto Vilela Montero'"/>
-                <DataInfo :dataType="'Documento de identidad'" :dataInfo="'C.I. 6156547 LP'"/>
-                <DataInfo :dataType="'Estado civil'" :dataInfo="'Soltero'"/>
-                <DataInfo :dataType="'Género'" :dataInfo="'Masculino'"/>
-                <DataInfo :dataType="'Apellido de casada'" :dataInfo="'--'"/>
-                <DataInfo :dataType="'Fecha de nacimiento'" :dataInfo="'05-09-1997'"/>
-                <DataInfo :dataType="'Lugar de nacimmiento'" :dataInfo="'La Paz - Bolivia'"/>
-                <DataInfo :dataType="'Nacionalidad'" :dataInfo="'Boliviano'"/>
+                <DataInfo :dataType="'Nombre Completo'" :dataInfo="`${jobCallStore.applyPersonalData.name} ${jobCallStore.applyPersonalData.firstLastName} ${jobCallStore.applyPersonalData.secondLastName}`"/>
+                <DataInfo :dataType="'Documento de identidad'" :dataInfo="`${jobCallStore.applyPersonalData.idType} ${jobCallStore.applyPersonalData.personalIdNumber} ${jobCallStore.applyPersonalData.issued}`"/>
+                <DataInfo :dataType="'Estado civil'" :dataInfo="`${jobCallStore.applyPersonalData.civilStatus}`"/>
+                <DataInfo :dataType="'Género'" :dataInfo="`${jobCallStore.applyPersonalData.gender}`"/>
+                <DataInfo :dataType="'Apellido de casada'" :dataInfo="`${jobCallStore.applyPersonalData.marriedLastName}`"/>
+                <DataInfo :dataType="'Fecha de nacimiento'" :dataInfo="`${jobCallStore.applyPersonalData.birthDate}`"/>
+                <DataInfo :dataType="'Lugar de nacimmiento'" :dataInfo="`${jobCallStore.applyPersonalData.placeOfBirth}`"/>
+                <DataInfo :dataType="'Nacionalidad'" :dataInfo="`${jobCallStore.applyPersonalData.nationality}`"/>
                 <DataInfo :dataType="'Fotocopia de carnet'" :dataInfo="'CI.pdf'"/>
             </div>
             <div class="grid-container-2">
-                <DataInfo :dataType="'Dirección domicilio'" :dataInfo="'Calle 5 obrajes av. 14 de spetiembre #580'"/>
-                <DataInfo :dataType="'Zona'" :dataInfo="'Obrajes'"/>
-                <DataInfo :dataType="'AFP'" :dataInfo="'AFP Revición'"/>
-                <DataInfo :dataType="'Número de registro CUA'" :dataInfo="'12547'"/>
+                <DataInfo :dataType="'Dirección domicilio'" :dataInfo="`${jobCallStore.applyPersonalData.address}`"/>
+                <DataInfo :dataType="'Zona'" :dataInfo="`${jobCallStore.applyPersonalData.zone}`"/>
+                <DataInfo :dataType="'AFP'" :dataInfo="`${jobCallStore.applyPersonalData.afp}`"/>
+                <DataInfo :dataType="'Número de registro CUA'" :dataInfo="`${jobCallStore.applyPersonalData.cuaNumber}`"/>
             </div>
             <div class="grid-container-3">
-                <DataInfo :dataType="'Teléfono domicilio'" :dataInfo="'2782348'"/>
-                <DataInfo :dataType="'Teléfono celular'" :dataInfo="'77254698'"/>
-                <DataInfo :dataType="'Correo electrónico'" :dataInfo="'ernech@gmail.com'"/>
+                <DataInfo :dataType="'Teléfono domicilio'" :dataInfo="`${jobCallStore.applyPersonalData.homePhone}`"/>
+                <DataInfo :dataType="'Teléfono celular'" :dataInfo="`${jobCallStore.applyPersonalData.cellPhone}`"/>
+                <DataInfo :dataType="'Correo electrónico'" :dataInfo="`${jobCallStore.applyPersonalData.email}`"/>
             </div>
         </div>
     </div>
 </template>
 <script setup>
 import {ref} from 'vue'
+import { useJobCallStore } from '../../store/job-call';
 import DataInfo from './data-info/DataInfo.vue'
 const isOpen=ref(false)
-
+const jobCallStore = useJobCallStore()
 const changeAccordeonStatus=()=>{
     if(isOpen.value){
         isOpen.value=false
