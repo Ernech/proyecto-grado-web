@@ -46,15 +46,14 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
         },
         async publishJobCall(id) {
             try {
-                const resp = await fetch(`http://localhost:3000/job-call/pending/${id}`, {
+                const resp = await fetch(`http://localhost:3000/job-call/pending/teacher/${id}`, {
                     method: 'PATCH',
                     headers: {
                         "Content-Type": "application/json",
                         'Authorization': localStorage.getItem('recruiter-token')
                     }
                 })
-                console.log(resp);
-                console.log(resp.status);
+                return resp.status
             } catch (error) {
                 console.log(error);
             }
@@ -114,20 +113,7 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
                 console.log(error);
             }
         },
-        async publishJobCall(id){
-            try {
-                const resp = await fetch(`http://localhost:3000/job-call/pending/${id}`,{
-                    method:'PATCH',
-                    headers:{
-                        "Content-Type": "application/json",
-                        'Authorization': localStorage.getItem('recruiter-token')
-                    }
-                })
-                return resp.status
-            } catch (error) {
-                console.log(error);
-            }
-        },
+      
         getPagedList(page, pageItems) {
             const pageData = [];
             let init = (page * pageItems) - pageItems
@@ -355,8 +341,8 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
 
         }, setTeacherJobCall(item) {
             this.jobCallNumber=item.jobCallNumber
-            this.openingDate=item.openingDate
-            this.closingDate=item.closingDate
+            this.openingDate=this.formatOpeningAndClosingDate(item.openingDate)
+            this.closingDate=this.formatOpeningAndClosingDate(item.closingDate)
             this.jobManualFile=item.jobManualFile
             this.experiences=item.teacherJobCalls[0].requirements.filter(obj=>obj.requirementType==='PROFESSIONAL_EXPERIENCE')
             this.collegeClasses = item.teacherJobCalls.map(obj=>{
@@ -384,7 +370,12 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
             this.requiredNumber = item.requiredNumber
             this.requiredKnowledgeArray=item.requiredKnowledge
             this.academicTrainings=item.academicTraining
-        }
+        },
+        formatOpeningAndClosingDate(date){
+            const formatDate = new Date(date)
+            return `${formatDate.getFullYear()}-${formatDate.getMonth() + 1}-${formatDate.getDate()} ${formatDate.getHours()}:${formatDate.getMinutes()}`;
+
+        },
     },
 
 })

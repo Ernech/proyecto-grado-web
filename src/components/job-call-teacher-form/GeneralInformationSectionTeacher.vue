@@ -23,7 +23,7 @@
             <div class="form-input-container">
                 <label for="closing-date" class="form-label">Fecha de cierre</label>
                 <input class="form-input" type="datetime-local" id="closing-date"
-                    v-model.trim="jobCallStore.closingDate">
+                    v-model="jobCallStore.closingDate">
             </div>
         </div>
 

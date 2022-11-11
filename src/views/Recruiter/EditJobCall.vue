@@ -11,7 +11,7 @@
             <div class="job-call-form__buttons-container">
                 <GetJobCallFileButton :item="jobCallStore.jobCallEdit" />
                 <button type="submit" class="job-call-form__publish_button"
-                    @click="publishJobCall($route.params.id)">Publicar convocatoria</button>
+                    @click="publishAndSaveJobCall($route.params.id)">Publicar convocatoria</button>
                 <button type="submit" class="job-call-form__create_button " @click="editJobCall($route.params.id)"
                     :disabled="isDisabled" :class="{ disabled: isDisabled }">Modificar
                     convocatoria</button>
@@ -67,13 +67,20 @@ export default {
             console.log(resp);
             showModal.value = true
             if (resp === 200) {
-                modalTitle.value = 'Se ha publicado al convocatoria'
+                modalTitle.value = 'Se ha publicado la convocatoria'
                 modalMessage.value = 'Se ha agregado la convoatoria a la lista de pendientes'
                 return
             }
-            modalTitle.value = 'Ha ocurrido jun error'
+            modalTitle.value = 'Ha ocurrido un error'
             modalMessage.value = 'No se pudo publicar la convocatoria'
         }
+
+        const publishAndSaveJobCall = async (id) => {
+            const editResp = await jobCallStore.editJobCall(id)
+            if(editResp===200){
+               await publishJobCall(id)
+            }
+        }        
 
         const isDisabled = computed(() => {
             if (jobCallStore.jobCallName !== null && jobCallStore.jobCallName !== ''
@@ -94,7 +101,7 @@ export default {
             }
             return true
         })
-        return { editJobCall, publishJobCall, isDisabled, jobCallStore, router, showModal, modalTitle, modalMessage }
+        return { editJobCall, publishAndSaveJobCall, isDisabled, jobCallStore, router, showModal, modalTitle, modalMessage }
     }
 }
 </script>

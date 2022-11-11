@@ -8,7 +8,7 @@
             <div class="button-container">
                 <button class="add_button" @click="editTeacherJobCall" :disabled="isDisabled"
                     :class="{disabled:isDisabled}">Modificar convocatoria</button>
-                    <button type="submit" class="publish_button" @click="publishJobCall">Publicar convocatoria</button>
+                    <button type="submit" class="publish_button" @click="publishAndSaveJobCall">Publicar convocatoria</button>
             </div>
             <FeetbackModal v-show="showModal" @close-modal="showModal=false;router.push('/saved-job-call')"
                 :title="modalTitle" :message="modalMessage" />
@@ -74,18 +74,25 @@ export default {
             modalMessage.value = "No se pudo modificar la convocatoria."
             showModal.value = true
         }
-        const publishJobCall = async () => {
+        const publishJobCall = async ()=>{
             const resp = await teacherJobCallsStore.publishJobCall(vueRouter.params.id)
             showModal.value = true
             if (resp === 200) {
-                modalTitle.value = 'Se ha publicado al convocatoria'
+                modalTitle.value = 'Se ha publicado la convocatoria'
                 modalMessage.value = 'Se ha agregado la convoatoria a la lista de pendientes'
                 return
             }
-            modalTitle.value = 'Ha ocurrido jun error'
+            modalTitle.value = 'Ha ocurrido un error'
             modalMessage.value = 'No se pudo publicar la convocatoria'
         }
-        return { editTeacherJobCall, isDisabled, modalMessage, modalTitle, showModal, router ,publishJobCall}
+        const publishAndSaveJobCall = async () => {
+            const editResp = await teacherJobCallsStore.editTeacherJobCall(vueRouter.params.id)
+            if(editResp===200){
+               await publishJobCall()
+            }
+            
+        }
+        return { editTeacherJobCall, isDisabled, modalMessage, modalTitle, showModal, router ,publishAndSaveJobCall}
 
     }
 

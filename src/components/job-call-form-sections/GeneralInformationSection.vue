@@ -18,13 +18,12 @@
             </div>
             <div class="form-input-container">
                 <label for="opening-date" class="form-label">Fecha de apertura</label>
-                <input class="form-input" type="datetime-local" id="opening-date"
-                    v-model="jobCallStore.openingDate">
+                <input class="form-input" type="datetime-local" id="opening-date" v-model="jobCallStore.openingDate"/>
             </div>
             <div class="form-input-container">
                 <label for="closing-date" class="form-label">Fecha de cierre</label>
                 <input class="form-input" type="datetime-local" id="closing-date"
-                    v-model.trim="jobCallStore.closingDate">
+                    v-model.trim="jobCallStore.closingDate"/>
             </div>
         </div>
         <div class="form-input-container">
@@ -35,7 +34,7 @@
     </div>
 </template>
 <script setup>
-import { ref } from 'vue'
+import { ref,computed } from 'vue'
 import { useJobCallStore } from '../../store/job-call'
 const file = ref(null)
 const jobCallStore = useJobCallStore();
@@ -43,6 +42,7 @@ const selectFile = () => {
     jobCallStore.jobManualFile= file.value.files[0];
     
 }
+
 </script>
 <style scoped>
 .general-info-section {

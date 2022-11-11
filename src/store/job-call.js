@@ -322,13 +322,20 @@ export const useJobCallStore = defineStore('job-call', {
             this.jobCallName= item.jobCallName
             this.jobCallNumber=item.jobCallNumber
             this.jobCallObj = item.jobCallObj
-            this.openingDate = item.openingDate
-            this.closingDate = item.closingDate
+            this.openingDate = this.formatOpeningAndClosingDate(item.openingDate)
+            this.closingDate = this.formatOpeningAndClosingDate(item.closingDate)
             this.experiences = item.experiences
             this.jobFunctions = item.jobFunctions
             this.academicTrainings = item.academicTrainings
             this.requiredKnowledgeArray = item.requiredKnowledge
             this.aptitudes= item.aptitudes
+
+        },
+
+        formatOpeningAndClosingDate(date){
+            const formatDate = new Date(date)
+            return `${formatDate.getFullYear()}-${formatDate.getMonth() + 1}-${formatDate.getDate()} ${formatDate.getHours()}:${formatDate.getMinutes()}`;
+
         },
         resetValues(){
             this.jobCallName= ''
