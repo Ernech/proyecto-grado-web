@@ -6,7 +6,7 @@
             <fa v-else icon="fa-solid fa-chevron-up" class="arrow-icon"/>
         </div> 
         <div class="content" v-if="isOpen">
-            <table v-if="jobCallStore.getCoursesAndSeminars">
+            <table v-if="jobCallStore.getCoursesAndSeminars.length>0">
             <thead>
                 <tr>
                     <th>Título del curso o seminario</th>

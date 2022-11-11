@@ -63,7 +63,8 @@ export default {
         ConsultingsAndResearchsAccordion,
         AwardsAccordion,
         AffiliationsAccordion,
-        JobReferencesAccordion
+        JobReferencesAccordion,
+        FamilyReferencesAccordion
     },
     setup(props) {
         const router = useRoute()

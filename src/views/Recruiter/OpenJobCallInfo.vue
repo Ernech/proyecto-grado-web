@@ -22,7 +22,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(item, index) in apply" :key="index" class="college-classes-list" @click="toCvInfo(item.id)">
+                    <tr v-for="(item, index) in apply" :key="index" class="candidates-list" @click="toCvInfo(item.id)">
                         <td>
                             {{ item.applyPersonalData.name }}
                         </td>
@@ -175,7 +175,9 @@ b span {
 .second-last-name-column {
     width: 20%;
 }
-
+.candidates-list:hover{
+    background-color: #efefef;
+}
 .date-column {
     width: 20%;
 }

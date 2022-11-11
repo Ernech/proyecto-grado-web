@@ -11,7 +11,7 @@
         <div class="candidates-section">
             <h3>Candidatos</h3>
             <div class="table-container">
-                <div class="buttons-container">
+                <div class="buttons-container" v-if="apply.length>0">
                     <button @click="tableTab = 'ACEPTED'; acceptedTab = true; rejectedTab = false;"
                         class="buttons-container__tab" :class="{ selected: acceptedTab }">Candidatos
                         habilitados | {{ getAcceptedCandidates.length }}</button>
@@ -19,7 +19,7 @@
                         class="buttons-container__tab" :class="{ selected: rejectedTab }">Candidatos no
                         habilitados | {{ getRejectedCandidates.length }}</button>
                 </div>
-                <table :style="'width:100%'"  v-if="apply">
+                <table :style="'width:100%'" v-if="apply.length>0">
                     <thead>
                         <tr>
                             <th class="name-column">Nombre</th>
@@ -30,7 +30,7 @@
                         </tr>
                     </thead>
                     <tbody v-if="tableTab === 'ACEPTED'">
-                        <tr v-for="(item, index) in getAcceptedCandidates" :key="index" class="college-classes-list" @click="toCvInfo(item.id)">
+                        <tr v-for="(item, index) in getAcceptedCandidates" :key="index" class="candidates-list" @click="toCvInfo(item.id)">
                             <td>
                                 {{ item.applyPersonalData.name }}
                             </td>
@@ -50,7 +50,7 @@
 
                     </tbody>
                     <tbody v-else>
-                        <tr v-for="(item, index) in getRejectedCandidates" :key="index" class="college-classes-list" @click="toCvInfo(item.id)">
+                        <tr v-for="(item, index) in getRejectedCandidates" :key="index" class="candidates-list" @click="toCvInfo(item.id)">
                             <td>
                                 {{ item.applyPersonalData.name }}
                             </td>
@@ -72,7 +72,7 @@
                 <p v-else>No hay candidatos postulados a esta convocatoria.</p>
             </div>
             <div class="buttons_container">
-                <button class="xlsx-button">
+                <button class="xlsx-button" v-if="apply.length>0">
                     <fa class="excel-icon" icon="fa-solid fa-file-excel" />Planilla
                 </button>
                 <!-- <button class="add_button" @click="downloadManualFile">Descargar manual</button> -->
@@ -103,6 +103,7 @@ onBeforeMount(async () => {
     await jobCallStore.getCandidatesAppliedToClosedJobCalls(routes.params.id)
     jobCall.value = jobCallStore.applies
     apply.value = jobCall.value.apply
+    
 })
 const formatDate = computed(() => {
     const date = new Date(jobCall.value.closingDate);
@@ -229,7 +230,9 @@ b span {
     justify-content: center;
 }
 
-
+.candidates-list:hover{
+    background-color: #efefef;
+}
 
 
 
