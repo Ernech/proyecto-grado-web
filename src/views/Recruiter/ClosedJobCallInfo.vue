@@ -11,7 +11,7 @@
         <div class="candidates-section">
             <h3>Candidatos</h3>
             <div class="table-container">
-                <div class="buttons-container" v-if="apply.length>0">
+                <div class="buttons-container" v-if="apply">
                     <button @click="tableTab = 'ACEPTED'; acceptedTab = true; rejectedTab = false;"
                         class="buttons-container__tab" :class="{ selected: acceptedTab }">Candidatos
                         habilitados | {{ getAcceptedCandidates.length }}</button>
@@ -19,7 +19,7 @@
                         class="buttons-container__tab" :class="{ selected: rejectedTab }">Candidatos no
                         habilitados | {{ getRejectedCandidates.length }}</button>
                 </div>
-                <table :style="'width:100%'" v-if="apply.length>0">
+                <table :style="'width:100%'" v-if="apply">
                     <thead>
                         <tr>
                             <th class="name-column">Nombre</th>
@@ -72,7 +72,7 @@
                 <p v-else>No hay candidatos postulados a esta convocatoria.</p>
             </div>
             <div class="buttons_container">
-                <button class="xlsx-button" v-if="apply.length>0">
+                <button class="xlsx-button" v-if="apply">
                     <fa class="excel-icon" icon="fa-solid fa-file-excel" />Planilla
                 </button>
                 <!-- <button class="add_button" @click="downloadManualFile">Descargar manual</button> -->
