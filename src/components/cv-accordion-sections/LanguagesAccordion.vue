@@ -6,7 +6,7 @@
             <fa v-else icon="fa-solid fa-chevron-up" class="arrow-icon"/>
         </div> 
         <div class="content" v-if="isOpen">
-            <table>
+            <table v-if="jobCallStore.getLanguages.length>0">
             <thead>
                 <tr>
                     <th class="language-column">Idioma</th>
@@ -26,6 +26,7 @@
 
             </tbody>
         </table>
+        <p v-else>No existe información</p>
         </div>
     </div>
 </template>

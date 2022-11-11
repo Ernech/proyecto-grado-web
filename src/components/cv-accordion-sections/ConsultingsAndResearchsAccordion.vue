@@ -6,7 +6,7 @@
             <fa v-else icon="fa-solid fa-chevron-up" class="arrow-icon"/>
         </div> 
         <div class="content" v-if="isOpen">
-            <table>
+            <table v-if="jobCallStore.getConsultingAndResearch.length>0">
             <thead>
                 <tr>
                     <th>Título de la consultoría o investigación</th>
@@ -24,6 +24,7 @@
                 </tr>
             </tbody>
         </table>
+        <p v-else>No existe información</p>
         </div>
     </div>
 </template>
