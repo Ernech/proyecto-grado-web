@@ -69,12 +69,12 @@ onBeforeMount(async () => {
 })
 const formatDate = computed(() => {
     const date = new Date(jobCall.value.closingDate);
-    return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+    return `${('0'+date.getDate()).slice(-2)}-${('0'+(date.getMonth() + 1)).slice(-2)}-${date.getFullYear()} ${('0'+formatDate.getHours()).slice(-2)}:${('0'+formatDate.getMinutes()).slice(-2)}`;
 })
 
 const formatTableDate = (tableDate) => {
     const date = new Date(tableDate);
-    return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+    return `${('0'+date.getDate()).slice(-2)}-${('0'+(date.getMonth() + 1)).slice(-2)}-${date.getFullYear()}`;
 }
 const getCandidateCV = (item) => {
 

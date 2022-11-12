@@ -112,7 +112,7 @@ const formatDate = computed(() => {
 
 const formatTableDate = (tableDate) => {
     const date = new Date(tableDate);
-    return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+    return `${('0'+date.getDate()).slice(-2)}-${('0'+(date.getMonth() + 1)).slice(-2)}-${date.getFullYear()}`;
 }
 
 

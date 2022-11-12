@@ -373,7 +373,7 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
         },
         formatOpeningAndClosingDate(date){
             const formatDate = new Date(date)
-            return `${formatDate.getFullYear()}-${formatDate.getMonth() + 1}-${formatDate.getDate()} ${formatDate.getHours()}:${formatDate.getMinutes()}`;
+            return `${formatDate.getFullYear()}-${('0'+(formatDate.getMonth() + 1)).slice(-2)}-${('0'+formatDate.getDate()).slice(-2)} ${('0'+formatDate.getHours()).slice(-2)}:${('0'+formatDate.getMinutes()).slice(-2)}`;
 
         },
     },

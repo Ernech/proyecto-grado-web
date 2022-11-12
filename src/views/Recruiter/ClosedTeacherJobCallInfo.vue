@@ -76,7 +76,7 @@ const openModal = async(id)=>{
 }
 const formatDate = (itemDate) => {
     const date = new Date(itemDate);
-    return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+    return `${('0'+date.getDate()).slice(-2)}-${('0'+(date.getMonth() + 1)).slice(-2)}-${date.getFullYear()}`;
 }
 </script>
 <style scoped lang="scss">
