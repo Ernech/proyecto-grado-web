@@ -58,18 +58,19 @@ import { useRoute } from "vue-router"
 import ReportComponent from '../../class/ReportComponent'
 import { getCV } from '../../helpers/get-cv-data'
 import CVFile from '../../class/cv-file'
+import router from '../../routes/recruiter-router'
 const jobCall = ref({})
 const apply = ref([])
 const jobCallStore = useJobCallStore()
-const router = useRoute()
+const routes = useRoute()
 onBeforeMount(async () => {
-    await jobCallStore.getCandidatesAppliedToOpenedJobCall(router.params.id)
+    await jobCallStore.getCandidatesAppliedToOpenedJobCall(routes.params.id)
     jobCall.value = jobCallStore.applies
     apply.value = jobCall.value.apply
 })
 const formatDate = computed(() => {
     const date = new Date(jobCall.value.closingDate);
-    return `${('0'+date.getDate()).slice(-2)}-${('0'+(date.getMonth() + 1)).slice(-2)}-${date.getFullYear()} ${('0'+formatDate.getHours()).slice(-2)}:${('0'+formatDate.getMinutes()).slice(-2)}`;
+    return `${('0'+date.getDate()).slice(-2)}-${('0'+(date.getMonth() + 1)).slice(-2)}-${date.getFullYear()} ${('0'+date.getHours()).slice(-2)}:${('0'+date.getMinutes()).slice(-2)}`;
 })
 
 const formatTableDate = (tableDate) => {
@@ -96,7 +97,7 @@ const downloadManualFile = () => {
     fileLink.click();
 }
 const downloadJobCallFile = async() =>{ 
-    await jobCallStore.getJobCallById(router.params.id)
+    await jobCallStore.getJobCallById(routes.params.id)
     const reportComponent = new ReportComponent(jobCallStore.selectedJobCall)
     reportComponent.getDoc()
 }

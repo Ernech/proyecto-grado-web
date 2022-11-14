@@ -212,6 +212,7 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
                         "Content-Type": "application/json",
                         'Authorization': localStorage.getItem('recruiter-token')
                     },
+                    
                 })
                 const dataDb = await resp.json()
                 this.teacherApplies = dataDb

@@ -6,7 +6,7 @@
             <fa v-else icon="fa-solid fa-chevron-up" class="arrow-icon" />
         </div>
         <div class="content" v-if="isOpen">
-            <table v-if="jobCallStore.getAcademicTrainings.length>0">
+            <table v-if="jobCallStore.getAcademicTrainings.length > 0">
                 <thead>
                     <tr>
                         <th>Título</th>
@@ -25,13 +25,15 @@
                         <td>{{ item.institution }}</td>
                         <td>{{ item.degree }}</td>
                         <td v-if="item.professionalTitleFile">
-                            <fa icon="fa-solid fa-file-pdf" class="pdf-icon" />
+                            <fa icon="fa-solid fa-file-pdf" class="pdf-icon"
+                                @click="downloadFile(item.professionalTitleFile, item.professionalTitleFileName)" />
                         </td>
                         <td v-else>
                             <fa icon="fa-solid fa-file-pdf" class="pdf-icon-disabled" />
                         </td>
                         <td v-if="item.professionalNTitleFile">
-                            <fa icon="fa-solid fa-file-pdf" class="pdf-icon" />
+                            <fa icon="fa-solid fa-file-pdf" class="pdf-icon"
+                                @click="downloadFile(item.professionalNTitleFile, item.professionalNTitleFileName)" />
                         </td>
                         <td v-else>
                             <fa icon="fa-solid fa-file-pdf" class="pdf-icon-disabled" />
@@ -57,6 +59,31 @@ const changeAccordeonStatus = () => {
         return
     }
     isOpen.value = true
+}
+const downloadFile = (titleFile, fileName) => {
+    console.log(titleFile);
+    if (window.navigator['msSaveOrOpenBlob']) {
+        window.navigator['msSaveBlob'](titleFile.data, fileName)
+        return
+    }
+    var fileURL = window.URL.createObjectURL(new Blob([new Uint8Array(titleFile.data).buffer],{type:'Buffer'}));
+    var fileLink = document.createElement('a');
+
+    fileLink.href = fileURL;
+    fileLink.setAttribute('download', fileName);
+    document.body.appendChild(fileLink);
+
+    fileLink.click();
+    // console.log(titleFile.data);
+    // let byteCharacters = titleFile.data;
+    // let byteNumbers = new Array(byteCharacters);
+    // for (let i = 0; i < byteCharacters.length; i++) {
+    //     byteNumbers[i] = byteCharacters.charCodeAt(i);
+    // }
+    // let byteArray = new Uint8Array(byteNumbers);
+    // let blob = new Blob([byteArray], { type: "application/pdf" });
+
+    // FileSaver.saveAs(blob, fileName);
 }
 </script>
 <style lang="scss" scoped>
