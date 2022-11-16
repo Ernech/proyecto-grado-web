@@ -20,7 +20,7 @@
 
             </thead>
             <tbody>
-                <tr v-for="(item,index) in jobCall.teacherJobCalls" :key="index" @click="openModal(item.id)" class="college-classes-list"> 
+                <tr v-for="(item,index) in jobCall.teacherJobCalls" :key="index" @click="openModal(item)" class="college-classes-list"> 
                     <td>
                         {{item.jobCallCode}}
                     </td>    
@@ -58,7 +58,8 @@ const teacherJobCallStore = useTeacherJobCallStore()
 const router = useRoute()
 const showModal = ref(false)
 const candidates = ref([])
-
+const jobCallCode=ref({})
+const selectedCollegeClass=ref({})
 onBeforeMount(async()=>{
     await teacherJobCallStore.getTeacherJobCallById(router.params.id)
     jobCall.value = teacherJobCallStore.selectedTeacherJobCall
@@ -69,9 +70,16 @@ const getCandidates = async(id,code,name)=>{
    candidatesReport.getDoc()
 }
 
-const openModal = async(id)=>{
-    await teacherJobCallStore.getCandidatesByTeacherJobCallId(id)
-    candidates.value=teacherJobCallStore.teacherApplies.teacherApply
+const openModal = async(item)=>{
+    jobCallCode.value=item.jobCallCode
+    selectedCollegeClass.value=item.collegeClass
+    await teacherJobCallStore.getCandidatesByTeacherJobCallId(item.id)
+    if(teacherJobCallStore.teacherApplies.teacherApply){
+        candidates.value=teacherJobCallStore.teacherApplies.teacherApply 
+    }
+    else{
+        candidates.value=[]
+    }
     showModal.value=true
 }
 const formatDate = (itemDate) => {

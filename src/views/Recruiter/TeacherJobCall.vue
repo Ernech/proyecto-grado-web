@@ -20,7 +20,7 @@
 
                 </thead>
                 <tbody>
-                    <tr v-for="(item, index) in jobCall.teacherJobCalls" :key="index" @click="openModal(item.id)"
+                    <tr v-for="(item, index) in jobCall.teacherJobCalls" :key="index" @click="openModal(item)"
                         class="college-classes-list">
                         <td>
                             {{ item.jobCallCode }}
@@ -45,7 +45,7 @@
             </table>
         </div>
     </div>
-    <CandidatesModal v-show="showModal" @close-modal="showModal=false" :candidates="candidates" />
+    <CandidatesModal v-show="showModal" @close-modal="showModal=false" :candidates="candidates" :collegeClassJobCallCode="jobCallCode" :collegeClassInfo="selectedCollegeClass"  />
 </template>
 <script setup>
 import { onBeforeMount, ref } from 'vue'
@@ -59,7 +59,8 @@ const teacherJobCallStore = useTeacherJobCallStore()
 const router = useRoute()
 const showModal = ref(false)
 const candidates = ref([])
-
+const jobCallCode=ref({})
+const selectedCollegeClass=ref({})
 onBeforeMount(async () => {
     await teacherJobCallStore.getTeacherJobCallById(router.params.id)
     jobCall.value = teacherJobCallStore.selectedTeacherJobCall
@@ -70,14 +71,21 @@ const getCandidates = async (id, code, name) => {
     candidatesReport.getDoc()
 }
 
-const openModal = async (id) => {
-    await teacherJobCallStore.getCandidatesByTeacherJobCallId(id)
-    candidates.value = teacherJobCallStore.teacherApplies.teacherApply
+const openModal = async (item) => {
+    jobCallCode.value=item.jobCallCode
+    selectedCollegeClass.value=item.collegeClass
+    await teacherJobCallStore.getCandidatesByTeacherJobCallId(item.id)
+    if(teacherJobCallStore.teacherApplies.teacherApply){
+        candidates.value=teacherJobCallStore.teacherApplies.teacherApply 
+    }
+    else{
+        candidates.value=[]
+    }
     showModal.value = true
 }
 const formatDate = (itemDate) => {
     const date = new Date(itemDate);
-    return `${formatDate.getFullYear()}-${('0'+(formatDate.getMonth() + 1)).slice(-2)}-${('0'+formatDate.getDate()).slice(-2)} ${('0'+formatDate.getHours()).slice(-2)}:${('0'+formatDate.getMinutes()).slice(-2)}`;
+    return `${date.getFullYear()}-${('0'+(date.getMonth() + 1)).slice(-2)}-${('0'+date.getDate()).slice(-2)} ${('0'+date.getHours()).slice(-2)}:${('0'+date.getMinutes()).slice(-2)}`;
 }
 </script>
 <style scoped lang="scss">

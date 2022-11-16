@@ -3,6 +3,13 @@
         <div class="modal-overlay">
             <div class="modal">
                 <h3 class="title">Candidatos</h3>
+                <h3 class="teacher-job-call-info">CONVOCATORIA N°{{ collegeClassJobCallCode }}</h3>
+                <h3 class="teacher-job-call-info">{{ collegeClassInfo.code }} {{ collegeClassInfo.name }}</h3>
+                <b>Total de postulantes: <span v-if="candidates">{{ candidates.length }}</span>
+                    <span v-else>0</span></b>
+                <button class="xlsx-button-modal" v-if="candidates && candidates.length > 0">
+                    <fa class="excel-icon" icon="fa-solid fa-file-excel" />Planilla
+                </button>
                 <div class="table-container" v-if="candidates && candidates.length > 0">
                     <div class="buttons-container">
                         <button @click="tableTab = 'ACEPTED'; acceptedTab = true; rejectedTab = false;"
@@ -80,7 +87,9 @@ import CVFile from '../../class/cv-file'
 import router from '../../routes/recruiter-router'
 export default {
     props: {
-        candidates: { type: Array, required: true }
+        candidates: { type: Array, required: true },
+        collegeClassJobCallCode:{type:string,required:true},
+        collegeClassInfo: { type: Object, required: true }
     },
 
     setup(props) {
@@ -193,5 +202,25 @@ export default {
     align-items: center;
     font-family: 'Inter', sans-serif;
     color: #000;
+}
+.teacher-job-call-info {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    margin: 0px;
+    align-self: flex-start;
+}
+
+b {
+    font-family: 'Inter';
+    font-size: 15px;
+    align-self: flex-start;
+}
+
+b span {
+    font-weight: normal;
+    font-size: 15px;
+    align-self: flex-start;
 }
 </style>

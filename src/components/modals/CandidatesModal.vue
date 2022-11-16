@@ -3,41 +3,48 @@
         <div class="modal-overlay">
             <div class="modal">
                 <h3 class="title">Candidatos</h3>
-                <table v-if="candidates && candidates.length>0">
-            <thead>
-                <tr>
-                    <th class="code-column">Nombre</th>
-                    <th class="code-column">Apellido Paterno</th>
-                    <th class="class-name-column">Apellido Materno</th>
-                    <th class="candidates-column">Fecha de postulación</th>
-                    <th class="cv-column">CV</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(item,index) in candidates" :key="index" class="college-classes-list"> 
-                    <td>
-                        {{item.applyTPersonalData.name}}
-                    </td>    
-                    <td>
-                        {{item.applyTPersonalData.firstLastName}}
-                    </td>
-                    <td>
-                       {{item.applyTPersonalData.secondLastName}}
-                    </td>
-                    <td>
-                       {{formatDate(item.applyDate)}}
-                    </td>
-                    <td class="cv-cell">
-                        <fa class="word-file" icon="fa-solid fa-file-word" @click="getCandidateCV(item)"/>
-                    </td>
-                </tr>
-                
+                <h3 class="teacher-job-call-info">CONVOCATORIA N°{{ collegeClassJobCallCode }}</h3>
+                <h3 class="teacher-job-call-info">{{ collegeClassInfo.code }} {{ collegeClassInfo.name }}</h3>
+                <b>Total de postulantes: <span v-if="candidates">{{ candidates.length }}</span>
+                    <span v-else>0</span></b>
+                <button class="xlsx-button-modal" v-if="candidates && candidates.length > 0">
+                    <fa class="excel-icon" icon="fa-solid fa-file-excel" />Planilla
+                </button>
+                <table v-if="candidates && candidates.length > 0">
+                    <thead>
+                        <tr>
+                            <th class="code-column">Nombre</th>
+                            <th class="code-column">Apellido Paterno</th>
+                            <th class="class-name-column">Apellido Materno</th>
+                            <th class="candidates-column">Fecha de postulación</th>
+                            <th class="cv-column">CV</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in candidates" :key="index" class="college-classes-list">
+                            <td>
+                                {{ item.applyTPersonalData.name }}
+                            </td>
+                            <td>
+                                {{ item.applyTPersonalData.firstLastName }}
+                            </td>
+                            <td>
+                                {{ item.applyTPersonalData.secondLastName }}
+                            </td>
+                            <td>
+                                {{ formatDate(item.applyDate) }}
+                            </td>
+                            <td class="cv-cell">
+                                <fa class="word-file" icon="fa-solid fa-file-word" @click="getCandidateCV(item)" />
+                            </td>
+                        </tr>
 
-            </tbody>
-        </table>
-        <p v-else>No existen candidatos postulados</p>
+
+                    </tbody>
+                </table>
+                <p v-else>No existen candidatos postulados</p>
                 <button class="back-button" @click="$emit('close-modal')">Cerrar</button>
-                
+
             </div>
 
         </div>
@@ -46,31 +53,36 @@
 <script>
 import { useTeacherJobCallStore } from '../../store/teacher-job-call';
 import { getCV } from '../../helpers/get-cv-data';
-import { computed } from 'vue';
+import { computed, ref, onBeforeMount } from 'vue';
 import CVFile from '../../class/cv-file'
-export default{
-    props:{
-        candidates:{type:Array,required:true}
+import { string } from 'jszip/lib/support';
+export default {
+    props: {
+        candidates: { type: Array, required: true },
+        collegeClassJobCallCode: { type: string, required: true },
+        collegeClassInfo: { type: Object, required: true }
     },
 
-    setup(props){
-        const teacherJobCallStore = useTeacherJobCallStore()
+    setup(props) {
 
-        const formatDate = (itemDate) =>{
+
+
+
+        const formatDate = (itemDate) => {
             const date = new Date(itemDate);
             return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
         }
 
-        const getCandidateCV=(item) =>{
-            
-           const personalData = item.applyTPersonalData
-           const cvData = item.applyTCVData
-           const cv = getCV(personalData,cvData)
-           const cvFile = new CVFile(cv)
-           cvFile.getDoc()
+        const getCandidateCV = (item) => {
+
+            const personalData = item.applyTPersonalData
+            const cvData = item.applyTCVData
+            const cv = getCV(personalData, cvData)
+            const cvFile = new CVFile(cv)
+            cvFile.getDoc()
         }
 
-        return {formatDate,getCandidateCV}
+        return { formatDate, getCandidateCV }
     }
 
 }
@@ -81,6 +93,7 @@ export default{
 @import '../../styles/buttons.scss';
 @import '../../styles/tables.scss';
 @import '../../styles/icons.scss';
+
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -105,7 +118,7 @@ export default{
     padding: 30px;
     border-radius: 20px;
     align-items: center;
-    gap: 20px;
+    gap: 15px;
     overflow-y: scroll;
 
 }
@@ -127,11 +140,33 @@ export default{
     gap: 5px;
     width: 95%;
 }
+
 .modal p {
     font-size: 25px;
     justify-content: center;
     align-items: center;
     font-family: 'Inter', sans-serif;
     color: #000;
+}
+
+.teacher-job-call-info {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    margin: 0px;
+    align-self: flex-start;
+}
+
+b {
+    font-family: 'Inter';
+    font-size: 15px;
+    align-self: flex-start;
+}
+
+b span {
+    font-weight: normal;
+    font-size: 15px;
+    align-self: flex-start;
 }
 </style>
