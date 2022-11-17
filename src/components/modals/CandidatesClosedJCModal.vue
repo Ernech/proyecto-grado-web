@@ -88,7 +88,7 @@ import router from '../../routes/recruiter-router'
 export default {
     props: {
         candidates: { type: Array, required: true },
-        collegeClassJobCallCode:{type:string,required:true},
+        collegeClassJobCallCode:{type: String,required:true},
         collegeClassInfo: { type: Object, required: true }
     },
 

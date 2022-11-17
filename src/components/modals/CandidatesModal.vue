@@ -42,7 +42,16 @@
 
                     </tbody>
                 </table>
-                <p v-else>No existen candidatos postulados</p>
+                <!-- <div class="paginator-container" v-if="candidates && candidates.length > 0">
+                <div class="page-items-container">
+                    <label for="items-number">Número de filas</label>
+                    <input id="items-number" type="number" v-model="pageItems" class="page-items-input" min="1" :max="candidates.length" @input="onClickHandler(1)">
+                </div>
+                <vue-awesome-paginate :total-items="candidates.length" :items-per-page="pageItems" :max-pages-shown="5"
+                    :current-page="1" :on-click="onClickHandler" paginate-buttons-class="btn"
+                    active-page-class="btn-active" back-button-class="back-btn" next-button-class="next-btn" />
+            </div> -->
+                <p v-if="!candidates && candidates.length <1">No existen candidatos postulados</p>
                 <button class="back-button" @click="$emit('close-modal')">Cerrar</button>
 
             </div>
@@ -53,21 +62,22 @@
 <script>
 import { useTeacherJobCallStore } from '../../store/teacher-job-call';
 import { getCV } from '../../helpers/get-cv-data';
-import { computed, ref, onBeforeMount } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import CVFile from '../../class/cv-file'
 import { string } from 'jszip/lib/support';
 export default {
     props: {
         candidates: { type: Array, required: true },
-        collegeClassJobCallCode: { type: string, required: true },
+        collegeClassJobCallCode: { type: String, required: true },
         collegeClassInfo: { type: Object, required: true }
     },
 
     setup(props) {
 
-
-
-
+        const pageItems = ref(1)
+        const pagedData = ref([]);
+        const teacherJobCall = useTeacherJobCallStore()
+    
         const formatDate = (itemDate) => {
             const date = new Date(itemDate);
             return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
@@ -81,8 +91,12 @@ export default {
             const cvFile = new CVFile(cv)
             cvFile.getDoc()
         }
+        const onClickHandler =page=>{
 
-        return { formatDate, getCandidateCV }
+            pagedData.value=teacherJobCall.getCandidatesPagedList(page,pageItems.value,props.candidates)
+        }
+
+        return { formatDate, getCandidateCV,pagedData,pageItems ,onClickHandler}
     }
 
 }
@@ -168,5 +182,59 @@ b span {
     font-weight: normal;
     font-size: 15px;
     align-self: flex-start;
+}
+.paginator-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0px 15px;
+}
+
+.btn {
+    height: 30px;
+    width: 30px;
+    border: #ddd solid 1px;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #0B0273;
+    background-color: #fff;
+}
+.btn:hover {
+   background-color: rgb(211, 211, 211);
+}
+.back-btn {
+    background-color: #fff;
+}
+
+.next-btn {
+    background-color: #fff;
+}
+
+.btn-active {
+    background-color: #0B0273;
+    color: white;
+}
+.page-items-container{
+   display: flex;
+   flex-direction: row;
+   gap: 10px;
+   align-self: center;
+}
+.page-items-container label{
+   font-family: 'Nunito';
+   font-size: 15px;
+   color: #000;
+   align-self: center;
+
+}
+.page-items-input{
+    width: 35px;
+    height: 25px;
+    border-radius: 5px;
+    border: #aaa solid 1px;
+   
+}
+.page-items-input:focus{
+    border: #ccc solid 1px;
 }
 </style>

@@ -214,8 +214,13 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
                     },
                     
                 })
-                const dataDb = await resp.json()
-                this.teacherApplies = dataDb
+                const contentType = resp.headers.get("content-type");;
+                if (contentType && contentType.indexOf("application/json") !== -1){
+                    const dataDb = await resp.json()
+                    this.teacherApplies = dataDb
+                    return
+                }
+                this.teacherApplies=[]
                 
             } catch (error) {
                 console.log(error);
@@ -228,6 +233,19 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
             for (let i = init; i < end; i++) {
                 if (this.jobCalls[i]) {
                     pageData.push(this.jobCalls[i])
+                } else {
+                    break
+                }
+            }
+            return pageData;
+        },
+        getCandidatesPagedList(page, pageItems,itemsList) {
+            const pageData = [];
+            let init = (page * pageItems) - pageItems
+            let end = (page * pageItems)
+            for (let i = init; i < end; i++) {
+                if (this.itemsList[i]) {
+                    pageData.push(this.itemsList[i])
                 } else {
                     break
                 }
