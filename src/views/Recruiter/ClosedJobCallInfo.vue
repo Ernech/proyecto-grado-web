@@ -12,10 +12,10 @@
             <h3>Candidatos</h3>
             <div class="table-container">
                 <div class="buttons-container" v-if="apply">
-                    <button @click="tableTab = 'ACEPTED'; acceptedTab = true; rejectedTab = false;"
+                    <button @click="tableTab = 'ACEPTED'; acceptedTab = true; rejectedTab = false;onClickHandler(1)"
                         class="buttons-container__tab" :class="{ selected: acceptedTab }">Candidatos
                         habilitados | {{ getAcceptedCandidates.length }}</button>
-                    <button @click="tableTab = 'REJECTED'; acceptedTab = false; rejectedTab = true;"
+                    <button @click="tableTab = 'REJECTED'; acceptedTab = false; rejectedTab = true;onClickHandler(1)"
                         class="buttons-container__tab" :class="{ selected: rejectedTab }">Candidatos no
                         habilitados | {{ getRejectedCandidates.length }}</button>
                 </div>
@@ -30,7 +30,7 @@
                         </tr>
                     </thead>
                     <tbody v-if="tableTab === 'ACEPTED'">
-                        <tr v-for="(item, index) in getAcceptedCandidates" :key="index" class="candidates-list" @click="toCvInfo(item.id)">
+                        <tr v-for="(item, index) in pagedData" :key="index" class="candidates-list" @click="toCvInfo(item.id)">
                             <td>
                                 {{ item.applyPersonalData.name }}
                             </td>
@@ -50,7 +50,7 @@
 
                     </tbody>
                     <tbody v-else>
-                        <tr v-for="(item, index) in getRejectedCandidates" :key="index" class="candidates-list" @click="toCvInfo(item.id)">
+                        <tr v-for="(item, index) in pagedData" :key="index" class="candidates-list" @click="toCvInfo(item.id)">
                             <td>
                                 {{ item.applyPersonalData.name }}
                             </td>
@@ -69,6 +69,15 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="paginator-container" v-if="apply">
+                <div class="page-items-container">
+                    <label for="items-number">Número de filas</label>
+                    <input id="items-number" type="number" v-model="pageItems" class="page-items-input" min="1" :max="totalItems" @input="onClickHandler(1)">
+                </div>
+                <vue-awesome-paginate :total-items="totalItems" :items-per-page="pageItems" :max-pages-shown="5"
+                    :current-page="1" :on-click="onClickHandler" paginate-buttons-class="btn"
+                    active-page-class="btn-active" back-button-class="back-btn" next-button-class="next-btn" />
+            </div>
                 <p v-else>No hay candidatos postulados a esta convocatoria.</p>
             </div>
             <div class="buttons_container">
@@ -99,15 +108,21 @@ const routes = useRoute()
 const tableTab = ref('ACEPTED')
 const acceptedTab = ref(true)
 const rejectedTab = ref(false)
+const pageItems = ref(1)
+const pagedData = ref([]);
 onBeforeMount(async () => {
     await jobCallStore.getCandidatesAppliedToClosedJobCalls(routes.params.id)
     jobCall.value = jobCallStore.applies
     apply.value = jobCall.value.apply
-    
+    onClickHandler(1)
 })
 const formatDate = computed(() => {
     const date = new Date(jobCall.value.closingDate);
     return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+})
+const totalItems=computed(()=>{
+    return tableTab.value==='ACEPTED' ? apply.value.filter(obj => obj.applyStatus === 'ACEPTED').length : apply.value.filter(obj => obj.applyStatus === 'REJECTED').length
+   
 })
 
 const formatTableDate = (tableDate) => {
@@ -137,6 +152,11 @@ const downloadJobCallFile = async () => {
     await jobCallStore.getJobCallById(routes.params.id)
     const reportComponent = new ReportComponent(jobCallStore.selectedJobCall)
     reportComponent.getDoc()
+}
+const onClickHandler = (page) => {
+    const listItems = tableTab.value==='ACEPTED' ? apply.value.filter(obj => obj.applyStatus === 'ACEPTED') : apply.value.filter(obj => obj.applyStatus === 'REJECTED')
+    console.log(listItems);
+    pagedData.value=jobCallStore.getCandidatesPagedListClosedJobCall(page,pageItems.value,listItems)
 }
 </script>
 <style scoped lang="scss">
@@ -252,4 +272,62 @@ b span {
     margin-right: 5px;
 
 }
+</style>
+<style>
+.paginator-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0px 15px;
+}
+
+.btn {
+    height: 30px;
+    width: 30px;
+    border: #ddd solid 1px;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #0B0273;
+    background-color: #fff;
+}
+.btn:hover {
+   background-color: rgb(211, 211, 211);
+}
+.back-btn {
+    background-color: #fff;
+}
+
+.next-btn {
+    background-color: #fff;
+}
+
+.btn-active {
+    background-color: #0B0273;
+    color: white;
+}
+.page-items-container{
+   display: flex;
+   flex-direction: row;
+   gap: 10px;
+   align-self: center;
+}
+.page-items-container label{
+   font-family: 'Nunito';
+   font-size: 15px;
+   color: #000;
+   align-self: center;
+
+}
+.page-items-input{
+    width: 35px;
+    height: 25px;
+    border-radius: 5px;
+    border: #aaa solid 1px;
+    padding-left: 5px;
+   
+}
+.page-items-input:focus{
+    border: #ccc solid 1px;
+}
+
 </style>

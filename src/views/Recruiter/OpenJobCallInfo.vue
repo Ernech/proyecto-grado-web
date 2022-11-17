@@ -80,6 +80,9 @@ onBeforeMount(async () => {
     await jobCallStore.getCandidatesAppliedToOpenedJobCall(routes.params.id)
     jobCall.value = jobCallStore.applies
     apply.value = jobCall.value.apply
+    if(apply.value.length>0){
+        pageItems.value=Math.round(apply.value.length/2)
+    }
     onClickHandler(1)
 })
 const formatDate = computed(() => {
@@ -256,6 +259,7 @@ b span {
     height: 25px;
     border-radius: 5px;
     border: #aaa solid 1px;
+    padding-left: 5px;
    
 }
 .page-items-input:focus{

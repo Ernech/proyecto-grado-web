@@ -304,6 +304,32 @@ export const useJobCallStore = defineStore('job-call', {
                 console.log(error);
             }
         },
+        getCandidatesPagedList(page, pageItems) {
+            const pageData = [];
+            let init = (page * pageItems) - pageItems
+            let end = (page * pageItems)
+            for (let i = init; i < end; i++) {
+                if (this.applies.apply[i]) {
+                    pageData.push(this.applies.apply[i])
+                } else {
+                    break
+                }
+            }
+            return pageData;
+        },
+        getCandidatesPagedListClosedJobCall(page, pageItems,itemsList) {
+            const pageData = [];
+            let init = (page * pageItems) - pageItems
+            let end = (page * pageItems)
+            for (let i = init; i < end; i++) {
+                if (itemsList[i]) {
+                    pageData.push(itemsList[i])
+                } else {
+                    break
+                }
+            }
+            return pageData;
+        },
         getPagedList(page, pageItems) {
             const pageData = [];
             let init = (page * pageItems) - pageItems

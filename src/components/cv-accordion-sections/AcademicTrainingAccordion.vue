@@ -61,12 +61,11 @@ const changeAccordeonStatus = () => {
     isOpen.value = true
 }
 const downloadFile = (titleFile, fileName) => {
-    console.log(titleFile);
     if (window.navigator['msSaveOrOpenBlob']) {
         window.navigator['msSaveBlob'](titleFile.data, fileName)
         return
     }
-    var fileURL = window.URL.createObjectURL(new Blob([new Uint8Array(titleFile.data).buffer],{type:'Buffer'}));
+    var fileURL = window.URL.createObjectURL(new Blob([new Uint8Array(titleFile.data).buffer]));
     var fileLink = document.createElement('a');
 
     fileLink.href = fileURL;
