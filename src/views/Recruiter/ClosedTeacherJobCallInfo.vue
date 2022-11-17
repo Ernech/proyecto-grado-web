@@ -43,7 +43,7 @@
         </table>
         </div>
     </div>
-    <CandidatesCLosedJCModal v-show="showModal" @close-modal="showModal=false" :candidates="candidates" />
+    <CandidatesCLosedJCModal v-show="showModal" @close-modal="showModal=false" :candidates="candidates" :collegeClassJobCallCode="jobCallCode" :collegeClassInfo="selectedCollegeClass"/>
 </template>
 <script setup>
 import {onBeforeMount,ref} from'vue'

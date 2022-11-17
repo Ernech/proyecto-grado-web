@@ -244,14 +244,15 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
             let init = (page * pageItems) - pageItems
             let end = (page * pageItems)
             for (let i = init; i < end; i++) {
-                if (this.itemsList[i]) {
-                    pageData.push(this.itemsList[i])
+                if (itemsList[i]) {
+                    pageData.push(itemsList[i])
                 } else {
                     break
                 }
             }
             return pageData;
         },
+        
         generateReportData(code, name) {
             const data = {
                 code, name,

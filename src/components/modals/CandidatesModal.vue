@@ -10,48 +10,52 @@
                 <button class="xlsx-button-modal" v-if="candidates && candidates.length > 0">
                     <fa class="excel-icon" icon="fa-solid fa-file-excel" />Planilla
                 </button>
-                <table v-if="candidates && candidates.length > 0">
-                    <thead>
-                        <tr>
-                            <th class="code-column">Nombre</th>
-                            <th class="code-column">Apellido Paterno</th>
-                            <th class="class-name-column">Apellido Materno</th>
-                            <th class="candidates-column">Fecha de postulación</th>
-                            <th class="cv-column">CV</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(item, index) in candidates" :key="index" class="college-classes-list">
-                            <td>
-                                {{ item.applyTPersonalData.name }}
-                            </td>
-                            <td>
-                                {{ item.applyTPersonalData.firstLastName }}
-                            </td>
-                            <td>
-                                {{ item.applyTPersonalData.secondLastName }}
-                            </td>
-                            <td>
-                                {{ formatDate(item.applyDate) }}
-                            </td>
-                            <td class="cv-cell">
-                                <fa class="word-file" icon="fa-solid fa-file-word" @click="getCandidateCV(item)" />
-                            </td>
-                        </tr>
+                <div class="table-container" v-if="candidates && candidates.length > 0">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="code-column">Nombre</th>
+                                <th class="code-column">Apellido Paterno</th>
+                                <th class="class-name-column">Apellido Materno</th>
+                                <th class="candidates-column">Fecha de postulación</th>
+                                <th class="cv-column">CV</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item, index) in candidates" :key="index" class="college-classes-list">
+                                <td>
+                                    {{ item.applyTPersonalData.name }}
+                                </td>
+                                <td>
+                                    {{ item.applyTPersonalData.firstLastName }}
+                                </td>
+                                <td>
+                                    {{ item.applyTPersonalData.secondLastName }}
+                                </td>
+                                <td>
+                                    {{ formatDate(item.applyDate) }}
+                                </td>
+                                <td class="cv-cell">
+                                    <fa class="word-file" icon="fa-solid fa-file-word" @click="getCandidateCV(item)" />
+                                </td>
+                            </tr>
 
 
-                    </tbody>
-                </table>
-                <!-- <div class="paginator-container" v-if="candidates && candidates.length > 0">
-                <div class="page-items-container">
-                    <label for="items-number">Número de filas</label>
-                    <input id="items-number" type="number" v-model="pageItems" class="page-items-input" min="1" :max="candidates.length" @input="onClickHandler(1)">
+                        </tbody>
+                    </table>
+                    <div class="paginator-container">
+                        <div class="page-items-container">
+                            <label for="items-number">Número de filas</label>
+                            <input id="items-number" type="number" v-model="pageItems" class="page-items-input" min="1"
+                                :max="candidates.length" @input="onClickHandler(1)">
+                        </div>
+                        <vue-awesome-paginate :total-items="candidates.length" :items-per-page="pageItems"
+                            :max-pages-shown="5" :current-page="1" :on-click="onClickHandler"
+                            paginate-buttons-class="btn" active-page-class="btn-active" back-button-class="back-btn"
+                            next-button-class="next-btn" />
+                    </div>
                 </div>
-                <vue-awesome-paginate :total-items="candidates.length" :items-per-page="pageItems" :max-pages-shown="5"
-                    :current-page="1" :on-click="onClickHandler" paginate-buttons-class="btn"
-                    active-page-class="btn-active" back-button-class="back-btn" next-button-class="next-btn" />
-            </div> -->
-                <p v-if="!candidates && candidates.length <1">No existen candidatos postulados</p>
+                <p v-else>No existen candidatos postulados</p>
                 <button class="back-button" @click="$emit('close-modal')">Cerrar</button>
 
             </div>
@@ -62,9 +66,8 @@
 <script>
 import { useTeacherJobCallStore } from '../../store/teacher-job-call';
 import { getCV } from '../../helpers/get-cv-data';
-import { computed, ref, onMounted } from 'vue';
+import { computed, ref, onBeforeMount } from 'vue';
 import CVFile from '../../class/cv-file'
-import { string } from 'jszip/lib/support';
 export default {
     props: {
         candidates: { type: Array, required: true },
@@ -77,7 +80,7 @@ export default {
         const pageItems = ref(1)
         const pagedData = ref([]);
         const teacherJobCall = useTeacherJobCallStore()
-    
+
         const formatDate = (itemDate) => {
             const date = new Date(itemDate);
             return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
@@ -91,12 +94,12 @@ export default {
             const cvFile = new CVFile(cv)
             cvFile.getDoc()
         }
-        const onClickHandler =page=>{
+        const onClickHandler = page => {
+            pagedData.value = teacherJobCall.getCandidatesPagedList(page, pageItems.value, props.candidates)
 
-            pagedData.value=teacherJobCall.getCandidatesPagedList(page,pageItems.value,props.candidates)
         }
 
-        return { formatDate, getCandidateCV,pagedData,pageItems ,onClickHandler}
+        return { formatDate, getCandidateCV, pagedData, pageItems, onClickHandler }
     }
 
 }
@@ -146,15 +149,12 @@ export default {
     align-self: flex-start;
 
 }
-
-.button_container {
+.table-container {
     display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    gap: 5px;
-    width: 95%;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
 }
-
 .modal p {
     font-size: 25px;
     justify-content: center;
@@ -183,11 +183,13 @@ b span {
     font-size: 15px;
     align-self: flex-start;
 }
+
 .paginator-container {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     padding: 0px 15px;
+    width: 80%;
 }
 
 .btn {
@@ -199,9 +201,11 @@ b span {
     color: #0B0273;
     background-color: #fff;
 }
+
 .btn:hover {
-   background-color: rgb(211, 211, 211);
+    background-color: rgb(211, 211, 211);
 }
+
 .back-btn {
     background-color: #fff;
 }
@@ -214,27 +218,31 @@ b span {
     background-color: #0B0273;
     color: white;
 }
-.page-items-container{
-   display: flex;
-   flex-direction: row;
-   gap: 10px;
-   align-self: center;
+
+.page-items-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-self: center;
 }
-.page-items-container label{
-   font-family: 'Nunito';
-   font-size: 15px;
-   color: #000;
-   align-self: center;
+
+.page-items-container label {
+    font-family: 'Nunito';
+    font-size: 15px;
+    color: #000;
+    align-self: center;
 
 }
-.page-items-input{
+
+.page-items-input {
     width: 35px;
     height: 25px;
     border-radius: 5px;
     border: #aaa solid 1px;
-   
+
 }
-.page-items-input:focus{
+
+.page-items-input:focus {
     border: #ccc solid 1px;
 }
 </style>
