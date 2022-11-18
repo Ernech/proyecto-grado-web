@@ -95,7 +95,6 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
                 },
                 newCareerClass: this.collegeClassesToDB
             }
-            console.log(editJobCallBody);
             try {
                 const resp = await fetch(`http://localhost:3000/job-call/teacher/${id}`, {
                     method: 'PUT',
@@ -371,7 +370,8 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
                     name: obj.collegeClass.name,
                     requiredNumber: obj.requiredNumber,
                     academicTraining:obj.requirements.filter(obj=>obj.requirementType==='ACADEMIC_TRAINING'),
-                    requiredKnowledge:obj.requirements.filter(obj=>obj.requirementType==='REQUIRED_KNOWLEDGE')
+                    requiredKnowledge:obj.requirements.filter(obj=>obj.requirementType==='REQUIRED_KNOWLEDGE'),
+                    experiences: obj.requirements.filter(obj=>obj.requirementType==='PROFESSIONAL_EXPERIENCE')
                 }
             })
             this.collegeClassesToDB=item.teacherJobCalls.map(obj=>{

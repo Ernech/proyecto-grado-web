@@ -62,7 +62,7 @@ const editAcademicTraining = ref(false)
 const editIndexList = ref(-1)
 
 const addAcademicTraining = () => {
-    const newAcademicTraining = {dataType:dataType.value, description: academicTraining.value,desiredLevel:desiredLevel.value }
+    const newAcademicTraining = {requirementType:dataType.value, description: academicTraining.value,desiredLevel:desiredLevel.value }
     jobCallStore.academicTrainings.push(newAcademicTraining)
 
     resetValues()

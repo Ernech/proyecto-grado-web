@@ -73,8 +73,10 @@ const type = ref('Escoja una opción...')
 const editJobExperience = ref(false)
 const editListIndex = ref(-1);
 const jobCallStore = useTeacherJobCallStore()
+
+
 const addJobExperience = () => {
-    const newExperience = { dataType: dataType.value, description: description.value, yearsOfExperience: years.value, desiredLevel: requirement.value, experienceType: type.value }
+    const newExperience = { requirementType: dataType.value, description: description.value, yearsOfExperience: years.value, desiredLevel: requirement.value, experienceType: type.value }
     jobCallStore.experiences.push(newExperience)
     modifyJobExperiencesFromAllCareerClasses()
     resetValues()
@@ -124,7 +126,7 @@ const deleteJobExperience = (index) => {
 const modifyJobExperiencesFromAllCareerClasses=()=>{
     if (jobCallStore.collegeClassesToDB.length >= 1) {
         jobCallStore.collegeClassesToDB.forEach(obj => {
-            let newRequirements = obj.requirements.filter(req => req.dataType !== 'PROFESSIONAL_EXPERIENCE') 
+            let newRequirements = obj.requirements.filter(req => req.requirementType !== 'PROFESSIONAL_EXPERIENCE') 
            newRequirements= newRequirements.concat(jobCallStore.experiences)
             return obj.requirements = newRequirements
         }
