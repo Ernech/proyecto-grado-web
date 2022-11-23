@@ -5,7 +5,11 @@
             <fa v-if="!isOpen" icon="fa-solid fa-chevron-down" class="arrow-icon"/>
             <fa v-else icon="fa-solid fa-chevron-up" class="arrow-icon"/>
         </div> 
-        <div class="content" v-if="isOpen">
+        <div class="teaching-experience-content" v-if="isOpen">
+            <div class="teaching-container">
+                <DataInfoVue :dataType="'Año en que empezó a dar clases (en general)'" :dataInfo="`${jobCallStore.applyPersonalData.teachingStartYear}`"/>
+                <DataInfoVue :dataType="'Año en que empezó a dar clases en la UCB'" :dataInfo="`${jobCallStore.applyPersonalData.teachingUCBStartYear}`"/>
+            </div>
             <table v-if="jobCallStore.getTeachingExperiences.length>0">
             <thead>
                 <tr>
@@ -32,6 +36,7 @@
 <script setup>
 import {ref} from 'vue'
 import { useJobCallStore } from '../../store/job-call';
+import DataInfoVue from './data-info/DataInfo.vue';
 const isOpen=ref(false)
 const jobCallStore = useJobCallStore()
 const changeAccordeonStatus=()=>{
@@ -44,4 +49,10 @@ const changeAccordeonStatus=()=>{
 </script>
 <style lang="scss" scoped>
 @import '../../styles/accordion.scss';
+.teaching-container{
+    display: flex;
+    flex-direction: row;
+    gap: 25px;
+    margin: 10px;
+}
 </style>

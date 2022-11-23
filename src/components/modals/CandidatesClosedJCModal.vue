@@ -10,6 +10,13 @@
                 <button class="xlsx-button-modal" v-if="candidates && candidates.length > 0">
                     <fa class="excel-icon" icon="fa-solid fa-file-excel" />Planilla
                 </button>
+                
+                <div v-if="candidates && candidates.length > 0" class="search-container">
+                    <label for="search-input">Buscar candidato</label>
+                    <input id="search-input" type="text" class="search-candidate-input"
+                        placeholder="Ingrese el nombre del candidato" v-model="searchCandidate"
+                        @input="filtercandidates">
+                </div>
                 <div class="table-container" v-if="candidates && candidates.length > 0">
                     <div class="buttons-container">
                         <button
@@ -111,7 +118,7 @@ export default {
         const rejectedTab = ref(false)
         const pageItems = ref(1)
         const pagedData = ref([]);
-
+        const searchCandidate = ref('')
         const getAcceptedCandidates = computed(() => {
             return props.candidates.filter(obj => obj.applyStatus === 'ACEPTED')
         })
@@ -140,6 +147,14 @@ export default {
             pagedData.value = teacherJobCallStore.getCandidatesPagedList(page, pageItems.value, listItems)
 
         }
+        const filtercandidates = () => {
+            // props.candidates =aux.value
+            // if (searchCandidate.value && searchCandidate.value !== '') {
+            //     props.candidates = aux.value.filter(obj => obj.applyTPersonalData.name.search(searchCandidate.value) > -1)
+            // }
+            // onClickHandler(1)
+console.log(searchCandidate.value);
+        }
         return { tableTab, acceptedTab, rejectedTab, getAcceptedCandidates, getRejectedCandidates, getCandidateCV, toCvInfo, totalItems, onClickHandler, pageItems, pagedData }
     }
 
@@ -149,6 +164,7 @@ export default {
 @import '../../styles/buttons.scss';
 @import '../../styles/tables.scss';
 @import '../../styles/icons.scss';
+@import '../../styles/inputs.scss';
 
 .modal-overlay {
     position: fixed;

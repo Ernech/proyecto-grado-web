@@ -10,6 +10,12 @@
                 <button class="xlsx-button-modal" v-if="candidates && candidates.length > 0">
                     <fa class="excel-icon" icon="fa-solid fa-file-excel" />Planilla
                 </button>
+                <div v-if="candidates && candidates.length > 0" class="search-container">
+                    <label for="search-input">Buscar candidato</label>
+                    <input id="search-input" type="text" class="search-candidate-input"
+                        placeholder="Ingrese el nombre del candidato" v-model="searchCandidate"
+                        @input="filtercandidates">
+                </div>
                 <div class="table-container" v-if="candidates && candidates.length > 0">
                     <table>
                         <thead>
@@ -22,7 +28,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(item, index) in candidates" :key="index" class="college-classes-list">
+                            <tr v-for="(item, index) in pagedData" :key="index" class="college-classes-list">
                                 <td>
                                     {{ item.applyTPersonalData.name }}
                                 </td>
@@ -66,7 +72,7 @@
 <script>
 import { useTeacherJobCallStore } from '../../store/teacher-job-call';
 import { getCV } from '../../helpers/get-cv-data';
-import { computed, ref, onBeforeMount } from 'vue';
+import { computed, ref, onBeforeMount, toRef } from 'vue';
 import CVFile from '../../class/cv-file'
 export default {
     props: {
@@ -76,16 +82,19 @@ export default {
     },
 
     setup(props) {
-
         const pageItems = ref(1)
         const pagedData = ref([]);
         const teacherJobCall = useTeacherJobCallStore()
-
+        const searchCandidate = ref('')
+        const candidatesList = ref(props, 'candidates')
+        const aux = ref(props, 'candidates')
         const formatDate = (itemDate) => {
             const date = new Date(itemDate);
             return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
         }
-
+        onBeforeMount(() => {
+           console.log('object');
+        })
         const getCandidateCV = (item) => {
 
             const personalData = item.applyTPersonalData
@@ -95,11 +104,19 @@ export default {
             cvFile.getDoc()
         }
         const onClickHandler = page => {
-            pagedData.value = teacherJobCall.getCandidatesPagedList(page, pageItems.value, props.candidates)
+            pagedData.value = teacherJobCall.getCandidatesPagedList(page, pageItems.value, candidatesList.value)
 
         }
+        const filtercandidates = () => {
+            // candidatesList.value=aux.value
+            // if (searchCandidate.value && searchCandidate.value !== '') {
+            //     candidatesList.value = aux.value.filter(obj => obj.applyTPersonalData.name.search(searchCandidate.value) > -1)
+            //     console.log(candidatesList.value);
+            // }
+            // onClickHandler(1)
 
-        return { formatDate, getCandidateCV, pagedData, pageItems, onClickHandler }
+        }
+        return { formatDate, getCandidateCV, pagedData, pageItems, onClickHandler, filtercandidates, searchCandidate }
     }
 
 }
@@ -110,6 +127,7 @@ export default {
 @import '../../styles/buttons.scss';
 @import '../../styles/tables.scss';
 @import '../../styles/icons.scss';
+@import '../../styles/inputs.scss';
 
 .modal-overlay {
     position: fixed;
@@ -149,12 +167,14 @@ export default {
     align-self: flex-start;
 
 }
+
 .table-container {
     display: flex;
     width: 100%;
     flex-direction: column;
     align-items: center;
 }
+
 .modal p {
     font-size: 25px;
     justify-content: center;

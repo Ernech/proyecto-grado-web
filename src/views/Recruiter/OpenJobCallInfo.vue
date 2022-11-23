@@ -10,6 +10,11 @@
         </div>
         <div class="candidates-section">
             <h3>Candidatos</h3>
+            <div v-if="apply" class="search-container">
+                    <label for="search-input">Buscar candidato</label>
+                    <input id="search-input" type="text" class="search-candidate-input" placeholder="Ingrese el nombre del candidato" v-model="searchCandidate"
+                    @input="filtercandidates">
+                </div>
 
             <table :style="'width:100%'" v-if="apply">
                 <thead>
@@ -76,6 +81,7 @@ const jobCallStore = useJobCallStore()
 const routes = useRoute()
 const pageItems = ref(1)
 const pagedData = ref([]);
+const searchCandidate=ref('')
 onBeforeMount(async () => {
     await jobCallStore.getCandidatesAppliedToOpenedJobCall(routes.params.id)
     jobCall.value = jobCallStore.applies
@@ -124,12 +130,20 @@ const toCvInfo = (id) => {
 const onClickHandler = (page) => {
     pagedData.value=jobCallStore.getCandidatesPagedList(page,pageItems.value)
 }
+const filtercandidates = ()=>{
+    jobCallStore.applies.apply=apply.value  
+    if(searchCandidate.value && searchCandidate.value!==''){
+        jobCallStore.applies.apply=apply.value.filter(obj=>obj.applyPersonalData.name.search(searchCandidate.value)>-1)
+    }
+    onClickHandler(1)
 
+}
 </script>
 <style scoped lang="scss">
 @import '../../styles/tables.scss';
 @import '../../styles/icons.scss';
 @import '../../styles/buttons.scss';
+@import '../../styles/inputs.scss';
 
 .main {
     padding: 10px 50px;
@@ -208,6 +222,9 @@ b span {
 .date-column {
     width: 20%;
 }
+
+
+
 </style>
 <style>
 .paginator-container {
