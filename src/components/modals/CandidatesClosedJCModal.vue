@@ -7,10 +7,11 @@
                 <h3 class="teacher-job-call-info">{{ collegeClassInfo.code }} {{ collegeClassInfo.name }}</h3>
                 <b>Total de postulantes: <span v-if="candidates">{{ candidates.length }}</span>
                     <span v-else>0</span></b>
-                <button class="xlsx-button-modal" v-if="candidates && candidates.length > 0">
+                <button class="xlsx-button-modal" v-if="candidates && candidates.length > 0"
+                    @click="getTeacherJobCallReport">
                     <fa class="excel-icon" icon="fa-solid fa-file-excel" />Planilla
                 </button>
-                
+
                 <div v-if="candidates && candidates.length > 0" class="search-container">
                     <label for="search-input">Buscar candidato</label>
                     <input id="search-input" type="text" class="search-candidate-input"
@@ -104,6 +105,7 @@ import { useTeacherJobCallStore } from '../../store/teacher-job-call';
 import { ref, computed } from 'vue'
 import CVFile from '../../class/cv-file'
 import router from '../../routes/recruiter-router'
+import CandidatesReport from '../../class/CandidatesReport'
 export default {
     props: {
         candidates: { type: Array, required: true },
@@ -153,9 +155,18 @@ export default {
             //     props.candidates = aux.value.filter(obj => obj.applyTPersonalData.name.search(searchCandidate.value) > -1)
             // }
             // onClickHandler(1)
-console.log(searchCandidate.value);
+            console.log(searchCandidate.value);
         }
-        return { tableTab, acceptedTab, rejectedTab, getAcceptedCandidates, getRejectedCandidates, getCandidateCV, toCvInfo, totalItems, onClickHandler, pageItems, pagedData }
+
+
+        const getTeacherJobCallReport =  () => {
+             const candidatesReport = new CandidatesReport(teacherJobCallStore.generateReportData(props.collegeClassInfo.code, props.collegeClassInfo.name))
+             candidatesReport.getDoc()
+        }
+
+
+        return { tableTab, acceptedTab, rejectedTab, getAcceptedCandidates, getRejectedCandidates, getCandidateCV, toCvInfo, 
+            totalItems, onClickHandler, pageItems, pagedData,getTeacherJobCallReport }
     }
 
 }

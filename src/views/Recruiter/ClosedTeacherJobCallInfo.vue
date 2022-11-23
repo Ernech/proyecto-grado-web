@@ -15,7 +15,6 @@
                     <th class="code-column">Sigla</th>
                     <th class="class-name-column">Materia</th>
                     <th class="candidates-column">N° de candidatos</th>
-                    <th class="actions-column">Candidatos</th>
                 </tr>
 
             </thead>
@@ -33,9 +32,6 @@
                     <td>
                        {{item.candidates}}
                     </td>
-                    <td class="actions-cell">
-                        <fa class="excel-icon" icon="fa-solid fa-file-excel" @click="getCandidates(item.id,item.collegeClass.code,item.collegeClass.name)"/>
-                    </td>
                 </tr>
                 
 
@@ -43,14 +39,14 @@
         </table>
         </div>
     </div>
-    <CandidatesCLosedJCModal v-show="showModal" @close-modal="showModal=false" :candidates="candidates" :collegeClassJobCallCode="jobCallCode" :collegeClassInfo="selectedCollegeClass"/>
+    <CandidatesClosedJCModal v-show="showModal" @close-modal="showModal=false" :candidates="candidates" :collegeClassJobCallCode="jobCallCode" :collegeClassInfo="selectedCollegeClass"/>
 </template>
 <script setup>
 import {onBeforeMount,ref} from'vue'
 import {useTeacherJobCallStore} from '../../store/teacher-job-call'
 import {useRoute} from "vue-router"
 import SectionTitle from '../../components/job-call-form-sections/SectionTitle.vue'
-import CandidatesCLosedJCModal from '../../components/modals/CandidatesClosedJCModal.vue'
+import CandidatesClosedJCModal from '../../components/modals/CandidatesClosedJCModal.vue'
 import CandidatesReport from '../../class/CandidatesReport'
 
 const jobCall = ref({})
