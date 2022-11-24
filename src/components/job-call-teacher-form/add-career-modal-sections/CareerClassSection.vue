@@ -73,18 +73,14 @@ const filterCollegeClasses = computed(() => {
 }
 
 .class-code-list {
-    border: 0.5px solid #a7a7a7;
-    width: 105%;
-    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5);
-    border-radius: 5px;
+    width: 100%;
     z-index: 10;
-    background-color: #fff;
-
+    margin: 0px;
     
 }
 
 .class-code-list ul {
-    position: static;
+    position: absolute;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -93,8 +89,13 @@ const filterCollegeClasses = computed(() => {
     padding: 0;
     margin: 1px 5px;
     gap: 3px;
-
-
+    z-index: 100;
+    background-color: #fff;
+    border: 0.5px solid #a7a7a7;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    padding-left: 5px;
+    width: 16%;
 }
 
 .class-code-list ul li {
