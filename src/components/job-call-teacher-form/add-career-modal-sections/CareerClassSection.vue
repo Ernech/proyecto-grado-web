@@ -5,9 +5,9 @@
             <input class="form-input" type="text" id="code" autocomplete="off" maxlength="10"
                 v-model.trim="teacherJobCallStore.code" @input="filterCollegeClasses" @change="getJobCallByCode"
                 @focus="suggestionList=true" />
-            <div class="class-code-list" v-if="filterCollegeClasses && suggestionList">
+            <div class="class-code-list" v-if="filterCollegeClasses.length>0 && suggestionList">
                 <ul>
-                    <li v-for="item in filterCollegeClasses" @click="getJobCallByCode(item)">
+                    <li v-for="item in filterCollegeClasses" @click="getCollegeClassByCode(item)">
                         {{item.code}}
                     </li>
                 </ul>
@@ -32,7 +32,7 @@ import { useTeacherJobCallStore } from '../../../store/teacher-job-call';
 const teacherJobCallStore = useTeacherJobCallStore()
 const collegeClass = ref({})
 const suggestionList = ref(false)
-const getJobCallByCode = (item) => {
+const getCollegeClassByCode = (item) => {
     collegeClass.value = teacherJobCallStore.collegeClassesFromDB.find(obj => obj.code === item.code)
     if (collegeClass.value) {
         teacherJobCallStore.code = collegeClass.value.code
@@ -61,7 +61,7 @@ const filterCollegeClasses = computed(() => {
 .container {
     display: grid;
     grid-template-columns: 20% 80%;
-    grid-template-rows: 2fr;
+    grid-template-rows: 3fr;
     width: 95%;
     column-gap: 20px;
     row-gap: 10px;
@@ -79,6 +79,7 @@ const filterCollegeClasses = computed(() => {
     border-radius: 5px;
     z-index: 10;
     background-color: #fff;
+
     
 }
 
