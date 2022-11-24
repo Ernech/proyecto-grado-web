@@ -16,7 +16,7 @@
                 <label for="number-job-call" class="form-label">Número de convocatoria</label>
                 <input class="form-input" type="text" id="number-job-call" v-model.trim="jobCallStore.jobCallNumber"
                     oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                    maxlength="2">
+                    maxlength="2" @input="changeCodeFromCollegeClasses">
             </div>
             <div class="form-input-container">
                 <label for="opening-date" class="form-label">Fecha de apertura</label>
@@ -38,6 +38,16 @@ const file = ref(null)
 const jobCallStore = useTeacherJobCallStore();
 const selectFile = () => {
     jobCallStore.jobManualFile= file.value.files[0];
+}
+const changeCodeFromCollegeClasses = () =>{
+
+    if( jobCallStore.collegeClassesToDB.length>0){
+        jobCallStore.collegeClassesToDB.forEach((obj,index)=>{
+            return obj.jobCallCode = `${jobCallStore.jobCallNumber}${String.fromCharCode(65+index)}`
+        })
+    }
+
+
 }
 </script>
 <style scoped>
