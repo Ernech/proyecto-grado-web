@@ -7,10 +7,10 @@
         </div>
         <div class="grid-container">
             <div class="form-input-container">
-                <!-- <label for="manual" class="form-label">Manual de puesto (.docx)</label>
-                <input type="file" class="upload-input" id="manual" ref="file" @change="selectFile" accept=".doc,.docx"> -->
-                <label for="semester" class="form-label">Semestre</label>
-                <input type="text" class="form-input" id="semester">
+                <label for="manual" class="form-label">Manual de puesto (.docx)</label>
+                <input type="file" class="upload-input" id="manual" ref="file" @change="selectFile" accept=".doc,.docx">
+                <!-- <label for="semester" class="form-label">Semestre</label>
+                <input type="text" class="form-input" id="semester"> -->
             </div>
             <div class="form-input-container">
                 <label for="number-job-call" class="form-label">Número de convocatoria</label>
@@ -46,8 +46,6 @@ const changeCodeFromCollegeClasses = () =>{
             return obj.jobCallCode = `${jobCallStore.jobCallNumber}${String.fromCharCode(65+index)}`
         })
     }
-
-
 }
 </script>
 <style scoped>
