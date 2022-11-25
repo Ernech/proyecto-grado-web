@@ -127,6 +127,10 @@ onBeforeMount(async () => {
     jobCall.value = jobCallStore.applies
     totalCandidates.value = jobCall.value.apply.length
     apply.value = jobCall.value.apply
+    if(apply.value && apply.value.length){
+        pageItems.value = tableTab.value === 'ACEPTED' ? Math.round(apply.value.filter(obj => obj.applyStatus === 'ACEPTED').length/2) :
+        Math.round(apply.value.filter(obj => obj.applyStatus === 'REJECTED').length/2) 
+    }
     onClickHandler(1)
 })
 const formatDate = computed(() => {

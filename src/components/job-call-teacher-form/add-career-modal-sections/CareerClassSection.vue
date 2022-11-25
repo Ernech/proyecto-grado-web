@@ -73,7 +73,7 @@ const filterCollegeClasses = computed(() => {
 }
 
 .class-code-list {
-    width: 100%;
+    width: 105%;
     z-index: 10;
     margin: 0px;
     
@@ -86,8 +86,7 @@ const filterCollegeClasses = computed(() => {
     justify-content: center;
     align-items: flex-start;
     list-style-type: none;
-    padding: 0;
-    margin: 1px 5px;
+    margin: 0px 5px;
     gap: 3px;
     z-index: 100;
     background-color: #fff;

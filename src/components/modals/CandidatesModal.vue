@@ -28,7 +28,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(item, index) in pagedData" :key="index" class="college-classes-list">
+                            <tr v-for="(item, index) in candidates" :key="index" class="college-classes-list">
                                 <td>
                                     {{ item.applyTPersonalData.name }}
                                 </td>
@@ -72,7 +72,7 @@
 <script>
 import { useTeacherJobCallStore } from '../../store/teacher-job-call';
 import { getCV } from '../../helpers/get-cv-data';
-import { computed, ref, onBeforeMount, toRef } from 'vue';
+import {ref, onBeforeMount } from 'vue';
 import CVFile from '../../class/cv-file'
 export default {
     props: {
@@ -92,9 +92,6 @@ export default {
             const date = new Date(itemDate);
             return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
         }
-        onBeforeMount(() => {
-           console.log('object');
-        })
         const getCandidateCV = (item) => {
 
             const personalData = item.applyTPersonalData
@@ -104,7 +101,7 @@ export default {
             cvFile.getDoc()
         }
         const onClickHandler = page => {
-            pagedData.value = teacherJobCall.getCandidatesPagedList(page, pageItems.value, candidatesList.value)
+            pagedData.value = teacherJobCall.getCandidatesPagedList(page, pageItems.value, props.candidates)
 
         }
         const filtercandidates = () => {

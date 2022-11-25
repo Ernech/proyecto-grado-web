@@ -40,7 +40,7 @@
                             </tr>
                         </thead>
                         <tbody v-if="tableTab === 'ACEPTED'">
-                            <tr v-for="(item, index) in pagedData" :key="index" class="college-classes-list"
+                            <tr v-for="(item, index) in candidates" :key="index" class="college-classes-list"
                                 @click="toCvInfo(item.id)">
                                 <td>
                                     {{ item.applyTPersonalData.name }}
@@ -61,7 +61,7 @@
 
                         </tbody>
                         <tbody v-else>
-                            <tr v-for="(item, index) in pagedData" :key="index" class="college-classes-list"
+                            <tr v-for="(item, index) in candidates" :key="index" class="college-classes-list"
                                 @click="toCvInfo(item.id)">
                                 <td>
                                     {{ item.applyTPersonalData.name }}
