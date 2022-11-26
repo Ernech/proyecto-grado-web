@@ -23,7 +23,6 @@
                         <th class="first-last-name-column">Apellido Paterno</th>
                         <th class="second-last-name-column">Apellido Materno</th>
                         <th class="date-column">Fecha de postulación</th>
-                        <th class="cv-column">CV</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,11 +39,7 @@
                         <td>
                             {{ formatTableDate(item.applyDate) }}
                         </td>
-                        <td class="cv-cell">
-                            <fa class="word-file" icon="fa-solid fa-file-word" @click="getCandidateCV(item)" />
-                        </td>
                     </tr>
-
                 </tbody>
             </table>
             <div class="paginator-container" v-if="apply">
@@ -98,7 +93,7 @@ const formatDate = computed(() => {
 
 const formatTableDate = (tableDate) => {
     const date = new Date(tableDate);
-    return `${('0' + date.getDate()).slice(-2)}-${('0' + (date.getMonth() + 1)).slice(-2)}-${date.getFullYear()}`;
+    return `${('0' + date.getDate()).slice(-2)}-${('0' + (date.getMonth() + 1)).slice(-2)}-${date.getFullYear()} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`;
 }
 const getCandidateCV = (item) => {
 

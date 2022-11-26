@@ -5,7 +5,7 @@
         <div class="card-container__opening-date">
             <fa icon="fa-solid fa-calendar-days" class="opening-date__icon" />
             <span class="opening-date__text">
-                Fecha de apertura: {{formatDate}} </span>
+                Fecha de apertura: {{formatDate}} - Fecha de cierrre: {{formatClosingDate}} </span>
         </div>
     </div>
 </template>
@@ -15,15 +15,20 @@ export default {
     props:{
         jobCallName:{type:String,required:true},
         jobCallNumber:{type:String,required:true},
-        openingDate:{type:Date,required:true}
+        openingDate:{type:Date,required:true},
+        closingDate:{type:Date,required:true}
     },
     setup(props){
         const formatDate = computed(() => {
             const date = new Date(props.openingDate);
             return `${('0'+date.getDate()).slice(-2)}-${('0'+(date.getMonth() + 1)).slice(-2)}-${date.getFullYear()} ${('0'+date.getHours()).slice(-2)}:${('0'+date.getMinutes()).slice(-2)}`;
+        })
+        const formatClosingDate = computed(() => {
+            const date = new Date(props.closingDate);
+            return `${('0'+date.getDate()).slice(-2)}-${('0'+(date.getMonth() + 1)).slice(-2)}-${date.getFullYear()} ${('0'+date.getHours()).slice(-2)}:${('0'+date.getMinutes()).slice(-2)}`;
         })  
         
-        return{formatDate}
+        return{formatDate,formatClosingDate}
     }
 }
 </script>

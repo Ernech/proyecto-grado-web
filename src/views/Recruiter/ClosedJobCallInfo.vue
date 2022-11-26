@@ -33,7 +33,6 @@
                             <th class="first-last-name-column">Apellido Paterno</th>
                             <th class="second-last-name-column">Apellido Materno</th>
                             <th class="date-column">Fecha de postulación</th>
-                            <th class="cv-column">CV</th>
                         </tr>
                     </thead>
                     <tbody v-if="tableTab === 'ACEPTED'">
@@ -50,9 +49,6 @@
                             </td>
                             <td>
                                 {{ formatTableDate(item.applyDate) }}
-                            </td>
-                            <td class="cv-cell">
-                                <fa class="word-file" icon="fa-solid fa-file-word" @click="getCandidateCV(item)" />
                             </td>
                         </tr>
 
@@ -71,9 +67,6 @@
                             </td>
                             <td>
                                 {{ formatTableDate(item.applyDate) }}
-                            </td>
-                            <td class="cv-cell">
-                                <fa class="word-file" icon="fa-solid fa-file-word" @click="getCandidateCV(item)" />
                             </td>
                         </tr>
                     </tbody>
@@ -135,7 +128,7 @@ onBeforeMount(async () => {
 })
 const formatDate = computed(() => {
     const date = new Date(jobCall.value.closingDate);
-    return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+    return `${('0' + date.getDate()).slice(-2)}-${('0' + (date.getMonth() + 1)).slice(-2)}-${date.getFullYear()} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`;
 })
 const totalItems = computed(() => {
     return tableTab.value === 'ACEPTED' ? apply.value.filter(obj => obj.applyStatus === 'ACEPTED').length : apply.value.filter(obj => obj.applyStatus === 'REJECTED').length
@@ -144,7 +137,7 @@ const totalItems = computed(() => {
 
 const formatTableDate = (tableDate) => {
     const date = new Date(tableDate);
-    return `${('0' + date.getDate()).slice(-2)}-${('0' + (date.getMonth() + 1)).slice(-2)}-${date.getFullYear()}`;
+    return `${('0' + date.getDate()).slice(-2)}-${('0' + (date.getMonth() + 1)).slice(-2)}-${date.getFullYear()} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`;
 }
 
 

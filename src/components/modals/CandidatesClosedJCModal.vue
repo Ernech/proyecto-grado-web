@@ -36,7 +36,6 @@
                                 <th class="code-column">Apellido Paterno</th>
                                 <th class="class-name-column">Apellido Materno</th>
                                 <th class="candidates-column">Fecha de postulación</th>
-                                <th class="cv-column">CV</th>
                             </tr>
                         </thead>
                         <tbody v-if="tableTab === 'ACEPTED'">
@@ -52,10 +51,7 @@
                                     {{ item.applyTPersonalData.secondLastName }}
                                 </td>
                                 <td>
-                                    {{ item.applyDate }}
-                                </td>
-                                <td class="cv-cell">
-                                    <fa class="word-file" icon="fa-solid fa-file-word" @click="getCandidateCV(item)" />
+                                    {{ formatDate(item.applyDate) }}
                                 </td>
                             </tr>
 
@@ -73,10 +69,7 @@
                                     {{ item.applyTPersonalData.secondLastName }}
                                 </td>
                                 <td>
-                                    {{ item.applyDate }}
-                                </td>
-                                <td class="cv-cell">
-                                    <fa class="word-file" icon="fa-solid fa-file-word" @click="getCandidateCV(item)" />
+                                    {{ formatDate(item.applyDate) }}
                                 </td>
                             </tr>
                         </tbody>
@@ -149,6 +142,12 @@ export default {
             pagedData.value = teacherJobCallStore.getCandidatesPagedList(page, pageItems.value, listItems)
 
         }
+
+        const formatDate = (itemDate) => {
+            const date = new Date(itemDate);
+            return `${('0' + date.getDate()).slice(-2)}-${('0' + (date.getMonth() + 1)).slice(-2)}-${date.getFullYear()} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`;
+        }
+
         const filtercandidates = () => {
             // props.candidates =aux.value
             // if (searchCandidate.value && searchCandidate.value !== '') {
@@ -166,7 +165,7 @@ export default {
 
 
         return { tableTab, acceptedTab, rejectedTab, getAcceptedCandidates, getRejectedCandidates, getCandidateCV, toCvInfo, 
-            totalItems, onClickHandler, pageItems, pagedData,getTeacherJobCallReport }
+            totalItems, onClickHandler, pageItems, pagedData,getTeacherJobCallReport,formatDate }
     }
 
 }

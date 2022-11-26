@@ -6,7 +6,7 @@
             <fa v-else icon="fa-solid fa-chevron-up" class="arrow-icon"/>
         </div> 
         <div class="teaching-experience-content" v-if="isOpen">
-            <div class="teaching-container">
+            <div class="teaching-container" v-if="jobCallStore.getTeachingExperiences.length>0">
                 <DataInfoVue :dataType="'Año en que empezó a dar clases (en general)'" :dataInfo="`${jobCallStore.applyPersonalData.teachingStartYear}`"/>
                 <DataInfoVue :dataType="'Año en que empezó a dar clases en la UCB'" :dataInfo="`${jobCallStore.applyPersonalData.teachingUCBStartYear}`"/>
             </div>

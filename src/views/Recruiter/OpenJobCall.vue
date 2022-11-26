@@ -19,7 +19,7 @@
         <div v-if="jobCallType==='Administrativo'">
             <div v-if="jobCallStore.jobCalls.length>0" class="job-call-list-container">
                 <JobCallCard v-for="item in pagedData" :key="item.id" :jobCallName="item.jobCallName"
-                    :jobCallNumber="item.jobCallNumber" :openingDate="new Date(item.openingDate)" 
+                    :jobCallNumber="item.jobCallNumber" :openingDate="new Date(item.openingDate)" :closingDate="new Date(item.closingDate)"
                     @click="toOpenedJobCallInfo(item.id)"/>
             </div>
             <div v-else class="job-call-list-container">
@@ -29,7 +29,7 @@
         <div v-else>
             <div v-if="teacherJobCallStore.jobCalls.length>0" class="job-call-list-container">
                 <JobCallCard v-for="item in teacherPagedData" :key="item.id" :jobCallName="item.jobCallName"
-                    :jobCallNumber="item.jobCallNumber" :openingDate="new Date(item.openingDate)"
+                    :jobCallNumber="item.jobCallNumber" :openingDate="new Date(item.openingDate)" :closingDate="new Date(item.closingDate)"
                     @click="toTeacherJobCallInfo(item.id)" />
             </div>
             <div v-else class="job-call-list-container">
