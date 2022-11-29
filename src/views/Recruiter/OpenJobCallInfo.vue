@@ -104,7 +104,6 @@ const getCandidateCV = (item) => {
     cvFile.getDoc()
 }
 const downloadManualFile = () => {
-    console.log();
     var fileURL = window.URL.createObjectURL(new Blob([jobCall.value.jobManualFile]));
     var fileLink = document.createElement('a');
 

@@ -26,14 +26,13 @@
                         <td>{{ item.degree }}</td>
                         <td v-if="item.professionalTitleFile">
                             <fa icon="fa-solid fa-file-pdf" class="pdf-icon"
-                                @click="downloadFile(item.professionalTitleFile, item.professionalTitleFileName)" />
+                                @click="downloadFile(item.professionalTitleFileName, item.id)" />
                         </td>
                         <td v-else>
                             <fa icon="fa-solid fa-file-pdf" class="pdf-icon-disabled" />
                         </td>
                         <td v-if="item.professionalNTitleFile">
-                            <fa icon="fa-solid fa-file-pdf" class="pdf-icon"
-                                @click="downloadFile(item.professionalNTitleFile, item.professionalNTitleFileName)" />
+                            <fa icon="fa-solid fa-file-pdf" class="pdf-icon" />
                         </td>
                         <td v-else>
                             <fa icon="fa-solid fa-file-pdf" class="pdf-icon-disabled" />
@@ -51,6 +50,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useJobCallStore } from '../../store/job-call';
+import axios from 'axios';
 const isOpen = ref(false)
 const jobCallStore = useJobCallStore()
 const changeAccordeonStatus = () => {
@@ -60,29 +60,26 @@ const changeAccordeonStatus = () => {
     }
     isOpen.value = true
 }
-const downloadFile = (titleFile, fileName) => {
-    if (window.navigator['msSaveOrOpenBlob']) {
-        window.navigator['msSaveBlob'](titleFile.data, fileName)
-        return
-    }
-    var fileURL = window.URL.createObjectURL(new Blob([new Uint8Array(titleFile.data).buffer]));
-    var fileLink = document.createElement('a');
+const downloadFile = (fileName, id) => {
+    console.log(id);
+    axios({
+        url: `http://localhost:3000/file/proffesional-title/${id}`, // File URL Goes Here
+        method: 'GET',
+        responseType: 'arraybuffer',
+    }).then((res) => {
+        console.log(res);
+        var fileURL = window.URL.createObjectURL(new Blob([res.data]), { type: 'application/pdf' });
+        var fileLink = document.createElement('a');
+        fileLink.href = fileURL;
+        fileLink.setAttribute('download', fileName);
+        document.body.appendChild(fileLink);
 
-    fileLink.href = fileURL;
-    fileLink.setAttribute('download', fileName);
-    document.body.appendChild(fileLink);
+        fileLink.click();
 
-    fileLink.click();
-    // console.log(titleFile.data);
-    // let byteCharacters = titleFile.data;
-    // let byteNumbers = new Array(byteCharacters);
-    // for (let i = 0; i < byteCharacters.length; i++) {
-    //     byteNumbers[i] = byteCharacters.charCodeAt(i);
-    // }
-    // let byteArray = new Uint8Array(byteNumbers);
-    // let blob = new Blob([byteArray], { type: "application/pdf" });
 
-    // FileSaver.saveAs(blob, fileName);
+    }).catch(err => {
+        console.log(err);
+    });
 }
 </script>
 <style lang="scss" scoped>
