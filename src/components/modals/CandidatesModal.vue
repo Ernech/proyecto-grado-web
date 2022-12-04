@@ -28,7 +28,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(item, index) in candidates" :key="index" class="college-classes-list">
+                            <tr v-for="(item, index) in pagedData" :key="index" class="college-classes-list">
                                 <td>
                                     {{ item.applyTPersonalData.name }}
                                 </td>
@@ -113,6 +113,7 @@ export default {
             // onClickHandler(1)
 
         }
+        
         return { formatDate, getCandidateCV, pagedData, pageItems, onClickHandler, filtercandidates, searchCandidate }
     }
 

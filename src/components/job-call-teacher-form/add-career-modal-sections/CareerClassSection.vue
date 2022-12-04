@@ -4,7 +4,7 @@
             <label for="code" class="form-label">Sigla</label>
             <input class="form-input" type="text" id="code" autocomplete="off" maxlength="10"
                 v-model.trim="teacherJobCallStore.code" @input="filterCollegeClasses" @change="getJobCallByCode"
-                @focus="suggestionList=true" />
+                @focus="suggestionList=true" :autocomplete="false"/>
             <div class="class-code-list" v-if="filterCollegeClasses.length>0 && suggestionList">
                 <ul>
                     <li v-for="item in filterCollegeClasses" @click="getCollegeClassByCode(item)">

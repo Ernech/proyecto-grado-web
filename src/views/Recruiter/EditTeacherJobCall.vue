@@ -81,6 +81,10 @@ export default {
                 modalTitle.value = 'Se ha publicado la convocatoria'
                 modalMessage.value = 'Se ha agregado la convoatoria a la lista de pendientes'
                 return
+            }else if(resp===403){
+                modalTitle.value = 'Ha ocurrido un error'
+                modalMessage.value = 'Ya exiten convocatorias abiertas o en la lista de pendientes'
+                
             }
             modalTitle.value = 'Ha ocurrido un error'
             modalMessage.value = 'No se pudo publicar la convocatoria'

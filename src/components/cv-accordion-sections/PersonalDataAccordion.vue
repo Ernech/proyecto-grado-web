@@ -15,7 +15,9 @@
                 <DataInfo :dataType="'Fecha de nacimiento'" :dataInfo="`${jobCallStore.applyPersonalData.birthDate}`"/>
                 <DataInfo :dataType="'Lugar de nacimmiento'" :dataInfo="`${jobCallStore.applyPersonalData.placeOfBirth}`"/>
                 <DataInfo :dataType="'Nacionalidad'" :dataInfo="`${jobCallStore.applyPersonalData.nationality}`"/>
-                <DataInfo :dataType="'Fotocopia de carnet'" :dataInfo="'CI.pdf'"/>
+                <DownloadFile v-if="(jobCallStore.applyPersonalData.personalIdFile && jobCallStore.applyPersonalData.personalIdFileName!='--')" 
+                :dataType="'Fotocopia de carnet'" :dataInfo="jobCallStore.applyPersonalData.personalIdFileName"/>
+                <DataInfo v-else :dataType="'Fotocopia de carnet'" :dataInfo="'No hay archivo adjunto'"/>
             </div>
             <div class="grid-container-2">
                 <DataInfo :dataType="'Dirección domicilio'" :dataInfo="`${jobCallStore.applyPersonalData.address}`"/>
@@ -34,7 +36,8 @@
 <script setup>
 import {ref} from 'vue'
 import { useJobCallStore } from '../../store/job-call';
-import DataInfo from './data-info/DataInfo.vue'
+import DataInfo from './data-info/DataInfo.vue';
+import DownloadFile from './data-info/DownloadFile.vue';
 const isOpen=ref(false)
 const jobCallStore = useJobCallStore()
 const changeAccordeonStatus=()=>{
@@ -52,7 +55,8 @@ const changeAccordeonStatus=()=>{
     display: grid;
     grid-template-rows: repeat(2,1fr);
     grid-template-columns: repeat(5,20%);
-    row-gap: 5px;
+    row-gap: 15px;
+    margin-bottom: 10px;
 }
 .grid-container-2{
     width: 100%;
@@ -60,6 +64,7 @@ const changeAccordeonStatus=()=>{
     grid-template-rows: repeat(2,1fr);
     grid-template-columns: 50% 20%;
     row-gap: 5px;
+    margin-bottom: 10px;
 }
 .grid-container-3{
     width: 100%;
@@ -67,5 +72,6 @@ const changeAccordeonStatus=()=>{
     grid-template-rows: 1fr;
     grid-template-columns: repeat(3,30%);
     row-gap: 5px;
+
 }
 </style>
