@@ -7,6 +7,10 @@
         </div> 
         <div class="teaching-experience-content" v-if="isOpen">
             <div class="teaching-container" v-if="jobCallStore.getTeachingExperiences.length>0">
+                <DataInfoVue :dataType="'Diplomado den educación superior (Universidad)'" :dataInfo="`${jobCallStore.applyPersonalData.teachingTitleFileInstitution}`"/>
+                <DownloadFile v-if="(jobCallStore.applyPersonalData.teachingTitleFile && jobCallStore.applyPersonalData.teachingTitleFileName!='--')" 
+                :dataType="'Dipomado en educación superior'" :dataInfo="jobCallStore.applyPersonalData.teachingTitleFileName"/>
+                <DataInfoVue v-else :dataType="'Diplomado den educación superior'" :dataInfo="'No exite archivo adjunto'"/>
                 <DataInfoVue :dataType="'Año en que empezó a dar clases (en general)'" :dataInfo="`${jobCallStore.applyPersonalData.teachingStartYear}`"/>
                 <DataInfoVue :dataType="'Año en que empezó a dar clases en la UCB'" :dataInfo="`${jobCallStore.applyPersonalData.teachingUCBStartYear}`"/>
             </div>
@@ -37,6 +41,7 @@
 import {ref} from 'vue'
 import { useJobCallStore } from '../../store/job-call';
 import DataInfoVue from './data-info/DataInfo.vue';
+import DownloadFile from './data-info/DownloadFile.vue';
 const isOpen=ref(false)
 const jobCallStore = useJobCallStore()
 const changeAccordeonStatus=()=>{
@@ -50,8 +55,9 @@ const changeAccordeonStatus=()=>{
 <style lang="scss" scoped>
 @import '../../styles/accordion.scss';
 .teaching-container{
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns:  repeat(2,50%);
+    grid-template-rows: 2fr;
     gap: 25px;
     margin: 10px;
 }

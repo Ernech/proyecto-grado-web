@@ -1,7 +1,7 @@
 <template >
     <div class="container">
         <span class="data-type">{{dataType}}</span>
-        <span class="data-info">{{dataInfo}} <fa class="download-icon" icon="fa-solid fa-pen" @click="$emit('edit')" /></span>
+        <span class="data-info">{{dataInfo}} <fa class="download-icon" icon="fa-solid fa-file-arrow-down" @click="$emit('edit')" /></span>
         
     </div>
 </template>

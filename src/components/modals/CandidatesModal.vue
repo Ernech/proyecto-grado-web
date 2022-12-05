@@ -28,7 +28,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(item, index) in pagedData" :key="index" class="college-classes-list">
+                            <tr v-for="(item, index) in pagedData" :key="index" class="college-classes-list" @click="toCvInfo(item.id)">
                                 <td>
                                     {{ item.applyTPersonalData.name }}
                                 </td>
@@ -74,6 +74,7 @@ import { useTeacherJobCallStore } from '../../store/teacher-job-call';
 import { getCV } from '../../helpers/get-cv-data';
 import {ref, onBeforeMount } from 'vue';
 import CVFile from '../../class/cv-file'
+import router from '../../routes/recruiter-router'
 export default {
     props: {
         candidates: { type: Array, required: true },
@@ -113,8 +114,10 @@ export default {
             // onClickHandler(1)
 
         }
-        
-        return { formatDate, getCandidateCV, pagedData, pageItems, onClickHandler, filtercandidates, searchCandidate }
+        const toCvInfo = (id) => {
+            router.push({ name: 'CVTeacherInfo', params: { id } })
+        }
+        return { formatDate, getCandidateCV, pagedData, pageItems, onClickHandler, filtercandidates, searchCandidate,toCvInfo }
     }
 
 }
