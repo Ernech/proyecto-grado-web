@@ -5,12 +5,16 @@
             <input class="form-input" type="text" id="name" v-model.trim="jobCallStore.jobCallName" maxlength="300">
         </div>
         <div class="grid-container">
-            <div class="form-input-container">
+
+            <DownloadFile v-if="(jobCallStore.jobManualFile && jobCallStore.jobManualFile!='--')" 
+                :dataType="'Dipomado en educación superior'" :dataInfo="jobCallStore.jobManualFileName"/>
+                
+            <div v-else class="form-input-container">
                 <label for="manual" class="form-label">Manual de puesto (.docx)</label>
-
                 <input type="file" class="upload-input" id="manual" ref="file" @change="selectFile" accept=".doc,.docx">
-
             </div>
+            
+            
             <div class="form-input-container">
                 <label for="number-job-call" class="form-label">Número de convocatoria</label>
                 <input class="form-input" type="text" id="number-job-call" v-model.trim="jobCallStore.jobCallNumber"
@@ -36,6 +40,7 @@
 <script setup>
 import { ref,computed } from 'vue'
 import { useJobCallStore } from '../../store/job-call'
+import DownloadFileVue from '../cv-accordion-sections/data-info/DownloadFile.vue';
 const file = ref(null)
 const jobCallStore = useJobCallStore();
 const selectFile = () => {

@@ -7,6 +7,7 @@ export const useJobCallStore = defineStore('job-call', {
         jobCallNumber: '',
         jobCallObj: '',
         jobManualFile: null,
+        jobManualFileName:'',
         openingDate: '',
         closingDate: '',
         experiences: [],
