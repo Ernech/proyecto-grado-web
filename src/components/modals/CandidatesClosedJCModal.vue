@@ -36,6 +36,7 @@
                                 <th class="code-column">Apellido Paterno</th>
                                 <th class="class-name-column">Apellido Materno</th>
                                 <th class="candidates-column">Fecha de postulación</th>
+                                <th class="cv-column">Plan de asignatura</th>
                             </tr>
                         </thead>
                         <tbody v-if="tableTab === 'ACEPTED'">
@@ -52,6 +53,9 @@
                                 </td>
                                 <td>
                                     {{ formatDate(item.applyDate) }}
+                                </td>
+                                <td class="cv-cell">
+                                    <fa class="word-file" icon="fa-solid fa-file-word" @click="getCandidateCV(item)" />
                                 </td>
                             </tr>
 
@@ -70,6 +74,9 @@
                                 </td>
                                 <td>
                                     {{ formatDate(item.applyDate) }}
+                                </td>
+                                <td class="cv-cell">
+                                    <fa class="word-file" icon="fa-solid fa-file-word" @click="getCandidateCV(item)" />
                                 </td>
                             </tr>
                         </tbody>
@@ -99,6 +106,7 @@ import { ref, computed } from 'vue'
 import CVFile from '../../class/cv-file'
 import router from '../../routes/recruiter-router'
 import CandidatesReport from '../../class/CandidatesReport'
+import { exportToExcel } from '../../helpers/ge-candidates-report';
 export default {
     props: {
         candidates: { type: Array, required: true },
@@ -159,8 +167,9 @@ export default {
 
 
         const getTeacherJobCallReport =  () => {
-             const candidatesReport = new CandidatesReport(teacherJobCallStore.generateReportData(props.collegeClassInfo.code, props.collegeClassInfo.name))
-             candidatesReport.getDoc()
+            const candidatesReport = new CandidatesReport(teacherJobCallStore.generateReportData(props.collegeClassInfo.code, props.collegeClassInfo.name))
+            candidatesReport.getDoc()
+            // exportToExcel()
         }
 
 

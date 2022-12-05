@@ -24,7 +24,7 @@
                                 <th class="code-column">Apellido Paterno</th>
                                 <th class="class-name-column">Apellido Materno</th>
                                 <th class="candidates-column">Fecha de postulación</th>
-                                <th class="cv-column">CV</th>
+                                <th class="cv-column">Plan de asignatura</th>
                             </tr>
                         </thead>
                         <tbody>
