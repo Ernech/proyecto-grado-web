@@ -6,8 +6,8 @@
         </div>
         <div class="grid-container">
 
-            <DownloadFile v-if="(jobCallStore.jobManualFile && jobCallStore.jobManualFile!='--')" 
-                :dataType="'Dipomado en educación superior'" :dataInfo="jobCallStore.jobManualFileName"/>
+        <ChangeFile v-if="(jobCallStore.jobManualFile && jobCallStore.jobManualFileName!='--' && !changeJobManualFIle)" 
+                :dataType="'Manual de puesto'" :dataInfo="jobCallStore.jobManualFileName" @edit="(changeJobManualFIle=true)"/>
                 
             <div v-else class="form-input-container">
                 <label for="manual" class="form-label">Manual de puesto (.docx)</label>
@@ -40,8 +40,9 @@
 <script setup>
 import { ref,computed } from 'vue'
 import { useJobCallStore } from '../../store/job-call'
-import DownloadFileVue from '../cv-accordion-sections/data-info/DownloadFile.vue';
+import ChangeFile from '../cv-accordion-sections/data-info/ChangeFile.vue';
 const file = ref(null)
+const changeJobManualFIle = ref(false)
 const jobCallStore = useJobCallStore();
 const selectFile = () => {
     jobCallStore.jobManualFile= file.value.files[0];

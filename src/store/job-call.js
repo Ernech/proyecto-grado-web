@@ -356,6 +356,8 @@ export const useJobCallStore = defineStore('job-call', {
             this.academicTrainings = item.academicTrainings
             this.requiredKnowledgeArray = item.requiredKnowledge
             this.aptitudes= item.aptitudes
+            this.jobManualFile=item.jobManualFile
+            this.jobManualFileName=item.jobManualFileName
 
         },
 

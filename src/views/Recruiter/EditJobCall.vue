@@ -34,6 +34,7 @@ import GetJobCallFileButton from '../../components/job-call/GetJobCallFileButton
 import { useJobCallStore } from '../../store/job-call'
 import { computed, onBeforeMount, ref } from 'vue';
 import router from '../../routes/recruiter-router'
+import { useRoute } from "vue-router";
 import FeetbackModal from '../../components/modals/FeetbackModal.vue'
 export default {
     components: {
@@ -52,10 +53,16 @@ export default {
         const showModal = ref(false)
         const modalTitle = ref('')
         const modalMessage = ref('')
-        onBeforeMount(() => {
-            if (!jobCallStore.editJobCall || JSON.stringify(jobCallStore.jobCallEdit) === '{}') {
-                router.push('/saved-job-call')
-            }
+        const route=useRoute()
+        const jobCallToEdit=ref({})
+        onBeforeMount(async () => {
+
+            // if (!jobCallStore.editJobCall || JSON.stringify(jobCallStore.jobCallEdit) === '{}') {
+            //     router.push('/saved-job-call')
+            // }
+            await jobCallStore.getJobCallById(route.params.id)
+            jobCallToEdit.value=jobCallStore.selectedJobCall
+            jobCallStore.setEditJobCall(jobCallToEdit.value)
         })
         const editJobCall = async (id) => {
             await jobCallStore.editJobCall(id)
