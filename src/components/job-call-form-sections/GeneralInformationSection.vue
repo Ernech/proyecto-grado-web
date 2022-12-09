@@ -46,7 +46,7 @@ const changeJobManualFIle = ref(false)
 const jobCallStore = useJobCallStore();
 const selectFile = () => {
     jobCallStore.jobManualFile= file.value.files[0];
-    
+    jobCallStore.jobManualFileName= file.value.files[0].name;
 }
 
 </script>

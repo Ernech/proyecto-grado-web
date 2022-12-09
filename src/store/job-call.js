@@ -139,12 +139,11 @@ export const useJobCallStore = defineStore('job-call', {
                     body: JSON.stringify(editJobCallBody)
                 })
                 console.log(resp.status);
-                console.log(resp); 
+                console.log(resp);
+                return resp.status 
             } catch (error) {
                 console.log(error);
-            } finally {
-                router.push('/saved-job-call')
-            }
+            } 
         },
         async getJobCallById(id){
             try {
@@ -292,6 +291,7 @@ export const useJobCallStore = defineStore('job-call', {
             }
         },
         async publishJobCall(id){
+            console.log('Publish job call');
             try {
                 const resp = await fetch(`http://localhost:3000/job-call/pending/${id}`,{
                     method:'PATCH',

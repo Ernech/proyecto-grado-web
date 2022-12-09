@@ -67,6 +67,7 @@ export default {
         const editJobCall = async (id) => {
             await jobCallStore.editJobCall(id)
             jobCallStore.resetValues()
+            router.push('/saved-job-call')
         }
 
         const publishJobCall = async (id) => {
@@ -86,6 +87,7 @@ export default {
             const editResp = await jobCallStore.editJobCall(id)
             if(editResp===200){
                await publishJobCall(id)
+               router.push('/open-job-call')
             }
         }        
 
