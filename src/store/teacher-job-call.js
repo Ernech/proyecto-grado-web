@@ -25,7 +25,8 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
         jobCallEdit: {},
         showModal: false,
         selectedTeacherJobCall: {},
-        editIndex: -1
+        editIndex: -1,
+        reportData: {}
 
     }), actions: {
 
@@ -112,7 +113,7 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
                 console.log(error);
             }
         },
-      
+
         getPagedList(page, pageItems) {
             const pageData = [];
             let init = (page * pageItems) - pageItems
@@ -211,16 +212,16 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
                         "Content-Type": "application/json",
                         'Authorization': localStorage.getItem('recruiter-token')
                     },
-                    
+
                 })
                 const contentType = resp.headers.get("content-type");;
-                if (contentType && contentType.indexOf("application/json") !== -1){
+                if (contentType && contentType.indexOf("application/json") !== -1) {
                     const dataDb = await resp.json()
                     this.teacherApplies = dataDb
                     return
                 }
-                this.teacherApplies=[]
-                
+                this.teacherApplies = []
+
             } catch (error) {
                 console.log(error);
             }
@@ -238,7 +239,7 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
             }
             return pageData;
         },
-        getCandidatesPagedList(page, pageItems,itemsList) {
+        getCandidatesPagedList(page, pageItems, itemsList) {
             const pageData = [];
             let init = (page * pageItems) - pageItems
             let end = (page * pageItems)
@@ -251,13 +252,30 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
             }
             return pageData;
         },
-        
+
         generateReportData(code, name) {
             const data = {
                 code, name,
                 candidates: this.teacherApplies.teacherApply.map(obj => this.generateCandidatesData(obj.applyTPersonalData, obj.applyTCVData))
             }
             return data
+        },
+        async getReportData(id) {
+            try {
+                const resp = await fetch(`http://localhost:3000/job-apply/teacher/candidates-report/${id}`, {
+                    method: 'GET',
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': localStorage.getItem('recruiter-token')
+                    },
+
+                })
+                const dataDb = await resp.json()
+                this.reportData = dataDb
+                return this.reportData
+            } catch (error) {
+                console.log(error);
+            }
         },
         generateCandidatesData(personalData, cvData) {
             const candidateName = `${personalData.name} ${personalData.firstLastName} ${personalData.secondLastName}`
@@ -359,27 +377,27 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
             this.requiredKnowledgeArray = []
 
         }, setTeacherJobCall(item) {
-            this.jobCallNumber=item.jobCallNumber
-            this.openingDate=this.formatOpeningAndClosingDate(item.openingDate)
-            this.closingDate=this.formatOpeningAndClosingDate(item.closingDate)
-            this.jobManualFile=item.jobManualFile
-            this.experiences=item.teacherJobCalls[0].requirements.filter(obj=>obj.requirementType==='PROFESSIONAL_EXPERIENCE')
-            this.collegeClasses = item.teacherJobCalls.map(obj=>{
+            this.jobCallNumber = item.jobCallNumber
+            this.openingDate = this.formatOpeningAndClosingDate(item.openingDate)
+            this.closingDate = this.formatOpeningAndClosingDate(item.closingDate)
+            this.jobManualFile = item.jobManualFile
+            this.experiences = item.teacherJobCalls[0].requirements.filter(obj => obj.requirementType === 'PROFESSIONAL_EXPERIENCE')
+            this.collegeClasses = item.teacherJobCalls.map(obj => {
                 return {
                     code: obj.collegeClass.code,
                     name: obj.collegeClass.name,
                     requiredNumber: obj.requiredNumber,
-                    academicTraining:obj.requirements.filter(obj=>obj.requirementType==='ACADEMIC_TRAINING'),
-                    requiredKnowledge:obj.requirements.filter(obj=>obj.requirementType==='REQUIRED_KNOWLEDGE'),
-                    experiences: obj.requirements.filter(obj=>obj.requirementType==='PROFESSIONAL_EXPERIENCE')
+                    academicTraining: obj.requirements.filter(obj => obj.requirementType === 'ACADEMIC_TRAINING'),
+                    requiredKnowledge: obj.requirements.filter(obj => obj.requirementType === 'REQUIRED_KNOWLEDGE'),
+                    experiences: obj.requirements.filter(obj => obj.requirementType === 'PROFESSIONAL_EXPERIENCE')
                 }
             })
-            this.collegeClassesToDB=item.teacherJobCalls.map(obj=>{
+            this.collegeClassesToDB = item.teacherJobCalls.map(obj => {
                 return {
-                    id:obj.collegeClass.id,
+                    id: obj.collegeClass.id,
                     requiredNumber: obj.requiredNumber,
                     jobCallCode: obj.jobCallCode,
-                    requirements:obj.requirements
+                    requirements: obj.requirements
                 }
             })
         },
@@ -388,12 +406,12 @@ export const useTeacherJobCallStore = defineStore('teacher-job-call', {
             this.code = item.code
             this.name = item.name
             this.requiredNumber = item.requiredNumber
-            this.requiredKnowledgeArray=item.requiredKnowledge
-            this.academicTrainings=item.academicTraining
+            this.requiredKnowledgeArray = item.requiredKnowledge
+            this.academicTrainings = item.academicTraining
         },
-        formatOpeningAndClosingDate(date){
+        formatOpeningAndClosingDate(date) {
             const formatDate = new Date(date)
-            return `${formatDate.getFullYear()}-${('0'+(formatDate.getMonth() + 1)).slice(-2)}-${('0'+formatDate.getDate()).slice(-2)} ${('0'+formatDate.getHours()).slice(-2)}:${('0'+formatDate.getMinutes()).slice(-2)}`;
+            return `${formatDate.getFullYear()}-${('0' + (formatDate.getMonth() + 1)).slice(-2)}-${('0' + formatDate.getDate()).slice(-2)} ${('0' + formatDate.getHours()).slice(-2)}:${('0' + formatDate.getMinutes()).slice(-2)}`;
 
         },
     },

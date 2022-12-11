@@ -72,7 +72,6 @@ export default {
 
         const publishJobCall = async (id) => {
             const resp = await jobCallStore.publishJobCall(id)
-            console.log(resp);
             showModal.value = true
             if (resp === 200) {
                 modalTitle.value = 'Se ha publicado la convocatoria'
@@ -87,7 +86,7 @@ export default {
             const editResp = await jobCallStore.editJobCall(id)
             if(editResp===200){
                await publishJobCall(id)
-               router.push('/open-job-call')
+               router.push('/pending-job-call')
             }
         }        
 

@@ -7,9 +7,9 @@
                 <h3 class="teacher-job-call-info">{{ collegeClassInfo.code }} {{ collegeClassInfo.name }}</h3>
                 <b>Total de postulantes: <span v-if="candidates">{{ candidates.length }}</span>
                     <span v-else>0</span></b>
-                <button class="xlsx-button-modal" v-if="candidates && candidates.length > 0">
+                <!-- <button class="xlsx-button-modal" v-if="candidates && candidates.length > 0">
                     <fa class="excel-icon" icon="fa-solid fa-file-excel" />Planilla
-                </button>
+                </button> -->
                 <div v-if="candidates && candidates.length > 0" class="search-container">
                     <label for="search-input">Buscar candidato</label>
                     <input id="search-input" type="text" class="search-candidate-input"

@@ -45,8 +45,9 @@
             </table>
         </div>
     </div>
-    <CandidatesModal v-show="showModal" @close-modal="showModal=false" :candidates="candidates" :collegeClassJobCallCode="jobCallCode" :collegeClassInfo="selectedCollegeClass"  ref="modal"/>
- 
+    <CandidatesModal v-show="showModal" @close-modal="showModal=false" :candidates="candidates"
+        :collegeClassJobCallCode="jobCallCode" :collegeClassInfo="selectedCollegeClass" ref="modal" />
+
 </template>
 <script setup>
 import { onBeforeMount, ref } from 'vue'
@@ -60,36 +61,37 @@ const teacherJobCallStore = useTeacherJobCallStore()
 const router = useRoute()
 const showModal = ref(false)
 const candidates = ref([])
-const jobCallCode=ref('')
-const selectedCollegeClass=ref({})
+const jobCallCode = ref('')
+const selectedCollegeClass = ref({})
 const modal = ref()
 onBeforeMount(async () => {
     await teacherJobCallStore.getTeacherJobCallById(router.params.id)
     jobCall.value = teacherJobCallStore.selectedTeacherJobCall
 })
-const getCandidates = async (id, code, name) => {
-    await teacherJobCallStore.getCandidatesByTeacherJobCallId(id)
-    const candidatesReport = new CandidatesReport(teacherJobCallStore.generateReportData(code, name))
+const getCandidates = async (id) => {
+    const reportData = await teacherJobCallStore.getReportData(id)
+    const candidatesReport = new CandidatesReport(reportData)
     candidatesReport.getDoc()
 }
 
 const openModal = async (item) => {
-    jobCallCode.value=item.jobCallCode
-    selectedCollegeClass.value=item.collegeClass
+    console.log(item.id);
+    jobCallCode.value = item.jobCallCode
+    selectedCollegeClass.value = item.collegeClass
     await teacherJobCallStore.getCandidatesByTeacherJobCallId(item.id)
-    if(teacherJobCallStore.teacherApplies.teacherApply){
-        candidates.value=teacherJobCallStore.teacherApplies.teacherApply 
+    if (teacherJobCallStore.teacherApplies.teacherApply) {
+        candidates.value = teacherJobCallStore.teacherApplies.teacherApply
         modal.value.onClickHandler(1)
     }
-    else{
-        candidates.value=[]
+    else {
+        candidates.value = []
     }
     showModal.value = true
 }
 
 const formatDate = (itemDate) => {
     const date = new Date(itemDate);
-    return `${date.getFullYear()}-${('0'+(date.getMonth() + 1)).slice(-2)}-${('0'+date.getDate()).slice(-2)} ${('0'+date.getHours()).slice(-2)}:${('0'+date.getMinutes()).slice(-2)}`;
+    return `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`;
 }
 </script>
 <style scoped lang="scss">
