@@ -10,12 +10,12 @@
                 <!-- <button class="xlsx-button-modal" v-if="candidates && candidates.length > 0">
                     <fa class="excel-icon" icon="fa-solid fa-file-excel" />Planilla
                 </button> -->
-                <div v-if="candidates && candidates.length > 0" class="search-container">
+                <!-- <div v-if="candidates && candidates.length > 0" class="search-container">
                     <label for="search-input">Buscar candidato</label>
                     <input id="search-input" type="text" class="search-candidate-input"
                         placeholder="Ingrese el nombre del candidato" v-model="searchCandidate"
                         @input="filtercandidates">
-                </div>
+                </div> -->
                 <div class="table-container" v-if="candidates && candidates.length > 0">
                     <table>
                         <thead>
@@ -28,7 +28,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(item, index) in pagedData" :key="index" class="college-classes-list" @click="toCvInfo(item.id)">
+                            <tr v-for="(item, index) in candidates" :key="index" class="college-classes-list" @click="toCvInfo(item.id)">
                                 <td>
                                     {{ item.applyTPersonalData.name }}
                                 </td>
@@ -49,7 +49,7 @@
 
                         </tbody>
                     </table>
-                    <div class="paginator-container">
+                    <!-- <div class="paginator-container">
                         <div class="page-items-container">
                             <label for="items-number">Número de filas</label>
                             <input id="items-number" type="number" v-model="pageItems" class="page-items-input" min="1"
@@ -59,7 +59,7 @@
                             :max-pages-shown="5" :current-page="1" :on-click="onClickHandler"
                             paginate-buttons-class="btn" active-page-class="btn-active" back-button-class="back-btn"
                             next-button-class="next-btn" />
-                    </div>
+                    </div> -->
                 </div>
                 <p v-else>No existen candidatos postulados</p>
                 <button class="back-button" @click="$emit('close-modal')">Cerrar</button>

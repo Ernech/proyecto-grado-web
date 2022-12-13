@@ -7,17 +7,17 @@
                 <h3 class="teacher-job-call-info">{{ collegeClassInfo.code }} {{ collegeClassInfo.name }}</h3>
                 <b>Total de postulantes: <span v-if="candidates">{{ candidates.length }}</span>
                     <span v-else>0</span></b>
-                <button class="xlsx-button-modal" v-if="candidates && candidates.length > 0"
+                <!-- <button class="xlsx-button-modal" v-if="candidates && candidates.length > 0"
                     @click="getTeacherJobCallReport">
                     <fa class="excel-icon" icon="fa-solid fa-file-excel" />Planilla
-                </button>
+                </button> -->
 
-                <div v-if="candidates && candidates.length > 0" class="search-container">
+                <!-- <div v-if="candidates && candidates.length > 0" class="search-container">
                     <label for="search-input">Buscar candidato</label>
                     <input id="search-input" type="text" class="search-candidate-input"
                         placeholder="Ingrese el nombre del candidato" v-model="searchCandidate"
                         @input="filtercandidates">
-                </div>
+                </div> -->
                 <div class="table-container" v-if="candidates && candidates.length > 0">
                     <div class="buttons-container">
                         <button
@@ -40,7 +40,7 @@
                             </tr>
                         </thead>
                         <tbody v-if="tableTab === 'ACEPTED'">
-                            <tr v-for="(item, index) in candidates" :key="index" class="college-classes-list"
+                            <tr v-for="(item, index) in getAcceptedCandidates" :key="index" class="college-classes-list"
                                 @click="toCvInfo(item.id)">
                                 <td>
                                     {{ item.applyTPersonalData.name }}
@@ -61,7 +61,7 @@
 
                         </tbody>
                         <tbody v-else>
-                            <tr v-for="(item, index) in candidates" :key="index" class="college-classes-list"
+                            <tr v-for="(item, index) in getRejectedCandidates" :key="index" class="college-classes-list"
                                 @click="toCvInfo(item.id)">
                                 <td>
                                     {{ item.applyTPersonalData.name }}
@@ -81,7 +81,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div class="paginator-container" v-if="candidates">
+                    <!-- <div class="paginator-container" v-if="candidates">
                         <div class="page-items-container">
                             <label for="items-number">Número de filas</label>
                             <input id="items-number" type="number" v-model="pageItems" class="page-items-input" min="1"
@@ -90,7 +90,7 @@
                         <vue-awesome-paginate :total-items="totalItems" :items-per-page="pageItems" :max-pages-shown="5"
                             :current-page="1" :on-click="onClickHandler" paginate-buttons-class="btn"
                             active-page-class="btn-active" back-button-class="back-btn" next-button-class="next-btn" />
-                    </div>
+                    </div> -->
                 </div>
                 <p v-else>No existen candidatos postulados</p>
                 <button class="back-button" @click="$emit('close-modal')">Cerrar</button>
