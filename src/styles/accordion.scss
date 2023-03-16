@@ -33,6 +33,17 @@
     font-family: 'Inter', sans-serif;
     color: #000;
 }
+.professional-info-content{
+    font-size: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    color: #000;
+    margin: 20px;
+    gap: 10px;
+}
 .teaching-experience-content p {
     font-size: 25px;
     justify-content: center;

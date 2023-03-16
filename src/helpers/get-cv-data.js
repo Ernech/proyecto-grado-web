@@ -104,7 +104,7 @@ const getCV=(personalData,cvData)=>{
         email: personalData.email,
         techingStartYear: personalData.teachingStartYear>-1? personalData.teachingStartYear : '',
         teachingUCBStartYear: personalData.teachingUCBStartYear>-1?personalData.teachingUCBStartYear:'',
-        professionalStartYear: personalData.professionalStartYear,
+        professionalStartYear: personalData.professionalStartYear? personalData.professionalStartYea:'',
         currentInstitution:getCurrentProfessionalInfo(cvData).length >0 ? getCurrentProfessionalInfo(cvData)[0].institution:'',
         currentPosition:getCurrentProfessionalInfo(cvData).length >0 ? getCurrentProfessionalInfo(cvData)[0].position:'',
         currentInstitution: getCurrentProfessionalInfo(cvData).length >0 ? getCurrentProfessionalInfo(cvData)[0].institution:'',

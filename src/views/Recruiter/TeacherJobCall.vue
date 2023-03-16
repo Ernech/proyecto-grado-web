@@ -35,7 +35,7 @@
                             {{ item.candidates }}
                         </td>
                         <td class="actions-cell">
-                            <fa class="excel-icon" icon="fa-solid fa-file-excel"
+                            <fa class="word-file" icon="fa-solid fa-file-word"
                                 @click="getCandidates(item.id, item.collegeClass.code, item.collegeClass.name)" />
                         </td>
                     </tr>
@@ -95,6 +95,7 @@ const formatDate = (itemDate) => {
 }
 </script>
 <style scoped lang="scss">
+@import '../../styles/icons.scss';
 .main {
     padding: 10px 50px;
 }

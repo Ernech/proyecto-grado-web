@@ -5,7 +5,8 @@
             <fa v-if="!isOpen" icon="fa-solid fa-chevron-down" class="arrow-icon"/>
             <fa v-else icon="fa-solid fa-chevron-up" class="arrow-icon"/>
         </div> 
-        <div class="content" v-if="isOpen">
+        <div class="professional-info-content" v-if="isOpen">
+            <DataInfo :dataType="'Año en que empezó a ejercer su profesión'" :dataInfo="`${jobCallStore.applyPersonalData.professionalStartYear}`"/>
             <table v-if="jobCallStore.getJobExperiences.length>0">
             <thead>
                 <tr>
@@ -31,6 +32,7 @@
 <script setup>
 import {ref} from 'vue'
 import { useJobCallStore } from '../../store/job-call';
+import DataInfo from './data-info/DataInfo.vue';
 const isOpen=ref(false)
 const jobCallStore = useJobCallStore()
 const changeAccordeonStatus=()=>{

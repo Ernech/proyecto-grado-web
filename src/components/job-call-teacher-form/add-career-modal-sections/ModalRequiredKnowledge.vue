@@ -15,7 +15,7 @@
         <table>
             <thead>
                 <tr>
-                    <th class="description-column">Formación</th>
+                    <th class="description-column">Descripción</th>
                     <th class="actions-column">Acciones</th>
                 </tr>
             </thead>
