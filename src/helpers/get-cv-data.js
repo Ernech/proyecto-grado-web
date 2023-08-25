@@ -117,7 +117,7 @@ const getCV=(personalData,cvData)=>{
         cfa: getCurrentProfessionalInfo(cvData).length >0 ? getBirthDateDigits( getCurrentProfessionalInfo(cvData)[0].dataDate).fa:'',
         csa: getCurrentProfessionalInfo(cvData).length >0 ? getBirthDateDigits( getCurrentProfessionalInfo(cvData)[0].dataDate).sa:'',
         academicTrainings:getAcademicTrainings(cvData),
-        languages:getLanguages(cvData).length>1 ? getLanguagesArray(getLanguages(cvData)) : [],
+        languages:getLanguages(cvData).length>=1 ? getLanguagesArray(getLanguages(cvData)) : [],
         jobExperiences:getJobExperiences(cvData),
         teachingExperience:getTeachingExperiences(cvData),
         coursesAndSeminars:getCoursesAndSeminars(cvData),

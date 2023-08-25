@@ -15,9 +15,8 @@ export default class CandidatesReport {
     JSzipUtils.getBinaryContent(url, callback);
   }
   createAndSaveDocument() {
-
+    
     let dataset = this.reportData
-
     this.loadFile(`${import.meta.env.BASE_URL}Templates/Planilla-prueba.docx`, function (error, content) {
       if (error) {
         throw error
@@ -43,7 +42,7 @@ export default class CandidatesReport {
         type: "blob",
         mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       })
-      saveAs(out, `Prueba.docx`);
+      saveAs(out, `Candidatos - ${dataset.code}.docx`);
     });
   }
 }

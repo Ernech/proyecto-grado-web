@@ -80,7 +80,6 @@ const pagedData = ref([]);
 const teacherPagedData = ref([])
 const onClickHandler = (page) => {
     pagedData.value = jobCallStore.getPagedList(page, pageItems.value)
-
 }
 const onClickHandlerTeacher = (page) => {
     teacherPagedData.value = teacherJobCallStore.getPagedList(page, pageItems.value)
