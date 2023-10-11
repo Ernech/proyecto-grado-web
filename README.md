@@ -17,4 +17,5 @@ This template should help get you started developing with Vue 3 in Vite. The tem
 npm install
 ```
 
+[Vue Js App (Candidate)](https://github.com/Ernech/proyecto-grado-web-candidate)
 
